@@ -41,16 +41,16 @@ void	tokenize(char *str, t_token_list *token)
 		pipe_token = next_pipe;
 	}
 }
-void  print_tokens(t_token_list *list)
+void	print_tokens(t_token_list *list)
 {
-  t_token *current;
+	t_token	*current;
 
-  current = list->head;
-  while (current != NULL)
-  {
-    printf("token %s\n",current->value);
-    current = current->next;
-  }
+	current = list->head;
+	while (current != NULL)
+	{
+		printf("token %s\n", current->value);
+		current = current->next;
+	}
 }
 
 int	main(void)
@@ -65,7 +65,7 @@ int	main(void)
 		if (!input)
 			break ;
 		tokenize(input, tokens);
-    print_tokens(tokens);
+		print_tokens(tokens);
 		free(input);
 	}
 	return (0);
