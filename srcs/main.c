@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/09 15:24:43 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/09 16:17:26 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -48,7 +48,7 @@ void	print_tokens(t_token_list *list)
 	current = list->head;
 	while (current != NULL)
 	{
-		printf("token %s\n", current->value);
+		printf("token [%s]\n", current->value);
 		current = current->next;
 	}
 }
