@@ -20,8 +20,6 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	ar $(ARFLAGS) $@ $^
 
-# Rule to build test executable this is for testing, if u wanna make a main.c file and test the linking;
-
 
 # Clean up object files
 clean:

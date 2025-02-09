@@ -12,7 +12,7 @@ LIBFT_A= $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-src = main.c
+src = main.c tokenizer.c
 
 SRCS = $(addprefix $(src_dir)/, $(src))
 OBJS = $(addprefix $(objs_dir)/, $(src:.c=.o))
@@ -23,7 +23,7 @@ NAME = minishell
 all : $(NAME)
 
 $(NAME) : $(OBJS)	
-	@$(MAKE) all -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR) all
 	@$(CC) $(CFLAGS) -I $(INCLUDE) $(OBJS) $(LIBFT_A) -o $@ $(MFLAGS)
 
 
