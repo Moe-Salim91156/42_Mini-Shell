@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:35:46 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:51:42 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -44,10 +44,10 @@ typedef struct s_cmd
 
 #endif
 
+void	skip_beginning_spaces(char *str);
 void  lexemes(t_token *token);
 t_token  *init_token();
 t_cmd *init_cmd();
-
 t_token_list	*init_list(void);
 void	add_token(t_token_list *list, char *value);
-t_token	*add_token_next(t_token **head, char *value);
+void	tokenize(char *str, t_token_list *token);
