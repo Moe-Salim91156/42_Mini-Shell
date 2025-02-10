@@ -6,23 +6,41 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/09 15:21:04 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:51:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token_list	*init_list(void)
+void	tokenize(char *str, t_token_list *token)
 {
-	t_token_list	*token_list;
+	char	*pipe_token;
+	char	*next_pipe;
+	char	*word;
 
-	token_list = malloc(sizeof(t_token_list));
-	if (!token_list)
-		return (NULL);
-	token_list->head = NULL;
-	token_list->size = 0;
-	return (token_list);
+  skip_beginning_spaces(str);
+	pipe_token = str;
+	while (pipe_token)
+	{
+		next_pipe = ft_strchr(pipe_token, '|');
+		if (next_pipe)
+		{
+			*next_pipe = '\0';
+			next_pipe++;
+      skip_beginning_spaces(next_pipe);
+		}
+		word = strtok(pipe_token, " ");
+		while (word)
+		{
+			add_token(token, word);
+			word = strtok(NULL, " ");
+		}
+		if (next_pipe)
+			add_token(token, "|");
+		pipe_token = next_pipe;
+	}
 }
+
 
 void	add_token(t_token_list *list, char *value)
 {
@@ -46,26 +64,3 @@ void	add_token(t_token_list *list, char *value)
 	list->size++;
 }
 
-t_token	*init_token(void)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->value = NULL;
-	token->next = NULL;
-	return (token);
-}
-
-t_cmd	*init_command(void)
-{
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = NULL;
-	cmd->next = NULL;
-	return (cmd);
-}
