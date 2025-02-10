@@ -6,10 +6,16 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 12:58:24 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:36:36 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
+
+void	skip_beginning_spaces(char *str)
+{
+	while (*str == ' ')
+		str++;
+}
 
 void	tokenize(char *str, t_token_list *token)
 {
@@ -17,8 +23,6 @@ void	tokenize(char *str, t_token_list *token)
 	char	*next_pipe;
 	char	*word;
 
-	while (*str == ' ')
-		str++;
 	pipe_token = str;
 	while (pipe_token)
 	{
@@ -37,10 +41,11 @@ void	tokenize(char *str, t_token_list *token)
 			word = strtok(NULL, " ");
 		}
 		if (next_pipe)
-			add_token(token, "|"); // Add '|' as a separate token
+			add_token(token, "|");
 		pipe_token = next_pipe;
 	}
 }
+
 void	print_tokens(t_token_list *list)
 {
 	t_token	*current;
@@ -48,7 +53,8 @@ void	print_tokens(t_token_list *list)
 	current = list->head;
 	while (current != NULL)
 	{
-		printf("token [%s]\n", current->value);
+    lexemes(current);
+		printf("token: ([%s] :: type %d)\n", current->value, current->type);
 		current = current->next;
 	}
 }

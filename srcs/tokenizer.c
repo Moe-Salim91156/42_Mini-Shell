@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/09 15:21:04 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:07:59 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_token	*init_token(void)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
+  token->type = 0;
 	token->value = NULL;
 	token->next = NULL;
 	return (token);
