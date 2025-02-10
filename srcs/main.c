@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:52:25 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/10 19:20:04 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/minishell.h"
@@ -38,7 +38,7 @@ int	main(void)
 	tokens = init_list();
 	while (1)
 	{
-		input = readline("Ashen$ ");
+		input = readline(COLOR_MAGENTA "Ashen$ " COLOR_RESET);
 		if (!input)
 			break ;
 		tokenize(input, tokens);

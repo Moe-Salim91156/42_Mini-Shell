@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:51:42 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/10 19:22:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -18,9 +18,11 @@
 #include <string.h>
 #include <ctype.h>
 #include "../libft/libft.h"
+#define COLOR_MAGENTA "\033[1;37m"
+#define COLOR_RESET "\033[0m"
 typedef enum e_token_type
 { 
-    WORD, PIPE, REDIRECT_IN, REDIRECT_OUT
+    WORD, PIPE, REDIRECT_IN, REDIRECT_OUT, ARGS
 } t_token_type;
 
 typedef struct  s_token
