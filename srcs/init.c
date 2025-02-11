@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:50:01 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:40:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include  "../includes/minishell.h"
@@ -44,6 +44,8 @@ t_cmd	*init_command(void)
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;
+  cmd->count = 0;
+  cmd->name = NULL;
 	cmd->next = NULL;
 	return (cmd);
 }
