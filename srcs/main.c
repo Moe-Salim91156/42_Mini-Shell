@@ -30,29 +30,29 @@ void	print_tokens(t_token_list *list)
 	}
 }
 
-void print_command(t_cmd_list *cmd_list)
+void	print_command(t_cmd_list *cmd_list)
 {
-  t_cmd *cmd;
-  int i;
-  int index;
+	t_cmd	*cmd;
+	int		i;
+	int		index;
 
-  i = 0;
-  index = 0;
-  cmd = cmd_list->head;
-  while (cmd)
-  {
-    printf("command %d\n",index);
-    i = 0;
-    while (cmd->args[i])
-    {
-      printf("args[%d] : %s\n",i,cmd->args[i]);
-      i++;
-    }
-    printf("args[%d] : NULL\n",i);
-    cmd = cmd->next;
-    index++;
-  }
-  printf("number of arguments in total allocated %d\n",cmd_list->count);
+	i = 0;
+	index = 0;
+	cmd = cmd_list->head;
+	while (cmd)
+	{
+		printf("command %d\n", index);
+		i = 0;
+		while (cmd->args[i])
+		{
+			printf("args[%d] : %s\n", i, cmd->args[i]);
+			i++;
+		}
+		printf("args[%d] : NULL\n", i);
+		cmd = cmd->next;
+		index++;
+	}
+	printf("number of arguments in total allocated %d\n", cmd_list->count);
 }
 
 int	main(void)

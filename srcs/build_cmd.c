@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/13 18:09:49 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/13 18:51:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 	i = 0;
 	while (current)
 	{
+		/*
+			* sepeartion will be here, this should and will be refactored
+			* but the idea is there and its working,
+			* yes i've used gpt code lastly but i came up with the code
+			* it just added few checks and corrected a stupid move im doing;
+			* now we have each command has its args 2d array that contains
+			* the command name and its arguments;
+			*
+			*/
 		if (current->type == PIPE)
 		{
 			cmd->args[i] = NULL;
