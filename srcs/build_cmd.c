@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/13 18:51:23 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/13 19:13:45 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 			*/
 		if (current->type == PIPE)
 		{
+			/* here we could go for a function like ft_strchr
+				* checks if there is any sort of seperator
+				* and return us its type or its index or both
+				* this will help us handle all sepeartors and create commands accordingly.
+				*
+				*
+				* */
 			cmd->args[i] = NULL;
 			cmd->next = init_command();
 			if (!cmd->next)
