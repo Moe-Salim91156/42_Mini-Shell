@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../includes/minishell.h"
+#include "../includes/minishell.h"
 
-void  lexemes(t_token *token)
+void	lexemes(t_token *token)
 {
-  if (!ft_strcmp(token->value,"|"))
-    token->type = PIPE;
-  else if (!ft_strcmp(token->value,">"))
-    token->type = REDIRECT_OUT;
-  else if (!ft_strcmp(token->value, "<"))
-    token->type = REDIRECT_IN;
-  else if (ft_strchr(token->value, '-'))
-    token->type = ARGS;
-  else
-    token->type = WORD;
+	if (!ft_strcmp(token->value, "|"))
+		token->type = PIPE;
+	else if (!ft_strcmp(token->value, ">"))
+		token->type = REDIRECT_OUT;
+	else if (!ft_strcmp(token->value, "<"))
+		token->type = REDIRECT_IN;
+	else if (ft_strchr(token->value, '-'))
+		token->type = ARGS;
+	else
+		token->type = WORD;
 }
-

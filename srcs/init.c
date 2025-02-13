@@ -6,10 +6,10 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/11 19:40:30 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:20:57 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include  "../includes/minishell.h"
+#include "../includes/minishell.h"
 
 t_token_list	*init_list(void)
 {
@@ -30,10 +30,22 @@ t_token	*init_token(void)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-  token->type = 0;
+	token->type = 0;
 	token->value = NULL;
 	token->next = NULL;
 	return (token);
+}
+
+t_cmd_list	*init_cmd_list(void)
+{
+	t_cmd_list	*cmd_list;
+
+	cmd_list = malloc(sizeof(t_cmd_list));
+	if (!cmd_list)
+		return (NULL);
+	cmd_list->count = 0;
+	cmd_list->head = NULL;
+	return (cmd_list);
 }
 
 t_cmd	*init_command(void)
@@ -44,8 +56,6 @@ t_cmd	*init_command(void)
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;
-  cmd->count = 0;
-  cmd->name = NULL;
 	cmd->next = NULL;
 	return (cmd);
 }

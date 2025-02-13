@@ -18,7 +18,7 @@ void	tokenize(char *str, t_token_list *token)
 	char	*next_pipe;
 	char	*word;
 
-  skip_beginning_spaces(str);
+	skip_beginning_spaces(str);
 	pipe_token = str;
 	while (pipe_token)
 	{
@@ -27,7 +27,7 @@ void	tokenize(char *str, t_token_list *token)
 		{
 			*next_pipe = '\0';
 			next_pipe++;
-      skip_beginning_spaces(next_pipe);
+			skip_beginning_spaces(next_pipe);
 		}
 		word = strtok(pipe_token, " ");
 		while (word)
@@ -40,7 +40,6 @@ void	tokenize(char *str, t_token_list *token)
 		pipe_token = next_pipe;
 	}
 }
-
 
 void	add_token(t_token_list *list, char *value)
 {
@@ -63,4 +62,3 @@ void	add_token(t_token_list *list, char *value)
 	}
 	list->size++;
 }
-
