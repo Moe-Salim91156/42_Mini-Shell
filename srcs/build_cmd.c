@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/15 13:34:09 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:12:22 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 	i = 0;
 	while (current)
 	{
-		if (current->type == PIPE)
+		if (is_seperator(current->type))
 		{
 			cmd->args[i] = NULL;
 			cmd = handle_seperator(cmd, list);
@@ -134,7 +134,7 @@ t_cmd	*build_cmd(t_token_list *list, t_cmd_list *cmd_list)
 	cmd_list->head = init_command();
 	if (!cmd_list->head)
 	{
-		fprintf(stderr, "Error: malloc failed for cmd_list->head\n");
+    ft_putstr_fd("Error mallocating first command",2);
 		return (NULL);
 	}
 	cmd = cmd_list->head;
