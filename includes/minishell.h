@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/15 13:27:55 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 19:39:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -24,6 +24,9 @@
 typedef enum e_token_type
 {
 	WORD,
+	COMMAND,
+	DQUOTE,
+	SQUOTE,
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
@@ -55,6 +58,9 @@ typedef struct s_cmd_list
 	t_cmd			*head;
 }					t_cmd_list;
 
+void	handle_pipe(char **str,t_token_list *token);
+void  handle_single_quote(char **str, t_token_list *tokens);
+void handle_word(char **str, t_token_list *tokens) ;
 t_cmd_list			*init_cmd_list(void);
 t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);

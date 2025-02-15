@@ -6,12 +6,25 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:51:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 20:00:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	tokenize(char *str, t_token_list *token)
+{
+  while (*str)
+  {
+    if (*str == '\'')
+      handle_single_quote(&str,token);
+    else if (*str == '|')
+      handle_pipe(&str,token);
+  //  else
+    //  handle_word(&str,token);
+  }
+}
+/*
 void	tokenize(char *str, t_token_list *token)
 {
 	char	*pipe_token;
@@ -40,6 +53,7 @@ void	tokenize(char *str, t_token_list *token)
 		pipe_token = next_pipe;
 	}
 }
+*/
 
 void	add_token(t_token_list *list, char *value)
 {

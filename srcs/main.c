@@ -6,9 +6,11 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/13 18:45:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 19:31:51 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 #include "../includes/minishell.h"
 
 void	skip_beginning_spaces(char *str)

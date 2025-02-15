@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/15 16:12:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:18:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ t_cmd	*build_cmd(t_token_list *list, t_cmd_list *cmd_list)
 	cmd_list->head = init_command();
 	if (!cmd_list->head)
 	{
-    ft_putstr_fd("Error mallocating first command",2);
+		ft_putstr_fd("Error mallocating first command", 2);
 		return (NULL);
 	}
 	cmd = cmd_list->head;

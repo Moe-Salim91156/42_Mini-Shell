@@ -12,7 +12,7 @@ LIBFT_A= $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-src = build_cmd.c main.c tokenizer.c lexing.c init.c
+src = build_cmd.c main.c tokenizer.c lexing.c init.c token_handler.c
 
 SRCS = $(addprefix $(src_dir)/, $(src))
 OBJS = $(addprefix $(objs_dir)/, $(src:.c=.o))
