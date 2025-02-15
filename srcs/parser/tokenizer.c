@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:51:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:23:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+
+#include "../../includes/minishell.h"
 
 void	tokenize(char *str, t_token_list *token)
 {
