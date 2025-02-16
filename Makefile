@@ -3,8 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 MFLAGS= -lreadline -lncurses
 
-src_dir = srcs
-objs_dir = objs
+SRC_DIR = srcs
+OBJS_DIR = objs
 
 LIBFT_DIR= libft
 
@@ -13,28 +13,31 @@ LIBFT_A= $(LIBFT_DIR)/libft.a
 INCLUDE = includes
 
 src = build_cmd.c main.c tokenizer.c lexing.c init.c token_handler.c
+PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c parser/init.c
+BLTNS = builtins/bltn_env.c builtins/pwd.c
+src = main.c $(PRSR) $(BLTNS)
 
-SRCS = $(addprefix $(src_dir)/, $(src))
-OBJS = $(addprefix $(objs_dir)/, $(src:.c=.o))
+SRCS = $(addprefix $(SRC_DIR)/, $(src))
+OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o))
 
 NAME = minishell
 
-
 all : $(NAME)
 
-$(NAME) : $(OBJS)	
-	$(MAKE) -C $(LIBFT_DIR) all
+$(NAME) : $(OBJS)
+	@$(MAKE) -C $(LIBFT_DIR) all
 	@$(CC) $(CFLAGS) -I $(INCLUDE) $(OBJS) $(LIBFT_A) -o $@ $(MFLAGS)
 
 
-$(objs_dir)/%.o: $(src_dir)/%.c | $(objs_dir)
+$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -I $(INCLUDE) -c $< -o $@
 
-$(objs_dir):
-	@mkdir -p $(objs_dir)
-	
+$(OBJS_DIR):
+	@mkdir -p $(OBJS_DIR)
+
 clean:
-	@rm -rf $(objs_dir)
+	@rm -rf $(OBJS_DIR)
 	@$(MAKE) clean -C $(LIBFT_DIR)
 
 fclean : clean

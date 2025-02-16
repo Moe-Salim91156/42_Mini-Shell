@@ -3,12 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/15 19:39:56 by msalim           ###   ########.fr       */
+=======
+/*   Updated: 2025/02/15 18:17:40 by yokitane         ###   ########.fr       */
+>>>>>>> a0e31c1aa5eb9b05aeaf9bcbccceae65b4c97c1b
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"

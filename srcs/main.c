@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/15 19:31:51 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
+=======
+/*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+>>>>>>> a0e31c1aa5eb9b05aeaf9bcbccceae65b4c97c1b
 #include "../includes/minishell.h"
 
 void	skip_beginning_spaces(char *str)
@@ -67,12 +74,12 @@ int	main(void)
 	cmd_list = init_cmd_list();
 	while (1)
 	{
-		input = readline(COLOR_MAGENTA "Ashen$ " COLOR_RESET);
+		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
 		if (!input)
-			break ;
-		tokenize(input, tokens);
+			break ;// ls -la |
+		tokenize(input, tokens);//token list: ls [0], -la [4], | [1], echo [0] , hellow[0]
 		print_tokens(tokens);
-		build_cmd(tokens, cmd_list);
+		build_cmd(tokens, cmd_list);//token list
 		print_command(cmd_list);
 		free(input);
 	}

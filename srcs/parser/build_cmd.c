@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
+<<<<<<< HEAD:srcs/build_cmd.c
 /*   Updated: 2025/02/15 16:18:00 by msalim           ###   ########.fr       */
+=======
+/*   Updated: 2025/02/15 16:23:27 by yokitane         ###   ########.fr       */
+>>>>>>> a0e31c1aa5eb9b05aeaf9bcbccceae65b4c97c1b:srcs/parser/build_cmd.c
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	count_cmd_tokens(t_token_list *list)
 {
