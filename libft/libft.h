@@ -22,7 +22,7 @@
 # include <string.h>
 # include <unistd.h>
 
-char        *ft_strncpy(char *dest, char *src, size_t n);
+char				*ft_strncpy(char *dest, char *src, size_t n);
 int					ft_strcmp(char *s1, char *s2);
 char				*get_next_line(int fd);
 char				*ft_strcpy(char *dest, const char *src);

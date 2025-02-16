@@ -6,59 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-<<<<<<< HEAD:srcs/tokenizer.c
-/*   Updated: 2025/02/15 20:00:00 by msalim           ###   ########.fr       */
-=======
+/*   Updated: 2025/02/16 17:31:13 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 16:23:49 by yokitane         ###   ########.fr       */
->>>>>>> a0e31c1aa5eb9b05aeaf9bcbccceae65b4c97c1b:srcs/parser/tokenizer.c
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
-
-void	tokenize(char *str, t_token_list *token)
-{
-  while (*str)
-  {
-    if (*str == '\'')
-      handle_single_quote(&str,token);
-    else if (*str == '|')
-      handle_pipe(&str,token);
-  //  else
-    //  handle_word(&str,token);
-  }
-}
-/*
-void	tokenize(char *str, t_token_list *token)
-{
-	char	*pipe_token;
-	char	*next_pipe;
-	char	*word;
-
-	skip_beginning_spaces(str);
-	pipe_token = str;
-	while (pipe_token)
-	{
-		next_pipe = ft_strchr(pipe_token, '|');
-		if (next_pipe)
-		{
-			*next_pipe = '\0';
-			next_pipe++;
-			skip_beginning_spaces(next_pipe);
-		}
-		word = strtok(pipe_token, " ");
-		while (word)
-		{
-			add_token(token, word);
-			word = strtok(NULL, " ");
-		}
-		if (next_pipe)
-			add_token(token, "|");
-		pipe_token = next_pipe;
-	}
-}
-*/
 
 void	add_token(t_token_list *list, char *value)
 {

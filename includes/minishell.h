@@ -6,11 +6,8 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/02/15 19:39:56 by msalim           ###   ########.fr       */
-=======
+/*   Updated: 2025/02/16 18:24:29 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 18:17:40 by yokitane         ###   ########.fr       */
->>>>>>> a0e31c1aa5eb9b05aeaf9bcbccceae65b4c97c1b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +60,7 @@ typedef struct s_cmd_list
 	t_cmd			*head;
 }					t_cmd_list;
 
-void	handle_pipe(char **str,t_token_list *token);
-void  handle_single_quote(char **str, t_token_list *tokens);
-void handle_word(char **str, t_token_list *tokens) ;
+void  tokenizer(char *input, t_token_list *tokens);
 t_cmd_list			*init_cmd_list(void);
 t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);
@@ -74,5 +69,4 @@ t_token				*init_token(void);
 t_cmd				*init_command(void);
 t_token_list		*init_list(void);
 void				add_token(t_token_list *list, char *value);
-void				tokenize(char *str, t_token_list *token);
 #endif

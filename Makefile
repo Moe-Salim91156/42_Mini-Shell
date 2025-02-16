@@ -12,8 +12,8 @@ LIBFT_A= $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-src = build_cmd.c main.c tokenizer.c lexing.c init.c token_handler.c
-PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c parser/init.c
+src = build_cmd.c main.c token_utils.c tokenizing.c lexing.c init.c token_handler.c
+PRSR = parser/build_cmd.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c
 BLTNS = builtins/bltn_env.c builtins/pwd.c
 src = main.c $(PRSR) $(BLTNS)
 
