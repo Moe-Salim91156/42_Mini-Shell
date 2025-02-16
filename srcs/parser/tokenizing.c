@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 16:16:45 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:17:39 by msalim           ###   ########.fr       */
+/*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
+/*   Updated: 2025/02/16 19:53:06 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_strcmp(char *s1, char *s2)
+#include  "../../includes/minishell.h"
+void  handle_pipe_token(t_token_list *tokens)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
+  add_token(tokens,"|");
 }
+void  tokenizer(char *input, t_token_list *tokens)
+{
+  int i;
+
+  i = 0;
+ skip_beginning_spaces(input); 
+ while (input[i])
+ {
+   
+ }
+}
+
+
