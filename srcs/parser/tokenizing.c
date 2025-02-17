@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/17 18:19:09 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/17 18:43:21 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	substr_and_add(char *input, int start, int i, t_token_list *tokens)
 
 void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
 {
-	substr_and_add(input, *start, *i, tokens);
+  substr_and_add(input, *start, *i, tokens);
 	if (input[*i] == '|')
 		add_token(tokens, "|");
 	(*i)++;
@@ -35,9 +35,9 @@ void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
 
 void	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 {
-	char	*result;
+  char  *result;
 
-	substr_and_add(input, *start, *i, tokens);
+  substr_and_add(input, *start, *i, tokens);
 	if (input[*i] == '>' && input[*i + 1] == '>')
 	{
 		add_token(tokens, ">>");
@@ -57,7 +57,6 @@ void	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 	}
 	*start = *i;
 }
-
 void	handle_quotes(char *input, int *start, int *i, t_token_list *tokens)
 {
 	char	*result;
