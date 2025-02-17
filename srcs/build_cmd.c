@@ -14,7 +14,7 @@
 
 int	count_cmd_tokens(t_token_list *list)
 {
-	t_token	*current;
+	  t_token	*current;
 	int		arg_cmd;
 
 	arg_cmd = 0;
@@ -37,7 +37,6 @@ char	**allocate_cmd_args(int count)
 		return (NULL);
 	return (args);
 }
-
 void	fill_command(t_cmd *cmd, t_token_list *list)
 {
 	t_token	*current;
