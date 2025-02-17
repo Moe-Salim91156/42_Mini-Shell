@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 16:16:45 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:17:39 by msalim           ###   ########.fr       */
+/*   Created: 2025/02/15 16:39:22 by yokitane          #+#    #+#             */
+/*   Updated: 2025/02/15 17:48:02 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+int	bltn_pwd(void)
 {
-	int	i;
+	char	cwd[4096];
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
+	if (getcwd(cwd, 4096) != NULL)
+	{
+		printf("%s\n", cwd);
+		return (0);
+	}
+	else
+	{
+		perror("getcwd failed");
+		return (1);
+	}
 }
+// int main(void)
+// {
+// 	bltn_pwd();
+// }

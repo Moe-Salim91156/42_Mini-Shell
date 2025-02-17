@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexing.c                                           :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 15:34:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/11 15:57:21 by msalim           ###   ########.fr       */
+/*   Created: 2025/02/15 17:07:15 by msalim            #+#    #+#             */
+/*   Updated: 2025/02/15 17:09:31 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	lexemes(t_token *token)
+char	*ft_strncpy(char *dest, char *src, size_t n)
 {
-	if (!ft_strcmp(token->value, "|"))
-		token->type = PIPE;
-	else if (!ft_strcmp(token->value, ">"))
-		token->type = REDIRECT_OUT;
-	else if (!ft_strcmp(token->value, "<"))
-		token->type = REDIRECT_IN;
-	else if (ft_strchr(token->value, '-'))
-		token->type = ARGS;
-	else
-		token->type = WORD;
+	size_t	i;
+
+	i = 0;
+	while (src[i] && i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

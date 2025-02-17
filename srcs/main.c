@@ -3,12 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/13 18:45:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/16 18:24:08 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	skip_beginning_spaces(char *str)
@@ -65,12 +69,12 @@ int	main(void)
 	cmd_list = init_cmd_list();
 	while (1)
 	{
-		input = readline(COLOR_MAGENTA "Ashen$ " COLOR_RESET);
+		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
 		if (!input)
-			break ;
-		tokenize(input, tokens);
+			break ;               // ls -la |
+		tokenizer(input, tokens); // token list: ls [0], -la [4], | [1],
 		print_tokens(tokens);
-		build_cmd(tokens, cmd_list);
+		build_cmd(tokens, cmd_list); // token list
 		print_command(cmd_list);
 		free(input);
 	}

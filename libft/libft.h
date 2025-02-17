@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 17:47:44 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:20:59 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:09:55 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <string.h>
 # include <unistd.h>
 
-int ft_strcmp(char *s1,char *s2);
+char				*ft_strncpy(char *dest, char *src, size_t n);
+int					ft_strcmp(char *s1, char *s2);
 char				*get_next_line(int fd);
 char				*ft_strcpy(char *dest, const char *src);
 int					ft_isalpha(int c);

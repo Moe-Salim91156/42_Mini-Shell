@@ -1,43 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/10 16:51:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/17 17:58:13 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:23:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	tokenize(char *str, t_token_list *token)
+int	is_seperator_token(char c)
 {
-	char	*pipe_token;
-	char	*next_pipe;
-	char	*word;
+	return (c == ' ' || c == '|' || c == '\n');
+}
 
-	skip_beginning_spaces(str);
-	pipe_token = str;
-	while (pipe_token)
+int	is_quotes(char c)
+{
+	return (c == '\'' || c == '\"');
+}
+
+int	is_redirect(char c)
+{
+	return (c == '>' || c == '<');
+}
+
+void	add_last_token(char *input, int start, int i, t_token_list *tokens)
+{
+	char	*result;
+
+	if (start < i)
 	{
-		next_pipe = ft_strchr(pipe_token, '|');
-		if (next_pipe)
-		{
-			*next_pipe = '\0';
-			next_pipe++;
-			skip_beginning_spaces(next_pipe);
-		}
-		word = strtok(pipe_token, " ");
-		while (word)
-		{
-			add_token(token, word);
-			word = strtok(NULL, " ");
-		}
-		if (next_pipe)
-			add_token(token, "|");
-		pipe_token = next_pipe;
+		result = ft_substr(input, start, i - start);
+		add_token(tokens, result);
+		free(result);
 	}
 }
 
