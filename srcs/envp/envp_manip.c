@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 00:06:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 00:19:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ int	envp_add(t_envp **envp, char *value)
 	return (0);
 }
 
-int	envp_remove(t_envp **envp, char *key)
+int	envp_remove(t_envp *envp, char *key)
 {
 	t_envp *traverse;
 	t_envp *prev;
 
-	traverse = *envp;
+	traverse = envp;
 	prev = NULL;
 	while (traverse)
 	{
@@ -114,7 +114,7 @@ int	envp_remove(t_envp **envp, char *key)
 			if (prev)
 				prev->next = traverse->next;
 			else
-				*envp = traverse->next;
+				envp = traverse->next;
 			free(traverse->value);
 			free(traverse);
 			return (0);

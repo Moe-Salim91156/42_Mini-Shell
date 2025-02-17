@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 00:14:03 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 00:19:47 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void				tokenize(char *str, t_token_list *token);
 t_envp	*init_envp(char **envp);
 int		envp_count(t_envp *envp);
 int		envp_add(t_envp **envp, char *value);
-int		envp_remove(t_envp **envp, char *key);
+int		envp_remove(t_envp *envp, char *key);
 char	*get_envp_value(t_envp *envp, char *key);
 char	**build_envp(t_shell *shell);
 /*################# builtins #################*/
