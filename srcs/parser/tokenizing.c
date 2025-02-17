@@ -86,9 +86,7 @@ void	tokenizer(char *input, t_token_list *tokens)
 		else if (is_redirect(input[i]))
 			handle_redirect(input, &i, &start, tokens);
 		else if (is_quotes(input[i]))
-		{
 			handle_quotes(input, &start, &i, tokens);
-		}
 		else
 			i++;
 	}
