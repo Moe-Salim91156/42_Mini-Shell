@@ -36,6 +36,7 @@ char	**allocate_cmd_args(int count)
 	args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
 		return (NULL);
+  args[count] = NULL;
 	return (args);
 }
 
@@ -45,7 +46,7 @@ int	is_seperator(int type)
 		* here we would put the NEWLINE enum new value
 		* for seperating commands(payload);
 		* */
-	return (type == PIPE);
+	return (type == PIPE || type == NLINE);
 }
 
 int	add_argument(t_cmd *cmd, t_token *current, int i)

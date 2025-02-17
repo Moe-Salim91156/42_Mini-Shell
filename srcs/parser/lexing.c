@@ -22,6 +22,8 @@ void	lexemes(t_token *token)
 		token->type = REDIRECT_IN;
 	else if (ft_strchr(token->value, '-'))
 		token->type = ARGS;
+  else if (!ft_strcmp(token->value, "\n"))
+    token->type = NLINE;
 	else
 		token->type = WORD;
 }

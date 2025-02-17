@@ -32,7 +32,8 @@ typedef enum e_token_type
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
-	ARGS
+	ARGS,
+  NLINE
 }					t_token_type;
 
 typedef struct s_token

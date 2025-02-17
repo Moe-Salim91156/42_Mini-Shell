@@ -34,6 +34,49 @@ void	print_tokens(t_token_list *list)
 	}
 }
 
+void free_tokens(t_token_list *list)
+{
+    t_token *current;
+    t_token *temp;
+
+    current = list->head;
+    while (current)
+    {
+        temp = current->next;  // Store next node before freeing current
+
+        if (current->value) // Free token value if allocated
+            free(current->value);
+
+        free(current);  // Free the token node itself
+
+        current = temp; // Move to the next token
+    }
+
+    free(list); // Free the token list struct itself
+}
+void free_command_list(t_cmd_list *cmd_list)
+{
+    t_cmd *current;
+    t_cmd *temp;
+
+    current = cmd_list->head;
+    while (current)
+    {
+        temp = current->next;
+        if (current->args)  // Free args array
+        {
+            int i = 0;
+            while (current->args[i])
+                free(current->args[i++]); // Free each argument
+            free(current->args);
+        }
+        free(current); // Free the command node itself
+        current = temp;
+    }
+    free(cmd_list); // Free the command list structure
+}
+
+
 void	print_command(t_cmd_list *cmd_list)
 {
 	t_cmd	*cmd;
@@ -71,12 +114,19 @@ int	main(void)
 	{
 		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
 		if (!input)
-			break ;               // ls -la |
-		tokenizer(input, tokens); // token list: ls [0], -la [4], | [1],
+			break;
+    if (input)
+    {
+		tokenizer(input, tokens);
 		print_tokens(tokens);
-		build_cmd(tokens, cmd_list); // token list
+		build_cmd(tokens, cmd_list);
 		print_command(cmd_list);
-		free(input);
+    cmd_list = NULL;
+    tokens = NULL;
+    tokens = init_list();
+    cmd_list = init_cmd_list();
+    }
 	}
+    free(input);
 	return (0);
 }
