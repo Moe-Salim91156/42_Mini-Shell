@@ -12,7 +12,8 @@ LIBFT_A= $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c parser/init.c
+PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c\
+		parser/init.c parser/parser_utils.c
 BLTNS = builtins/bltn_env.c builtins/pwd.c
 ENVP = envp/envp_manip.c envp/envp_utils.c
 XPNDR =

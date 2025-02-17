@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 00:07:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 00:14:03 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct s_shell
 }					t_shell;
 
 /*################# tokenizing #################*/
+void				print_tokens(t_token_list *list);
+void				print_command(t_cmd_list *cmd_list);
 t_cmd_list			*init_cmd_list(void);
 t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);
