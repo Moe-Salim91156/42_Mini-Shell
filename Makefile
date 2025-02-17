@@ -14,7 +14,9 @@ INCLUDE = includes
 
 PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c parser/init.c
 BLTNS = builtins/bltn_env.c builtins/pwd.c
-src = main.c $(PRSR) $(BLTNS)
+ENVP =
+XPNDR =
+src = main.c $(PRSR) $(BLTNS) $(ENVP) $(XPNDR)
 
 SRCS = $(addprefix $(SRC_DIR)/, $(src))
 OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o))

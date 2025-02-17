@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:11:09 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,24 @@ void	print_command(t_cmd_list *cmd_list)
 	}
 	printf("number of arguments in total allocated %d\n", cmd_list->count);
 }
-
+/*shell entry point,*/
 int	main(void)
 {
-	t_token_list	*tokens;
-	t_cmd_list		*cmd_list;
+	t_shell			shell;
 	char			*input;
-
-	tokens = init_list();
-	cmd_list = init_cmd_list();
+	/*the following should go into shell init*/
+	shell.token_list = init_list();
+	shell.cmd_list = init_cmd_list();
+	shell.envp_list = NULL;
 	while (1)
 	{
 		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
 		if (!input)
-			break ;// ls -la |
-		tokenize(input, tokens);//token list: ls [0], -la [4], | [1], echo [0] , hellow[0]
-		print_tokens(tokens);
-		build_cmd(tokens, cmd_list);//token list
-		print_command(cmd_list);
+			break ;
+		tokenize(input, shell.token_list);
+		print_tokens(shell.token_list);
+		build_cmd(shell.token_list, shell.cmd_list);
+		print_command(shell.cmd_list);
 		free(input);
 	}
 	return (0);
