@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/16 18:24:29 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/17 16:49:25 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 18:17:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -60,7 +60,12 @@ typedef struct s_cmd_list
 	t_cmd			*head;
 }					t_cmd_list;
 
-void  tokenizer(char *input, t_token_list *tokens);
+int					is_seperator_token(char c);
+int					is_quotes(char c);
+int					is_redirect(char c);
+void				add_last_token(char *input, int start, int i,
+						t_token_list *tokens);
+void				tokenizer(char *input, t_token_list *tokens);
 t_cmd_list			*init_cmd_list(void);
 t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);

@@ -1,17 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/16 17:31:13 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/17 17:58:13 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 16:23:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_seperator_token(char c)
+{
+	return (c == ' ' || c == '|' || c == '\n');
+}
+
+int	is_quotes(char c)
+{
+	return (c == '\'' || c == '\"');
+}
+
+int	is_redirect(char c)
+{
+	return (c == '>' || c == '<');
+}
+
+void	add_last_token(char *input, int start, int i, t_token_list *tokens)
+{
+	char	*result;
+
+	if (start < i)
+	{
+		result = ft_substr(input, start, i - start);
+		add_token(tokens, result);
+		free(result);
+	}
+}
 
 void	add_token(t_token_list *list, char *value)
 {
