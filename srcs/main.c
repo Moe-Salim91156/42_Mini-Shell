@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/17 17:11:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/17 23:37:38 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	skip_beginning_spaces(char *str)
 	while (*str == ' ')
 		str++;
 }
-
 void	print_tokens(t_token_list *list)
 {
 	t_token	*current;
@@ -63,10 +62,10 @@ int	main(void)
 	/*the following should go into shell init*/
 	shell.token_list = init_list();
 	shell.cmd_list = init_cmd_list();
-	shell.envp_list = NULL;
+	shell.envp_list = init_envp(__environ);
 	while (1)
 	{
-		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
+		input = readline("rbsh$ ");
 		if (!input)
 			break ;
 		tokenize(input, shell.token_list);
