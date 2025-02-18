@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 17:21:58 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:22:43 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int				envp_count(t_envp *list);
 int				remove_envp_node(t_envp *list, t_envp *remove);
 int				modify_value(t_envp *node, char *new_value);
 int				append_envp_node(t_envp *list, char *key, char *value);
+int				free_envp_list(t_envp *list);
 t_envp			*init_envp(char **envp);
 t_envp			*find_by_key(t_envp *list, char *key);
 char			**build_envp(t_shell *shell);

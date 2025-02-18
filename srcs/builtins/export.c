@@ -6,10 +6,18 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 15:52:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:28:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* needs compelete parser,prototype: */
+/* 	export: takes arguments, then stores values in keys.
+	things to handle:
+	1- no arguments: print all envp
+	2- arguments: store them in envp
+		A- if key is invalid, print error.
+		B- if key exists, update value
+		C- if key doesn't exist, append new node.
+
+*/
