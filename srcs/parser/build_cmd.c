@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 14:23:41 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:16:37 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 16:23:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -22,7 +22,7 @@ int	count_cmd_tokens(t_token_list *list)
 	current = list->head;
 	while (current)
 	{
-		if (current->type == WORD || current->type == ARGS)
+		if (current->type != PIPE)
 			arg_cmd++;
 		current = current->next;
 	}
