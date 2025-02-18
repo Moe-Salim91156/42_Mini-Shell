@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:19:11 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 14:22:48 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:11:51 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * */
 int	is_seperator(int type)
 {
-	return (type == PIPE || type == NLINE);
+	return (type == PIPE);
 }
 
 char	**allocate_cmd_args(int count)
