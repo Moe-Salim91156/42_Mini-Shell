@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 00:19:47 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 13:09:44 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,30 @@ typedef struct s_shell
 }					t_shell;
 
 /*################# tokenizing #################*/
-void				print_tokens(t_token_list *list);
-void				print_command(t_cmd_list *cmd_list);
-t_cmd_list			*init_cmd_list(void);
-t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
-void				skip_beginning_spaces(char *str);
-void				lexemes(t_token *token);
-t_token				*init_token(void);
-t_cmd				*init_command(void);
-t_token_list		*init_list(void);
-void				add_token(t_token_list *list, char *value);
-void				tokenize(char *str, t_token_list *token);
+void			print_tokens(t_token_list *list);
+void			print_command(t_cmd_list *cmd_list);
+t_cmd_list		*init_cmd_list(void);
+t_cmd			*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
+void			skip_beginning_spaces(char *str);
+void			lexemes(t_token *token);
+t_token			*init_token(void);
+t_cmd			*init_command(void);
+t_token_list	*init_list(void);
+void			add_token(t_token_list *list, char *value);
+void			tokenize(char *str, t_token_list *token);
 /*################# enviroment handling #################*/
-t_envp	*init_envp(char **envp);
-int		envp_count(t_envp *envp);
-int		envp_add(t_envp **envp, char *value);
-int		envp_remove(t_envp *envp, char *key);
-char	*get_envp_value(t_envp *envp, char *key);
-char	**build_envp(t_shell *shell);
+t_envp			*init_envp(char **envp);
+int				envp_count(t_envp *envp);
+int				envp_add(t_envp **envp, char *value);
+int				envp_remove(t_envp *envp, char *key);
+char			*get_envp_value(t_envp *envp, char *key);
+char			**build_envp(t_shell *shell);
 /*################# builtins #################*/
-int	bltn_pwd(void);
-int	bltn_cd(char *dst);
-int	bltn_echo(char **args);
-int	bltn_export(char **args);
-int	bltn_unset(char **args);
-int	bltn_env(void);
-int bltn_exit(int status);
+int				bltn_pwd(void);
+int				bltn_cd(char *dst);
+int				bltn_echo(char **args);
+int				bltn_export(char **args);
+int				bltn_unset(char **args);
+int				bltn_env(void);
+int 			bltn_exit(int status);
 #endif
