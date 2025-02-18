@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 17:48:46 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:29:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		return (1);
 	shell_init(&shell, envp);
-	char **test = build_envp(&shell);
-	bltn_env(&shell);
-	int i = 0;
-	while (test[i])
-	{
-		printf("%s\n", test[i]);
-		i++;
-	}
 	while (1)
 	{
 		input = readline("rbsh$");
