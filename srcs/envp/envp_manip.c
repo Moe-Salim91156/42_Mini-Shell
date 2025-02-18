@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 17:28:29 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:49:46 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ t_envp	*init_envp(char **envp)
 		new = malloc(sizeof(t_envp));
 		if (!new)
 			return (NULL);//exit handler later
-		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i],'=')
-		+ 1 - envp[i]);
+		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i],'=') + 1 - envp[i]);
 		new->value = ft_strdup(ft_strchr(envp[i],'=') + 1);
 		if (!new->key || !new->value)
 			return (NULL);//exit handler later

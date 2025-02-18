@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 17:12:16 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:48:46 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	shell_init(&shell, envp);
 	char **test = build_envp(&shell);
+	bltn_env(&shell);
 	int i = 0;
 	while (test[i])
 	{
