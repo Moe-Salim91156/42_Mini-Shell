@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 18:29:00 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:59:05 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,20 @@
  linked list is used to allow manipulating envp*/
 t_envp *init_envp(char **envp)
 {
-	t_envp *envp_list = NULL;
-	t_envp *new, *last = NULL;
-	int i = 0;
+	t_envp *envp_list;
+	t_envp *new;
+	t_envp *last;
+	int 	i;
 
-	while (envp[i])
+	envp_list = NULL;
+	i = -1;
+	while (envp[++i])
 	{
 		new = malloc(sizeof(t_envp));
 		if (!new)
 			return (NULL); // exit handler later
-		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i], '=') - envp[i]);
+		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i], '=')
+		+ 1 - envp[i]);
 		new->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
 		new->next = NULL;
 		if (!new->key || !new->value)
@@ -45,7 +49,6 @@ t_envp *init_envp(char **envp)
 		else
 			last->next = new;
 		last = new;
-		i++;
 	}
 	return (envp_list);
 }
