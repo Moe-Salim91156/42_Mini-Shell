@@ -6,24 +6,49 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 00:14:53 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:12:16 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
 /*shell entry point,*/
-int	main(void)
+int	shell_init(t_shell *shell, char **envp)
+{
+	shell->token_list = init_list();
+	shell->cmd_list = init_cmd_list();
+	shell->envp_list = init_envp(envp);
+	return (0);
+}
+/* flow of rbsh:
+	1-read input
+	2-tokenize into words and ops
+	3-parse/lex words into commands and args
+	4-expand $,~,handle ""and''
+	5-redirections (if needed)
+	6- execute and collect exit status.
+	----------------------------------------------
+	signal handling and simple builtins are also implemented.
+*/
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell			shell;
 	char			*input;
-	/*the following should go into shell init*/
-	shell.token_list = init_list();
-	shell.cmd_list = init_cmd_list();
-	shell.envp_list = init_envp(__environ);
+
+	if (argc != 1 || argv[1])
+		return (1);
+	shell_init(&shell, envp);
+	char **test = build_envp(&shell);
+	int i = 0;
+	while (test[i])
+	{
+		printf("%s\n", test[i]);
+		i++;
+	}
 	while (1)
 	{
-		input = readline("rbsh$ ");
+		input = readline("rbsh$");
 		if (!input)
 			break ;
 		tokenize(input, shell.token_list);

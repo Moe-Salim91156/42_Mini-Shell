@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 00:19:48 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:28:29 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	1-init
 	2-adding(export)
 	3-removing(unset)
-	4-quick look up key(expandning)
+	4-easy key value lookup(expandning)
 	5-construct execve-compatible envp(2d array)
 	----------------------------------------------
 */
@@ -26,101 +26,97 @@
  linked list is used to allow manipulating envp*/
 t_envp	*init_envp(char **envp)
 {
-	t_envp *head;
-	t_envp *traverse;
-	int i;
+	t_envp	*envp_list;
+	t_envp	*new;
+	int		i;
 
 	i = 0;
-	head = malloc(sizeof(t_envp));
-	if (!head)
-		return (NULL);//replace with  exit_handler.
-	traverse = head;
+	envp_list = NULL;
 	while (envp[i])
 	{
-		traverse->value = ft_strdup(envp[i]);
-		if (!traverse->value)
-			return (NULL);//replace with  exit_handler.
-		if (envp[i + 1])
-		{
-			traverse->next = malloc(sizeof(t_envp));
-			if (!traverse->next)
-				return (NULL);//replace with  exit_handler.
-			traverse = traverse->next;
-		}
+		new = malloc(sizeof(t_envp));
+		if (!new)
+			return (NULL);//exit handler later
+		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i],'=')
+		+ 1 - envp[i]);
+		new->value = ft_strdup(ft_strchr(envp[i],'=') + 1);
+		if (!new->key || !new->value)
+			return (NULL);//exit handler later
+		new->next = envp_list;
+		envp_list = new;
 		i++;
 	}
-	traverse->next = NULL;
-	return (head);
+	return (envp_list);
 }
 
+/*returns an execve compatible 2d array of envp*/
 char **build_envp(t_shell *shell)
 {
-	t_envp *traverse;
-	char **envp;
-	int i;
+	t_envp	*traverse;
+	char	**envp;
+	int		i;
 
 	i = 0;
-	traverse = shell->envp_list;
 	envp = malloc(sizeof(char *) * (envp_count(shell->envp_list) + 1));
 	if (!envp)
-		return (NULL);//replace with  exit_handler.
+		return (NULL);//exit handler later
+	traverse = shell->envp_list;
 	while (traverse)
 	{
-		envp[i] = ft_strdup(traverse->value);
+		envp[i] = ft_strjoin(traverse->key, traverse->value);
 		if (!envp[i])
-			return (NULL);//replace with  exit_handler.
+			return (NULL);//exit handler later
 		traverse = traverse->next;
 		i++;
 	}
 	envp[i] = NULL;
 	return (envp);
 }
-
-int	envp_add(t_envp **envp, char *value)
+/* removes *remove from *list */
+int	remove_envp_node(t_envp *list, t_envp *remove)
 {
-	t_envp *new;
-	t_envp *traverse;
+	t_envp	*traverse;
 
-	new = malloc(sizeof(t_envp));
-	if (!new)
-		return (1);//replace with  exit_handler.
-	new->value = ft_strdup(value);
-	if (!new->value)
-		return (1);//replace with  exit_handler.
-	new->next = NULL;
-	if (!*envp)
+	traverse = list;
+	if (traverse == remove)
 	{
-		*envp = new;
+		list = list->next;
+		free(traverse->key);
+		free(traverse->value);
+		free(traverse);
 		return (0);
 	}
-	traverse = *envp;
 	while (traverse->next)
-		traverse = traverse->next;
-	traverse->next = new;
-	return (0);
-}
-
-int	envp_remove(t_envp *envp, char *key)
-{
-	t_envp *traverse;
-	t_envp *prev;
-
-	traverse = envp;
-	prev = NULL;
-	while (traverse)
 	{
-		if (!ft_strncmp(traverse->value, key, ft_strlen(key)))
+		if (traverse->next == remove)
 		{
-			if (prev)
-				prev->next = traverse->next;
-			else
-				envp = traverse->next;
-			free(traverse->value);
-			free(traverse);
+			traverse->next = remove->next;
+			free(remove->key);
+			free(remove->value);
+			free(remove);
 			return (0);
 		}
-		prev = traverse;
 		traverse = traverse->next;
 	}
 	return (1);
+}
+/* appends a new node with key value to list */
+int	append_envp_node(t_envp *list, char *key, char *value)
+{
+	t_envp	*new;
+	t_envp	*visit;
+
+	visit = list;
+	new = malloc(sizeof(t_envp));
+	if (!new)
+		return (1);//exit handler later
+	while (visit->next)
+		visit = visit->next;
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	if (!new->key || !new->value)
+		return (1);//exit handler later
+	new->next = NULL;
+	visit->next = new;
+	return (0);
 }

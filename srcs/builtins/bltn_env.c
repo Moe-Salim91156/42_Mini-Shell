@@ -6,41 +6,20 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 13:50:57 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:04:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	print_env(char **envp)
+void	bltn_env(t_shell *shell)
 {
-	int	i;
-	int	j;
+	t_envp *visit;
 
-	i = 0;
-	while (envp[i])
+	visit = shell->envp_list;
+	while (visit)
 	{
-		j = 0;
-		while (envp[i][j])
-		{
-			write(1, &envp[i][j], 1);
-			j++;
-		}
-		write(1, "\n", 1);
-		i++;
+		printf("%s%s\n", visit->key, visit->value);
+		visit = visit->next;
 	}
 }
-
-void	bltn_env(void)
-{
-	char	**envp;
-
-	envp = __environ;
-	print_env(envp);
-}
-
-// int	main(void)
-// {
-// 	bltn_env();
-// 	return (0);
-// }

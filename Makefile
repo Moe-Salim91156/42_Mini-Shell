@@ -18,7 +18,9 @@ PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c\
 BLTNS = builtins/bltn_env.c builtins/pwd.c
 
 ENVP = envp/envp_manip.c envp/envp_utils.c
+
 XPNDR =
+
 src = main.c $(PRSR) $(BLTNS) $(ENVP) $(XPNDR)
 
 SRCS = $(addprefix $(SRC_DIR)/, $(src))
