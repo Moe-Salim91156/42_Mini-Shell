@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/16 18:24:08 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/18 14:31:38 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
@@ -21,42 +21,44 @@ void	skip_beginning_spaces(char *str)
 		str++;
 }
 
-void	print_tokens(t_token_list *list)
+void	free_tokens(t_token_list *list)
 {
 	t_token	*current;
+	t_token	*temp;
 
 	current = list->head;
-	while (current != NULL)
+	while (current)
 	{
-		lexemes(current);
-		printf("token: ([%s] :: type %d)\n", current->value, current->type);
-		current = current->next;
+		temp = current->next;
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = temp;
 	}
+	free(list);
 }
 
-void	print_command(t_cmd_list *cmd_list)
+void	free_command_list(t_cmd_list *cmd_list)
 {
-	t_cmd	*cmd;
+	t_cmd	*current;
+	t_cmd	*temp;
 	int		i;
-	int		index;
 
-	i = 0;
-	index = 0;
-	cmd = cmd_list->head;
-	while (cmd)
+	current = cmd_list->head;
+	while (current)
 	{
-		printf("command %d\n", index);
-		i = 0;
-		while (cmd->args[i])
+		temp = current->next;
+		if (current->args)
 		{
-			printf("args[%d] : %s\n", i, cmd->args[i]);
-			i++;
+			i = 0;
+			while (current->args[i])
+				free(current->args[i++]);
+			free(current->args);
 		}
-		printf("args[%d] : NULL\n", i);
-		cmd = cmd->next;
-		index++;
+		free(current);
+		current = temp;
 	}
-	printf("number of arguments in total allocated %d\n", cmd_list->count);
+	free(cmd_list);
 }
 
 int	main(void)
@@ -71,12 +73,19 @@ int	main(void)
 	{
 		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
 		if (!input)
-			break ;               // ls -la |
-		tokenizer(input, tokens); // token list: ls [0], -la [4], | [1],
-		print_tokens(tokens);
-		build_cmd(tokens, cmd_list); // token list
-		print_command(cmd_list);
-		free(input);
+			break ;
+		if (input)
+		{
+			tokenizer(input, tokens);
+			print_tokens(tokens);
+			build_cmd(tokens, cmd_list);
+			print_command(cmd_list);
+			cmd_list = NULL;
+			tokens = NULL;
+			tokens = init_list();
+			cmd_list = init_cmd_list();
+		}
 	}
+	free(input);
 	return (0);
 }
