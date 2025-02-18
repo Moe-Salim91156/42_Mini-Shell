@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/16 17:30:07 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/18 14:23:41 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 16:23:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -28,34 +28,14 @@ int	count_cmd_tokens(t_token_list *list)
 	}
 	return (arg_cmd);
 }
-
-char	**allocate_cmd_args(int count)
-{
-	char	**args;
-
-	args = malloc(sizeof(char *) * (count + 1));
-	if (!args)
-		return (NULL);
-  args[count] = NULL;
-	return (args);
-}
-
-int	is_seperator(int type)
-{
-	/*
-		* here we would put the NEWLINE enum new value
-		* for seperating commands(payload);
-		* */
-	return (type == PIPE || type == NLINE);
-}
+/*
+ * this func simply adds payload args in the cmd->args array;
+ * example :
+ * [ls],[-l],[NULL]
+ */
 
 int	add_argument(t_cmd *cmd, t_token *current, int i)
 {
-	/*
-		* this func simply adds payload args in the cmd->args array;
-		* example :
-		* [ls],[-l],[NULL]
-		*/
 	if (!current->value)
 	{
 		ft_putstr_fd("Error: Value NULL\n", 2);
@@ -68,20 +48,21 @@ int	add_argument(t_cmd *cmd, t_token *current, int i)
 	return (i + 1);
 }
 
+/*
+ * when finding a new seperator (pipe, newline);
+ * it means there is new command (payload);
+ * this function does the magic
+ * inits a new command
+ * and moves to it
+ * */
+
 t_cmd	*handle_seperator(t_cmd *cmd, t_token_list *list)
 {
-	/*
-		* when finding a new seperator (pipe, newline);
-		* it means there is new command (payload);
-		* this function does the magic
-		* inits a new command
-		* and moves to it
-		* */
 	cmd->next = init_command();
 	if (!cmd->next)
 	{
 		ft_putstr_fd("erorr init-ing new command\n", 2);
-		// free
+		/* free */
 		exit(1);
 	}
 	cmd = cmd->next;
@@ -95,20 +76,21 @@ t_cmd	*handle_seperator(t_cmd *cmd, t_token_list *list)
 	return (cmd);
 }
 
+/*
+ * this function is responsible for calling all the functions mentioned above
+ * handling seperator, add_argument
+ * result is payload(0) , payload(1);
+ * command(0), command(1);
+ * u get the idea;
+ * this was one functions nightmare
+ * all i did is norminette and seperate them
+ */
+
 void	fill_command(t_cmd *cmd, t_token_list *list)
 {
 	t_token	*current;
 	int		i;
 
-	/*
-		* this function is responsible for calling all the functions mentioned above
-		* handling seperator, add_argument
-		* result is payload(0) , payload(1);
-		* command(0), command(1);
-		* u get the idea;
-		* this was one functions nightmare
-		* all i did is norminette and seperate them
-		*/
 	current = list->head;
 	i = 0;
 	while (current)

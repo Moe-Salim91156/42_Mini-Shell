@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/17 16:49:25 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/18 14:31:19 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 18:17:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -33,7 +33,7 @@ typedef enum e_token_type
 	REDIRECT_IN,
 	REDIRECT_OUT,
 	ARGS,
-  NLINE
+	NLINE
 }					t_token_type;
 
 typedef struct s_token
@@ -61,6 +61,8 @@ typedef struct s_cmd_list
 	t_cmd			*head;
 }					t_cmd_list;
 
+char				**allocate_cmd_args(int count);
+int					is_seperator(int type);
 int					is_seperator_token(char c);
 int					is_quotes(char c);
 int					is_redirect(char c);
@@ -75,4 +77,6 @@ t_token				*init_token(void);
 t_cmd				*init_command(void);
 t_token_list		*init_list(void);
 void				add_token(t_token_list *list, char *value);
+void				print_command(t_cmd_list *cmd_list);
+void				print_tokens(t_token_list *list);
 #endif
