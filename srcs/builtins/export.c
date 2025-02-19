@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 17:04:40 by yokitane         ###   ########.fr       */
+/*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
+/*   Updated: 2025/02/18 19:28:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	bltn_env(t_shell *shell)
-{
-	t_envp *visit;
+/* 	export: takes arguments, then stores values in keys.
+	things to handle:
+	1- no arguments: print all envp
+	2- arguments: store them in envp
+		A- if key is invalid, print error.
+		B- if key exists, update value
+		C- if key doesn't exist, append new node.
 
-	visit = shell->envp_list;
-	while (visit)
-	{
-		printf("%s%s\n", visit->key, visit->value);
-		visit = visit->next;
-	}
-}
+*/
