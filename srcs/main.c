@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 14:31:38 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:22:29 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
@@ -76,6 +76,7 @@ int	main(void)
 			break ;
 		if (input)
 		{
+			add_history(input);
 			tokenizer(input, tokens);
 			print_tokens(tokens);
 			build_cmd(tokens, cmd_list);

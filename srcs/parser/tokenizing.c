@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 16:25:04 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/18 19:10:44 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,15 @@ void	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 	*start = *i;
 }
 
-
 void	handle_quotes(char *input, int *i)
 {
 	char	quote;
-  
-  quote = input[*i];
-  (*i)++;
-  while (input[*i] && input[*i] != quote)
-    (*i)++;
-  (*i)++;
+
+	quote = input[*i];
+	(*i)++;
+	while (input[*i] && input[*i] != quote)
+		(*i)++;
+	(*i)++;
 }
 
 void	tokenizer(char *input, t_token_list *tokens)
@@ -85,9 +84,7 @@ void	tokenizer(char *input, t_token_list *tokens)
 		else if (is_redirect(input[i]))
 			handle_redirect(input, &i, &start, tokens);
 		else if (is_quotes(input[i]))
-    {
-      handle_quotes(input, &i);
-    }
+			handle_quotes(input, &i);
 		else
 			i++;
 	}
