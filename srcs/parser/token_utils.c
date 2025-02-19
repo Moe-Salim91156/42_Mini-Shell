@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/17 17:58:13 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:08:57 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 16:23:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -15,7 +15,7 @@
 
 int	is_seperator_token(char c)
 {
-	return (c == ' ' || c == '|' || c == '\n');
+	return (c == ' ' || c == '|');
 }
 
 int	is_quotes(char c)

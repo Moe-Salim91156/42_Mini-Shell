@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 14:38:25 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:05:04 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 18:17:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -34,8 +34,8 @@ typedef enum e_token_type
 	REDIRECT_OUT,
 	ARGS,
 	NLINE,
-  HEREDOC,
-  APPEND
+	HEREDOC,
+	APPEND
 }					t_token_type;
 
 typedef struct s_token
@@ -53,6 +53,9 @@ typedef struct s_token_list
 
 typedef struct s_cmd
 {
+	int				in_fd;
+	int				out_fd;
+	int				err_fd;
 	char			**args;
 	struct s_cmd	*next;
 }					t_cmd;

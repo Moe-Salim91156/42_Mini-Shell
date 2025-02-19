@@ -76,7 +76,7 @@ int	main(void)
 			break ;
 		if (input)
 		{
-      add_history(input);
+			add_history(input);
 			tokenizer(input, tokens);
 			print_tokens(tokens);
 			build_cmd(tokens, cmd_list);

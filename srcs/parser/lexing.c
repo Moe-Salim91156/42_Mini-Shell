@@ -24,10 +24,10 @@ void	lexemes(t_token *token)
 		token->type = ARGS;
 	else if (!ft_strcmp(token->value, "\n"))
 		token->type = NLINE;
-  else if (!ft_strcmp(token->value , ">>"))
-    token->type = APPEND;
-  else if (!ft_strcmp(token->value, "<<"))
-    token->type = HEREDOC;
+	else if (!ft_strcmp(token->value, ">>"))
+		token->type = APPEND;
+	else if (!ft_strcmp(token->value, "<<"))
+		token->type = HEREDOC;
 	else
 		token->type = WORD;
 }
