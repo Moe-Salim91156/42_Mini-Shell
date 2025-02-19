@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   qoute_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 17:04:40 by yokitane         ###   ########.fr       */
+/*   Created: 2025/02/18 19:30:46 by yokitane          #+#    #+#             */
+/*   Updated: 2025/02/18 19:34:01 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	bltn_env(t_shell *shell)
-{
-	t_envp *visit;
-
-	visit = shell->envp_list;
-	while (visit)
-	{
-		printf("%s%s\n", visit->key, visit->value);
-		visit = visit->next;
-	}
-}
+/*
+	expander jobs:
+	1- expand $, ~
+	2- handle single quotes
+		-nothing is expanded
+	3- handle double quotes
+		-$ and ~ are expanded
+	5- word splitting
+		-words are split by spaces
+	6- remove quotes
+	###############################
+*/
