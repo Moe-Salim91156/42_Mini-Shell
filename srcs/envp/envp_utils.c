@@ -53,8 +53,8 @@ int	modify_value(t_envp *node, char *new_value)
 
 int	free_envp_list(t_envp *list)
 {
-	t_envp	*traverse;
-	t_envp	*temp;
+	t_envp *traverse;
+	t_envp *temp;
 
 	traverse = list;
 	while (traverse)

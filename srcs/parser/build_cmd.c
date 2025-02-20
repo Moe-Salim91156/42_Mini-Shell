@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 18:16:37 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:03:33 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 16:23:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -28,6 +28,7 @@ int	count_cmd_tokens(t_token_list *list)
 	}
 	return (arg_cmd);
 }
+
 /*
  * this func simply adds payload args in the cmd->args array;
  * example :

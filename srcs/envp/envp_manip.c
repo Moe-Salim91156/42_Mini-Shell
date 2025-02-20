@@ -24,12 +24,12 @@
 
 /*goes through the envp and creates a linked list of envp
  linked list is used to allow manipulating envp*/
-t_envp *init_envp(char **envp)
+t_envp	*init_envp(char **envp)
 {
-	t_envp *envp_list;
-	t_envp *new;
-	t_envp *last;
-	int 	i;
+	t_envp	*envp_list;
+	t_envp	*new;
+	t_envp	*last;
+	int		i;
 
 	envp_list = NULL;
 	i = -1;
@@ -38,8 +38,7 @@ t_envp *init_envp(char **envp)
 		new = malloc(sizeof(t_envp));
 		if (!new)
 			return (NULL); // exit handler later
-		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i], '=')
-		+ 1 - envp[i]);
+		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i], '=') + 1 - envp[i]);
 		new->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
 		new->next = NULL;
 		if (!new->key || !new->value)
@@ -53,9 +52,8 @@ t_envp *init_envp(char **envp)
 	return (envp_list);
 }
 
-
 /*returns an execve compatible 2d array of envp*/
-char **build_envp(t_shell *shell)
+char	**build_envp(t_shell *shell)
 {
 	t_envp	*traverse;
 	char	**envp;
@@ -64,13 +62,13 @@ char **build_envp(t_shell *shell)
 	i = 0;
 	envp = malloc(sizeof(char *) * (envp_count(shell->envp_list) + 1));
 	if (!envp)
-		return (NULL);//exit handler later
+		return (NULL); // exit handler later
 	traverse = shell->envp_list;
 	while (traverse)
 	{
 		envp[i] = ft_strjoin(traverse->key, traverse->value);
 		if (!envp[i])
-			return (NULL);//exit handler later
+			return (NULL); // exit handler later
 		traverse = traverse->next;
 		i++;
 	}
@@ -114,13 +112,13 @@ int	append_envp_node(t_envp *list, char *key, char *value)
 	visit = list;
 	new = malloc(sizeof(t_envp));
 	if (!new)
-		return (1);//exit handler later
+		return (1); // exit handler later
 	while (visit->next)
 		visit = visit->next;
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
 	if (!new->key || !new->value)
-		return (1);//exit handler later
+		return (1); // exit handler later
 	new->next = NULL;
 	visit->next = new;
 	return (0);

@@ -14,7 +14,7 @@
 
 void	bltn_env(t_shell *shell)
 {
-	t_envp *visit;
+	t_envp	*visit;
 
 	visit = shell->envp_list;
 	while (visit)
