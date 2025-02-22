@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 19:10:44 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/22 19:29:08 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,30 @@ void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
 	*start = *i;
 }
 
-void	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
+int	is_invalid_redirection(char *input, int i)
+{
+	if ((input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '>')
+		|| (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '<'))
+	{
+		printf("syntax error\n");
+		return (1); // Invalid redirection pattern
+	}
+	return (0);
+}
+
+int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 {
 	char	*result;
 
+	if (is_invalid_redirection(input, *i))
+		return (1);
 	substr_and_add(input, *start, *i, tokens);
-	if (input[*i] == '>' && input[*i + 1] == '>')
+	if (input[*i] == '>' && input[*i + 1] == '>' && input[*i + 2] != '>')
 	{
 		add_token(tokens, ">>");
 		*i += 2;
 	}
-	else if (input[*i] == '<' && input[*i + 1] == '<')
+	else if (input[*i] == '<' && input[*i + 1] == '<' && input[*i + 2] != '<')
 	{
 		add_token(tokens, "<<");
 		*i += 2;
@@ -56,6 +69,7 @@ void	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 		(*i)++;
 	}
 	*start = *i;
+	return (0);
 }
 
 void	handle_quotes(char *input, int *i)
@@ -73,6 +87,7 @@ void	tokenizer(char *input, t_token_list *tokens)
 {
 	int	i;
 	int	start;
+	int	result;
 
 	i = 0;
 	start = 0;
@@ -82,7 +97,11 @@ void	tokenizer(char *input, t_token_list *tokens)
 		if (is_seperator_token(input[i]))
 			handle_separator(input, &i, &start, tokens);
 		else if (is_redirect(input[i]))
-			handle_redirect(input, &i, &start, tokens);
+		{
+			result = handle_redirect(input, &i, &start, tokens);
+			if (result == 1)
+				return ; // You can exit the function,
+		}
 		else if (is_quotes(input[i]))
 			handle_quotes(input, &i);
 		else
