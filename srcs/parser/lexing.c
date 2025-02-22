@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:34:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 16:05:13 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/22 18:19:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	lexing(t_token_list *list)
 		if (current->type == WORD)
 		{
 			current = current->next;
-			while (current && current->type != REDIRECT_OUT)
+			while (current && (current->type != REDIRECT_OUT
+					&& current->type != PIPE))
 			{
 				current->type = ARGS;
 				current = current->next;
