@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:30:10 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 14:30:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/22 14:04:50 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	print_tokens(t_token_list *list)
 	current = list->head;
 	while (current != NULL)
 	{
-		lexemes(current);
 		printf("token: ([%s] :: type %d)\n", current->value, current->type);
 		current = current->next;
 	}
