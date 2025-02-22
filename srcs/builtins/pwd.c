@@ -6,11 +6,16 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 16:39:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/15 17:48:02 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:28:07 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/*
+	4096 stack allocated buffer to make life a tiny
+	bit easier for us when exiting.
+*/
 
 int	bltn_pwd(void)
 {

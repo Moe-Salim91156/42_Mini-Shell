@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 18:59:05 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:21:23 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdio.h>
 
 /*
 	what do we need with envp?
@@ -23,7 +24,8 @@
 */
 
 /*goes through the envp and creates a linked list of envp
- linked list is used to allow manipulating envp*/
+ linked list is used to allow manipulating envp, it does
+ not know god.will need to rewrite a safer version later.*/
 t_envp *init_envp(char **envp)
 {
 	t_envp *envp_list;
@@ -52,7 +54,6 @@ t_envp *init_envp(char **envp)
 	}
 	return (envp_list);
 }
-
 
 /*returns an execve compatible 2d array of envp*/
 char **build_envp(t_shell *shell)
@@ -105,23 +106,42 @@ int	remove_envp_node(t_envp *list, t_envp *remove)
 	}
 	return (1);
 }
-/* appends a new node with key value to list */
-int	append_envp_node(t_envp *list, char *key, char *value)
+/* appends a node to list. just pass it the str. */
+int	append_env_node(t_envp *list, char *str)
 {
-	t_envp	*new;
 	t_envp	*visit;
 
 	visit = list;
-	new = malloc(sizeof(t_envp));
-	if (!new)
-		return (1);//exit handler later
 	while (visit->next)
 		visit = visit->next;
-	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
-	if (!new->key || !new->value)
-		return (1);//exit handler later
-	new->next = NULL;
-	visit->next = new;
+	visit->next = build_env_node(str);
+	if (!visit->next)
+	{
+		ft_putstr_fd("Appending to env failed!\n",2);
+		return (1);
+	}
 	return (0);
+}
+t_envp *build_env_node(char *str)
+{
+	t_envp	*new;
+
+	new = malloc(sizeof(t_envp));
+	if (!new)
+		return (NULL);
+	new->next = NULL;
+	if (!ft_strchr(str, '='))
+	{
+		new->key = ft_strjoin(str, "=");
+		if (!new->key)
+			return (NULL);
+		new->value = NULL;
+		return (new);
+	}
+	new->key = ft_substr(str, 0,
+		ft_strchr(str, '=') + 1 - str );
+	if (!new->key)
+		return (NULL);
+	new->value =ft_strchr(str, '=') + 1;
+	return (new);
 }
