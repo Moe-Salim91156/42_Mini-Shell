@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/22 22:49:37 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:17:33 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ static int invalid_arg(char *str)
 		return (1);
 	return (0);
 }
+
 static char *extract_key(char *str)
 {
 	if (!ft_strchr(str, '='))
 		return (NULL);
-	
+	return (ft_substr(str, 0, ft_strchr(str, '=') - str + 1));
 }
 
 int	bltn_export(char **args, t_shell *shell)
@@ -54,7 +55,7 @@ int	bltn_export(char **args, t_shell *shell)
 		bltn_env(shell);
 		return (0);
 	}
-	i = -1;
+	i = 0;
 	while (args[++i])
 	{
 		if (invalid_arg(args[i]))

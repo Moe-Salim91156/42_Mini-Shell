@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 18:56:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:15:15 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,18 @@ int	shell_init(t_shell *shell, char **envp)
 */
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell			shell;
-	char			*input;
+	t_shell			*shell;
+	/* char			*input; */
+	char	*args[] = {"export","a","t=1","2","_2=11"};
 
 	if (argc != 1 || argv[1])
 		return (1);
-	shell_init(&shell, envp);
-	bltn_env(&shell);
+	shell = malloc (sizeof(t_shell));
+	shell_init(shell, envp);
+	/* bltn_env(shell); */
+	bltn_export(args, shell);
+	/* bltn_env(shell); */
+	/* bltn_env(&shell);
 	while (1)
 	{
 		input = readline("rbsh$");
@@ -51,5 +56,5 @@ int	main(int argc, char **argv, char **envp)
 		print_command(shell.cmd_list);
 		free(input);
 	}
-	return (0);
+	return (0); */
 }
