@@ -6,12 +6,14 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:34:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 14:24:36 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/22 16:05:13 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*lexer protal , give each token in the list a type using lexemes func*/
+/*and then does the logic of identifying ARGS*/
 void	lexing(t_token_list *list)
 {
 	t_token	*current;
@@ -23,22 +25,23 @@ void	lexing(t_token_list *list)
 		current = current->next;
 	}
 	current = list->head;
-  while (current)
-  {
-    if (current->type == WORD)
-    {
-      current = current->next;
-      while (current && current->type != REDIRECT_OUT)
-      {
-        current->type = ARGS;
-        current = current->next;
-      }
-    }
-    else
-      current = current->next;
-  }
+	while (current)
+	{
+		if (current->type == WORD)
+		{
+			current = current->next;
+			while (current && current->type != REDIRECT_OUT)
+			{
+				current->type = ARGS;
+				current = current->next;
+			}
+		}
+		else
+			current = current->next;
+	}
 }
 
+/*responsible for lexing each node*/
 void	lexemes(t_token *token)
 {
 	if (!ft_strcmp(token->value, "|"))
