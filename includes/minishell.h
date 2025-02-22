@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/19 19:37:16 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/22 14:04:03 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_shell
 /*################ General functions #######################*/
 int					shell_init(t_shell *shell, char **envp);
 /*################# tokenizing/build_cmd #########################*/
+void				lexing(t_token_list *list);
 char				**allocate_cmd_args(int count);
 int					is_seperator(int type);
 int					is_seperator_token(char c);
