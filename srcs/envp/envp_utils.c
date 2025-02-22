@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 19:23:19 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:02:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	envp_count(t_envp *list)
 	}
 	return (count);
 }
+
 /* returns node with matching key */
 t_envp	*find_by_key(t_envp *envp, char *key)
 {
@@ -53,8 +54,8 @@ int	modify_value(t_envp *node, char *new_value)
 
 int	free_envp_list(t_envp *list)
 {
-	t_envp *traverse;
-	t_envp *temp;
+	t_envp	*traverse;
+	t_envp	*temp;
 
 	traverse = list;
 	while (traverse)
