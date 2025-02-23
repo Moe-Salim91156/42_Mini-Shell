@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/22 23:17:33 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:21:32 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 static int invalid_arg(char *str)
 {
-	if (!ft_isalpha(str[0]) || str[0] != '_')
+	if (!ft_isalpha(*str) || *str != '_')
 		return (1);
 	return (0);
 }

@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 23:15:15 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:54:57 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
 
 
 /*shell entry point,*/
@@ -35,17 +36,22 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell			*shell;
 	/* char			*input; */
-	char	*args[] = {"export","a","t=1","2","_2=11"};
+	char	**args;
 
-	if (argc != 1 || argv[1])
+	args = calloc(sizeof(args),10);
+	args[0] =ft_strdup("export");
+	args[1] =ft_strdup("_arg1=b");
+	args[2] =ft_strdup("2arg=b");
+	args[3] =ft_strdup("arg3");
+	args[4] =ft_strdup("");
+	if (argc != 1 || argv[1])	
 		return (1);
 	shell = malloc (sizeof(t_shell));
 	shell_init(shell, envp);
 	/* bltn_env(shell); */
 	bltn_export(args, shell);
-	/* bltn_env(shell); */
-	/* bltn_env(&shell);
-	while (1)
+	bltn_env(shell);
+	/*while (1)
 	{
 		input = readline("rbsh$");
 		if (!input)
