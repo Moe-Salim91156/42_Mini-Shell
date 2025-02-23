@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/23 15:42:34 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:13:53 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@
 
 static int invalid_arg(char *str)
 {
-	if (!ft_isalpha(*str) && *str != '_')
+	if ((!ft_isalpha(*str) && *str != '_') || !*str)
 	{
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(":Invalid Identefier!", 2);
+		ft_putstr_fd(":Invalid Identefier!\n", 2);
 		return (1);
 	}
 	return (0);
@@ -54,7 +54,7 @@ int	bltn_export(char **args, t_shell *shell)
 	{
 		bltn_env(shell);
 		return (0);
-	}
+	} 
 	i = 0;
 	while (args[++i])
 	{
