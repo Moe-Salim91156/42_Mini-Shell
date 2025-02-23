@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 23:14:01 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/23 14:03:46 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+
+#include <stdlib.h>
+#include <string.h>
 
 /*################# structs ############################*/
 

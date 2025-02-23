@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/22 22:10:17 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:22:51 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_envp	*find_by_key(t_envp *envp, char *key)
 {
 	t_envp	*traverse;
 
+	if (!key || !envp)
+		return (NULL);
 	traverse = envp;
 	while (traverse)
 	{

@@ -6,19 +6,15 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/22 23:21:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:42:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdlib.h>
-#include <string.h>
 
 /* 	export: takes arguments, then stores values in keys.
 	things to handle:
-	1- no arguments: print all envp (outlier, this is not
-	 required, and you can handle this anyway, this is how I
-	 chose to handle it.)
+	1- no arguments: print all envp (sorted. this will cause great suffering)
 	-------------------------------------
 	cases:
 	key only (no '=' or empty value)
@@ -32,8 +28,12 @@
 
 static int invalid_arg(char *str)
 {
-	if (!ft_isalpha(*str) || *str != '_')
+	if (!ft_isalpha(*str) && *str != '_')
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(":Invalid Identefier!", 2);
 		return (1);
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/22 22:21:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:36:59 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char **build_envp(t_shell *shell)
 	envp[i] = NULL;
 	return (envp);
 }
+
 /* removes *remove from *list */
 int	remove_envp_node(t_envp *list, t_envp *remove)
 {
@@ -110,11 +111,13 @@ int	remove_envp_node(t_envp *list, t_envp *remove)
 int	append_env_node(t_envp *list, char *str)
 {
 	t_envp	*visit;
+	t_envp	*new;
 
+	new = build_env_node(str);
 	visit = list;
 	while (visit->next)
 		visit = visit->next;
-	visit->next = build_env_node(str);
+	visit->next = new;
 	if (!visit->next)
 	{
 		ft_putstr_fd("Appending to env failed!\n",2);
@@ -122,6 +125,7 @@ int	append_env_node(t_envp *list, char *str)
 	}
 	return (0);
 }
+
 t_envp *build_env_node(char *str)
 {
 	t_envp	*new;
@@ -135,7 +139,12 @@ t_envp *build_env_node(char *str)
 		new->key = ft_strjoin(str, "=");
 		if (!new->key)
 			return (NULL);
-		new->value = NULL;
+		new->value = ft_strdup("");
+		if (!new->value)
+		{
+			ft_putstr_fd("failed allocating env value", 2);
+			return (NULL);
+		}
 		return (new);
 	}
 	new->key = ft_substr(str, 0,
