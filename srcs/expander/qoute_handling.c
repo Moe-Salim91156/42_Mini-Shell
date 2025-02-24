@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:30:46 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/24 18:42:12 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/24 20:06:02 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,20 @@
 // for exit status , i think for each command executed , the exit status will be stored
 // and the exit status should be expanded to the appropriate number if in d_quotes
 
-/*
-void  expand_double_quotes(t_token_list *list)
-{
-  char  *dollar_sign;
-  t_token *current;
 
-  current = list->head;
-  dollar_sign = ft_strchr(current->value, '$');
-  if (dollar_sign)
-  {
-    //look inside envrionemnt list for the variable
-    //get its value
-    // replace the $WHATEVER with the value;
-    // remmove the quotes
-  }
-}*/
+
+// what we got from the research is we can do this solution 
+//      tokenzier
+//      take the token list
+//      give to expander 
+//      will replace the values
+//      replace env variables
+//      if there is a command in the env varibales
+//            bash behavior -> take first word as command -> rest is argument (if single quote replace env, if single when export do nothing)
+//            and then we will tokenize again, so the token list will be ready for the build command and its gonna have the last look of the input
+//            after expanding and solving the puzzle
+//            cmd_list will go to the execution with the data it needs
+//    else
+//      tokenize again after expanding, (removing quotes and expand if needed)
+//      and then build command will build its structure based on the token list
+//      cmd_list will go for the execution phase
