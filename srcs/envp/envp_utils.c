@@ -6,13 +6,15 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 19:18:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:34:16 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* counts how many keys are there */
+/*
+	counts current nodes (per keys) in @list
+*/
 int	envp_count(t_envp *list)
 {
 	int		count;

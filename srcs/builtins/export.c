@@ -6,24 +6,30 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 19:24:26 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:51:18 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* 	export: takes arguments, then stores values in keys.
-	things to handle:
-	1- no arguments: print all envp (sorted. this will cause great suffering)
-	-------------------------------------
-	cases:
-	key only (no '=' or empty value)
-		--> assign key a value of ""
-	invalid key (begining with anything other than alpha/'_')
-		--> dont assign key, skip @arg, print invalid identifier err.
-	valid key:
-		--> key already exists, overwrite current value
-		--> create key and value.
+/*
+	export: takes arguments, then stores values in keys.
+	behaviour cases:
+		1- no arguments: print all envp (sorted. that last part will cause pain)
+		2- :export with @arg(s):
+		per @arg
+		2.1: invalid key (doesnt begin with alpha or '_')
+			--> skip @arg, print out error.
+		2.2:@arg has key that already exists.
+			2.2A-@arg is solely key (no=)
+				--> do nothing to current key.
+			2.2B-@arg contains'='
+				--> replace current value with new value (anything post '=')
+		2.3:@arg has new key.
+			2.3A-@arg is solely key (no=)
+				--> create new key(entire @arg) with NULL value
+			2.3B-@arg contains'='
+				--> create new key with value==(anything post =)
 */
 
 static int	invalid_arg(char *str)

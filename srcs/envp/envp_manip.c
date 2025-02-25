@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 19:15:19 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:37:24 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**build_envp(t_shell *shell)
 	{
 		envp[i] = ft_strjoin(traverse->key, traverse->value);
 		if (!envp[i])
-			return (NULL); // exit handler later
+			return (NULL);
 		traverse = traverse->next;
 		i++;
 	}
