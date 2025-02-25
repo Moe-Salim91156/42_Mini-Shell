@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/25 18:15:04 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:58:31 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell			*shell;
 	/* char			*input; */
-	char	**args;
+	// char	**args;
 
-	args = calloc(10,sizeof(args));
-	args[0] = ft_strdup("export");
-	args[1] = ft_strdup("arg1=this");
-	args[2] = ft_strdup("_arg2=yoyo");
-	args[3] = ft_strdup("_arg2");
-	args[4] = ft_strdup("arg1=bogospinted");
-	args[5] = NULL;
+	// args = calloc(10,sizeof(args));
+	// args[0] = ft_strdup("export");
+	// args[1] = ft_strdup("arg1=this");
+	// args[2] = ft_strdup("_arg2=yoyo");
+	// args[3] = ft_strdup("_arg2");
+	// args[4] = ft_strdup("arg1=bogospinted");
+	// args[5] = NULL;
 	if (argc != 1 || argv[1])
 		return (1);
 	shell = malloc (sizeof(t_shell));

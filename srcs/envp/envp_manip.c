@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 18:17:37 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:15:19 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int	append_env_node(t_envp *list, char *str)
 	if (!list)
 	{
 		list = build_env_node(str);
+		if (!list)
+			return (1);
 		return (0);
 	}
 	new = build_env_node(str);
@@ -119,8 +121,10 @@ int	append_env_node(t_envp *list, char *str)
 /*
 	extracts key and value from @str, returns a new node containing them.
 	it works on the assumption that no existing node with matching key
-	already exists. this function strictly works to build new nodes.
+	already exists. this function should only be called when you want
+	to construct and then append a new node.
 	(atheist funcion)
+	---------------------------------
 */
 t_envp *build_env_node(char *str)
 {
@@ -135,18 +139,12 @@ t_envp *build_env_node(char *str)
 		new->key = ft_strjoin(str, "=");
 		if (!new->key)
 			return (NULL);
-		new->value = ft_strdup("");
-		if (!new->value)
-		{
-			ft_putstr_fd("failed allocating env value", 2);
-			return (NULL);
-		}
+		new->value = NULL;
 		return (new);
 	}
-	new->key = ft_substr(str, 0,
-		ft_strchr(str, '=') + 1 - str);
-	if (!new->key)
+	new->key = ft_substr(str, 0,ft_strchr(str, '=') + 1 - str);
+	new->value =ft_strdup(ft_strchr(str, '=') + 1);
+	if (!new->key || !new->value)
 		return (NULL);
-	new->value =ft_strchr(str, '=') + 1;
 	return (new);
 }
