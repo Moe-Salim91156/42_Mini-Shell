@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:30:46 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 14:43:48 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 15:06:34 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ int	is_single_quote_token(char *token)
 		return (0);
 }
 
+int check_quotes_even_odd(char *value, char quote)
+{
+  int i;
+  int start_quote;
+  int end_quote;
+
+  i = 0;
+  start_quote= 0;
+  end_quote = ft_strlen(value) - 1;
+   while (value[i] == quote)
+  {
+    start_quote++;
+    i++;
+  } 
+   if ((start_quote + end_quote) % 2 == 0)
+    return (0);
+   else
+     return (1);
+}
+
 char	*extract_quotes(char *value, char quote)
 {
   int i;
@@ -29,7 +49,7 @@ char	*extract_quotes(char *value, char quote)
 	i = 0;
   j = 0;
 	result = malloc(ft_strlen(value) + 1);
-	if (!result)
+	if (!result || !check_quotes_even_odd(value,quote))
 		return (NULL);
 	while (value[i])
 	{
@@ -55,8 +75,11 @@ void	check_for_quotes_in_tokens(t_token_list *list)
 		if (is_single_quote_token(current->value))
 		{
 			new_value = extract_quotes(current->value, '\'');
-			free(current->value);
-			current->value = new_value;
+      if (new_value)
+      {
+			  free(current->value);
+			  current->value = new_value;
+      }
 		}
 		current = current->next;
 	}
