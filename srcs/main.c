@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/24 15:10:14 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:15:04 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 /*shell entry point,*/
 int	shell_init(t_shell *shell, char **envp)
 {
-	shell->token_list = init_list();
-	shell->cmd_list = init_cmd_list();
+	// shell->token_list = init_list();
+	// shell->cmd_list = init_cmd_list();
 	shell->envp_list = init_envp(envp);
 	return (0);
 }
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 	shell = malloc (sizeof(t_shell));
 	shell_init(shell, envp);
 	/* bltn_env(shell); */
-	bltn_export(args, shell);
+	// bltn_export(args, shell);
 	bltn_env(shell);
 	/*while (1)
 	{
@@ -62,6 +62,8 @@ int	main(int argc, char **argv, char **envp)
 		build_cmd(shell.token_list, shell.cmd_list);
 		print_command(shell.cmd_list);
 		free(input);
-	}
-	return (0); */
+	}*/
+	free_env(shell->envp_list);
+	free(shell);
+	return (0);
 }

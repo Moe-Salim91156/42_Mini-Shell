@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/24 14:09:21 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:10:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct s_shell
 	t_envp			*envp_list;
 }					t_shell;
 
-
 /*################ General functions #######################*/
 int				shell_init(t_shell *shell, char **envp);
 /*################# tokenizing #########################*/
@@ -91,12 +90,12 @@ void			add_token(t_token_list *list, char *value);
 void			tokenize(char *str, t_token_list *token);
 /*################# enviroment handling ################*/
 int				envp_count(t_envp *list);
-int				remove_envp_node(t_envp *list, t_envp *remove);
 int				modify_value(t_envp *node, char *new_value);
 int				append_env_node(t_envp *list, char *str);
-int				free_envp_list(t_envp *list);
+int				del_env_node(t_envp	*node);
 t_envp			*init_envp(char **envp);
 t_envp			*find_by_key(t_envp *list, char *key);
+void			*free_env(t_envp *list);
 char			**build_envp(t_shell *shell);
 t_envp			*build_env_node(char *str);
 /*################# builtins ###########################*/

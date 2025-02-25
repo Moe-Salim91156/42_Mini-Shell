@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/24 13:25:26 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:17:01 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,16 @@ int	modify_value(t_envp *node, char *new_value)
 	return (0);
 }
 
-int	free_envp_list(t_envp *list)
+int	del_env_node(t_envp	*node)
 {
-	t_envp	*traverse;
-	t_envp	*temp;
-
-	traverse = list;
-	while (traverse)
+	if (node)
 	{
-		temp = traverse;
-		traverse = traverse->next;
-		free(temp->key);
-		free(temp->value);
-		free(temp);
+		if(node->key)
+			free (node-> key);
+		if (node->value)
+			free(node->value);
+		free (node);
+		return (0);
 	}
-	return (0);
+	return (1);
 }

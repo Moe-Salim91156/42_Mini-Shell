@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/23 15:36:59 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:17:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,37 @@
 
 /*
 	what do we need with envp?
-	1-init
+	1-init (to have a list to manipulate as we wish)
 	2-adding(export)
 	3-removing(unset)
 	4-easy key value lookup(expandning)
 	5-construct execve-compatible envp(2d array)
+	6- handle shlvl and _
 	----------------------------------------------
 */
 
-/*goes through the envp and creates a linked list of envp
- linked list is used to allow manipulating envp, it does
- not know god.will need to rewrite a safer version later.*/
+/*
+	creates a linked list of key/values of envp.
+	very helpful to manipulate it as we wish.
+	returns NULL on failure.
+*/
 t_envp *init_envp(char **envp)
 {
-	t_envp *envp_list;
-	t_envp *new;
-	t_envp *last;
-	int 	i;
+	int		i;
+	t_envp	*list;
 
-	envp_list = NULL;
-	i = -1;
-	while (envp[++i])
+	list = NULL;
+	i = 1;
+	list = build_env_node(envp[0]);
+	if (!list)
+		return (list);
+	while(envp[i])
 	{
-		new = malloc(sizeof(t_envp));
-		if (!new)
-			return (NULL); // exit handler later
-		new->key = ft_substr(envp[i], 0, ft_strchr(envp[i], '=')
-		+ 1 - envp[i]);
-		new->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
-		new->next = NULL;
-		if (!new->key || !new->value)
-			return (NULL); // exit handler later
-		if (!envp_list)
-			envp_list = new;
-		else
-			last->next = new;
-		last = new;
+		if(append_env_node(list, envp[i]))
+			return (free_env(list));
+		i++;
 	}
-	return (envp_list);
+	return (list);
 }
 
 /*returns an execve compatible 2d array of envp*/
@@ -65,7 +58,7 @@ char **build_envp(t_shell *shell)
 	i = 0;
 	envp = malloc(sizeof(char *) * (envp_count(shell->envp_list) + 1));
 	if (!envp)
-		return (NULL);//exit handler later
+		return (free_env(shell->envp_list));
 	traverse = shell->envp_list;
 	while (traverse)
 	{
@@ -78,41 +71,39 @@ char **build_envp(t_shell *shell)
 	envp[i] = NULL;
 	return (envp);
 }
-
-/* removes *remove from *list */
-int	remove_envp_node(t_envp *list, t_envp *remove)
+/*
+	frees the env list. should always be called at
+	failure/exit to ensure gracefull termination.
+ */
+void	*free_env(t_envp *list)
 {
-	t_envp	*traverse;
+	t_envp	*visit;
+	t_envp	*next;
 
-	traverse = list;
-	if (traverse == remove)
+	visit = list;
+	if (!visit)
+		return (NULL);
+	while (visit)
 	{
-		list = list->next;
-		free(traverse->key);
-		free(traverse->value);
-		free(traverse);
-		return (0);
+		next = visit->next;
+		if (visit)
+			del_env_node(visit);
+		visit = next;
 	}
-	while (traverse->next)
-	{
-		if (traverse->next == remove)
-		{
-			traverse->next = remove->next;
-			free(remove->key);
-			free(remove->value);
-			free(remove);
-			return (0);
-		}
-		traverse = traverse->next;
-	}
-	return (1);
+	return (NULL);
 }
+
 /* appends a node to list. just pass it the str. */
 int	append_env_node(t_envp *list, char *str)
 {
 	t_envp	*visit;
 	t_envp	*new;
 
+	if (!list)
+	{
+		list = build_env_node(str);
+		return (0);
+	}
 	new = build_env_node(str);
 	visit = list;
 	while (visit->next)
@@ -125,7 +116,12 @@ int	append_env_node(t_envp *list, char *str)
 	}
 	return (0);
 }
-
+/*
+	extracts key and value from @str, returns a new node containing them.
+	it works on the assumption that no existing node with matching key
+	already exists. this function strictly works to build new nodes.
+	(atheist funcion)
+*/
 t_envp *build_env_node(char *str)
 {
 	t_envp	*new;
@@ -148,7 +144,7 @@ t_envp *build_env_node(char *str)
 		return (new);
 	}
 	new->key = ft_substr(str, 0,
-		ft_strchr(str, '=') + 1 - str );
+		ft_strchr(str, '=') + 1 - str);
 	if (!new->key)
 		return (NULL);
 	new->value =ft_strchr(str, '=') + 1;
