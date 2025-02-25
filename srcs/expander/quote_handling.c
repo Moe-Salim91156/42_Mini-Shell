@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:30:46 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 15:06:34 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 15:10:43 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_quotes_even_odd(char *value, char quote)
 		start_quote++;
 		i++;
 	}
-	if ((start_quote + end_quote) % 2 == 0)
+	if ((start_quote) % 2 == 0)
 		return (0);
 	else
 		return (1);
