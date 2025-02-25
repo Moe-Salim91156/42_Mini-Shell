@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/25 17:58:47 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:37:52 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
@@ -83,9 +83,11 @@ int	main(void)
 			add_history(input);
 			tokenizer(input, tokens);
 			lexing(tokens);
-			if (!check_for_quotes_in_tokens(tokens))
-				perror("not closed\n");
 			print_tokens(tokens);
+			if (!check_for_quotes_in_tokens(tokens))
+        perror("not closed \n");
+      write(1,"\n",1);
+      print_tokens(tokens);
 			free_tokens(tokens);
 			tokens = NULL;
 			tokens = init_list();
