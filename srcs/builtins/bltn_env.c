@@ -14,7 +14,7 @@
 
 int	bltn_env(t_shell *shell)
 {
-	t_envp *visit;
+	t_envp	*visit;
 
 	if (!shell->envp_list)
 		return (1);
@@ -23,10 +23,10 @@ int	bltn_env(t_shell *shell)
 	{
 		if (visit->key)
 			if (printf("%s", visit->key) == -1)
-			return (1);
+				return (1);
 		if (visit->value)
 			if (printf("%s\n", visit->value) == -1)
-			return (1);
+				return (1);
 		visit = visit->next;
 	}
 	return (0);

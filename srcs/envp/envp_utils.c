@@ -57,15 +57,15 @@ int	modify_value(t_envp *node, char *new_value)
 	return (0);
 }
 
-int	del_env_node(t_envp	*node)
+int	del_env_node(t_envp *node)
 {
 	if (node)
 	{
-		if(node->key)
-			free (node-> key);
+		if (node->key)
+			free(node->key);
 		if (node->value)
 			free(node->value);
-		free (node);
+		free(node);
 		return (0);
 	}
 	return (1);

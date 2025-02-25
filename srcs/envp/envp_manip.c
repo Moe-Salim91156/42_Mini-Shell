@@ -29,7 +29,7 @@
 	very helpful to manipulate it as we wish.
 	returns NULL on failure.
 */
-t_envp *init_envp(char **envp)
+t_envp	*init_envp(char **envp)
 {
 	int		i;
 	t_envp	*list;
@@ -39,9 +39,9 @@ t_envp *init_envp(char **envp)
 	list = build_env_node(envp[0]);
 	if (!list)
 		return (list);
-	while(envp[i])
+	while (envp[i])
 	{
-		if(append_env_node(list, envp[i]))
+		if (append_env_node(list, envp[i]))
 			return (free_env(list));
 		i++;
 	}
@@ -49,7 +49,7 @@ t_envp *init_envp(char **envp)
 }
 
 /*returns an execve compatible 2d array of envp*/
-char **build_envp(t_shell *shell)
+char	**build_envp(t_shell *shell)
 {
 	t_envp	*traverse;
 	char	**envp;
@@ -64,7 +64,7 @@ char **build_envp(t_shell *shell)
 	{
 		envp[i] = ft_strjoin(traverse->key, traverse->value);
 		if (!envp[i])
-			return (NULL);//exit handler later
+			return (NULL); // exit handler later
 		traverse = traverse->next;
 		i++;
 	}
@@ -113,7 +113,7 @@ int	append_env_node(t_envp *list, char *str)
 	visit->next = new;
 	if (!visit->next)
 	{
-		ft_putstr_fd("Appending to env failed!\n",2);
+		ft_putstr_fd("Appending to env failed!\n", 2);
 		return (1);
 	}
 	return (0);
@@ -126,7 +126,7 @@ int	append_env_node(t_envp *list, char *str)
 	(atheist funcion)
 	---------------------------------
 */
-t_envp *build_env_node(char *str)
+t_envp	*build_env_node(char *str)
 {
 	t_envp	*new;
 
@@ -142,8 +142,8 @@ t_envp *build_env_node(char *str)
 		new->value = NULL;
 		return (new);
 	}
-	new->key = ft_substr(str, 0,ft_strchr(str, '=') + 1 - str);
-	new->value =ft_strdup(ft_strchr(str, '=') + 1);
+	new->key = ft_substr(str, 0, ft_strchr(str, '=') + 1 - str);
+	new->value = ft_strdup(ft_strchr(str, '=') + 1);
 	if (!new->key || !new->value)
 		return (NULL);
 	return (new);

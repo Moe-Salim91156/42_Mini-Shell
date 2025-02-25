@@ -33,9 +33,9 @@ void	print_tokens(t_token_list *list)
 
 void	print_command(t_cmd_list *cmd_list)
 {
-	t_cmd	*cmd;
-	int		i;
-	int		index;
+	t_cmd *cmd;
+	int i;
+	int index;
 
 	i = 0;
 	index = 0;

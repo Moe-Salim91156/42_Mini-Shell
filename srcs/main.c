@@ -13,7 +13,6 @@
 #include "../includes/minishell.h"
 #include <stdlib.h>
 
-
 /*shell entry point,*/
 int	shell_init(t_shell *shell, char **envp)
 {
@@ -34,10 +33,10 @@ int	shell_init(t_shell *shell, char **envp)
 */
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell			*shell;
+	t_shell	*shell;
+
 	/* char			*input; */
 	// char	**args;
-
 	// args = calloc(10,sizeof(args));
 	// args[0] = ft_strdup("export");
 	// args[1] = ft_strdup("arg1=this");
@@ -47,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	// args[5] = NULL;
 	if (argc != 1 || argv[1])
 		return (1);
-	shell = malloc (sizeof(t_shell));
+	shell = malloc(sizeof(t_shell));
 	shell_init(shell, envp);
 	/* bltn_env(shell); */
 	// bltn_export(args, shell);

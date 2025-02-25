@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/24 15:09:29 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:24:26 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 		--> create key and value.
 */
 
-static int invalid_arg(char *str)
+static int	invalid_arg(char *str)
 {
 	if ((!ft_isalpha(*str) && *str != '_') || !*str)
 	{
@@ -38,7 +38,7 @@ static int invalid_arg(char *str)
 }
 /* looks for valid key in @str, fills it into buffer @key this
 is useful for handling no '=' and updating already existing keys. */
-static int extract_key(char *str, char **key)
+static int	extract_key(char *str, char **key)
 {
 	if (!str)
 		return (1);
@@ -52,11 +52,11 @@ static int extract_key(char *str, char **key)
 	*key = ft_substr(str, 0, ft_strchr(str, '=') + 1 - str);
 	if (!key)
 		return (1);
-	return(0);
+	return (0);
 }
 
 /* updates an already existing node.*/
-static int update_node(t_shell *shell,char *str,char *key)
+static int	update_node(t_shell *shell, char *str, char *key)
 {
 	modify_value(find_by_key(shell->envp_list, key), (ft_strchr(str, '=') + 1));
 	return (0);
@@ -75,15 +75,12 @@ int	bltn_export(char **args, t_shell *shell)
 	while (args[++i])
 	{
 		if (invalid_arg(args[i]))
-			continue;
+			continue ;
 		ret = 0;
 		key = NULL;
 		extract_key(args[i], &key);
-		if (find_by_key(shell->envp_list,key))
-		{
-			update_node(shell,args[i],key);
-			/* free(key); */
-		}
+		if (find_by_key(shell->envp_list, key))
+			update_node(shell, args[i], key);
 		else if (append_env_node(shell->envp_list, args[i]))
 			return (1);
 	}
