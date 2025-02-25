@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:30:46 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 17:57:39 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 18:47:06 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,26 +90,50 @@ char	*extract_quotes(char *value, char quote)
 	return (result);
 }
 
-int	check_for_quotes_in_tokens(t_token_list *list)
+int	is_double_quote_token(char *value)
 {
-	t_token	*current;
-	char	*new_value;
-
-	current = list->head;
-	while (current)
-	{
-		if (is_single_quote_token(current->value))
-		{
-			if (!check_validation_of_quotes(current->value, '\''))
-				return (0);
-			new_value = extract_quotes(current->value, '\'');
-			if (new_value)
-			{
-				free(current->value);
-				current->value = new_value;
-			}
-		}
-		current = current->next;
-	}
-	return (1);
+	if (ft_strchr(value, '\"'))
+		return (1);
+	else
+		return (0);
 }
+
+
+int check_for_quotes_in_tokens(t_token_list *list)
+{
+    t_token *current;
+    char *new_value;
+
+    current = list->head;
+    while (current)
+    {
+        // Handle single quotes first
+        if (is_single_quote_token(current->value))
+        {
+            if (!check_validation_of_quotes(current->value, '\''))
+                return (0);
+            new_value = extract_quotes(current->value, '\'');
+            if (new_value)
+            {
+                free(current->value);
+                current->value = new_value;
+            }
+        }
+        if (is_double_quote_token(current->value))
+        {
+            if (!check_validation_of_quotes(current->value, '"'))
+                return (0);
+            new_value = extract_quotes(current->value, '\"');
+            if (new_value)
+            {
+                free(current->value);
+                current->value = new_value;
+                // Later: Add variable expansion here!
+            }
+        }
+
+        current = current->next;
+    }
+    return (1);
+}
+
