@@ -98,42 +98,39 @@ int	is_double_quote_token(char *value)
 		return (0);
 }
 
-
-int check_for_quotes_in_tokens(t_token_list *list)
+int	check_for_quotes_in_tokens(t_token_list *list)
 {
-    t_token *current;
-    char *new_value;
+	t_token	*current;
+	char	*new_value;
 
-    current = list->head;
-    while (current)
-    {
-        // Handle single quotes first
-        if (is_single_quote_token(current->value))
-        {
-            if (!check_validation_of_quotes(current->value, '\''))
-                return (0);
-            new_value = extract_quotes(current->value, '\'');
-            if (new_value)
-            {
-                free(current->value);
-                current->value = new_value;
-            }
-        }
-        if (is_double_quote_token(current->value))
-        {
-            if (!check_validation_of_quotes(current->value, '"'))
-                return (0);
-            new_value = extract_quotes(current->value, '\"');
-            if (new_value)
-            {
-                free(current->value);
-                current->value = new_value;
-                // Later: Add variable expansion here!
-            }
-        }
-
-        current = current->next;
-    }
-    return (1);
+	current = list->head;
+	while (current)
+	{
+		// Handle single quotes first
+		if (is_single_quote_token(current->value))
+		{
+			if (!check_validation_of_quotes(current->value, '\''))
+				return (0);
+			new_value = extract_quotes(current->value, '\'');
+			if (new_value)
+			{
+				free(current->value);
+				current->value = new_value;
+			}
+		}
+		if (is_double_quote_token(current->value))
+		{
+			if (!check_validation_of_quotes(current->value, '"'))
+				return (0);
+			new_value = extract_quotes(current->value, '\"');
+			if (new_value)
+			{
+				free(current->value);
+				current->value = new_value;
+				// Later: Add variable expansion here!
+			}
+		}
+		current = current->next;
+	}
+	return (1);
 }
-
