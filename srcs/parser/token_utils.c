@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/19 15:08:57 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 13:41:42 by msalim           ###   ########.fr       */
 /*   Updated: 2025/02/15 16:23:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -48,7 +48,7 @@ void	add_token(t_token_list *list, char *value)
 	new_node = init_token();
 	if (!new_node)
 		return ;
-	new_node->value = strdup(value);
+	new_node->value = ft_strdup(value);
 	new_node->next = NULL;
 	if (!list->head)
 		list->head = new_node;

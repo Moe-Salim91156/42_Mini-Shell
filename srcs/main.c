@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 14:04:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 14:14:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
@@ -80,12 +80,11 @@ int	main(void)
 			tokenizer(input, tokens);
 			lexing(tokens);
 			print_tokens(tokens);
-			build_cmd(tokens, cmd_list);
-			print_command(cmd_list);
-			cmd_list = NULL;
+			check_for_quotes_in_tokens(tokens);
+			write(1, "\n", 1);
+			print_tokens(tokens);
 			tokens = NULL;
 			tokens = init_list();
-			cmd_list = init_cmd_list();
 		}
 	}
 	free(input);
