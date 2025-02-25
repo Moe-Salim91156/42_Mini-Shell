@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:30:46 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 19:39:56 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:43:26 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,6 @@ int	is_single_quote_token(char *token)
 	else
 		return (0);
 }
-
-int check_validation_of_quotes(char *value, char quote)
-{
-    int start_quote;
-    int end_quote;
-
-    start_quote = 0;
-    end_quote = ft_strlen(value) - 1;
-    while (value[start_quote] == quote)
-        start_quote++;
-
-    while (value[end_quote] == quote && end_quote > start_quote)
-        end_quote--;
-
-    if (start_quote == end_quote || (start_quote == end_quote))
-        return (1); // Valid quote pairs
-    else
-        return (0); // Invalid quote pairs
-}
-
 
 int	check_quotes_even_odd(char *value, char quote)
 {
@@ -104,8 +84,8 @@ int	check_for_quotes_in_tokens(t_token_list *list)
 	{
 		if (is_single_quote_token(current->value))
 		{
-			//if (!check_validation_of_quotes(current->value, '\''))
-				//return (0);
+			// if (!check_validation_of_quotes(current->value, '\''))
+			// return (0);
 			new_value = extract_single_quotes(current->value, '\'');
 			if (new_value)
 			{

@@ -85,9 +85,9 @@ int	main(void)
 			lexing(tokens);
 			print_tokens(tokens);
 			if (!check_for_quotes_in_tokens(tokens))
-        perror("not closed \n");
-      write(1,"\n",1);
-      print_tokens(tokens);
+				perror("not closed \n");
+			write(1, "\n", 1);
+			print_tokens(tokens);
 			free_tokens(tokens);
 			tokens = NULL;
 			tokens = init_list();
