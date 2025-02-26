@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/26 16:06:04 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:14:15 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	shell_init(t_shell *shell, char **envp)
 		4-expand $,~,handle ""and''
 		5-redirections (if needed)
 		6- execute and collect exit status.
-	----------------------------------------------
-	signal handling and simple builtins are also implemented.
+		----------------------------------------------
+		signal handling and simple builtins are also implemented.
 */
 int	main(int argc, char **argv, char **envp)
 {

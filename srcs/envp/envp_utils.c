@@ -6,14 +6,14 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/26 15:58:29 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:11:47 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-	counts current nodes (per keys) in @list
+	counts current nodes literal values.
 */
 int	envp_count(t_envp *list)
 {
@@ -24,7 +24,8 @@ int	envp_count(t_envp *list)
 	traverse = list;
 	while (traverse)
 	{
-		count++;
+		if (traverse->value)
+			count++;
 		traverse = traverse->next;
 	}
 	return (count);

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/26 16:07:08 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:46:23 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 	export: takes arguments, then stores values in keys.
 	behaviour cases:
-		1- no arguments: print all envp sorted.(that last part will cause pain)
+		1- no arguments: print all envp list.
 		2- :export with @arg(s):
 		per @arg:
 		2.1: invalid key (doesnt begin with alpha or '_')
@@ -125,11 +125,9 @@ int	bltn_export(char **args, t_envp *list)
 
 	i = 0;
 	ret = 0;
+	flag = 0;
 	if (!args[1])
-	{
-		/* print_env_sorted() *///TODO
-		return (ret);
-	}
+		return (print_env_sorted(list));
 	while (args[++i])
 	{
 		if (invalid_arg(args[i],&ret))
@@ -137,7 +135,8 @@ int	bltn_export(char **args, t_envp *list)
 		if (!ft_strchr(args[i],'='))
 			flag = append_equal(list,&args[i]);
 		else if (find_str(list,args[i]))
-			flag = mod_val(find_str(list,args[i]),(ft_strchr(args[i], '=') + 1));
+			flag = mod_val(find_str(list,args[i]),
+		(ft_strchr(args[i], '=') + 1));
 		else
 			flag = append_env_node(list, args[i]);
 		if (flag)

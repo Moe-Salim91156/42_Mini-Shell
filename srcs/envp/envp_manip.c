@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/26 10:37:08 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:12:05 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ char	**build_envp(t_shell *shell)
 	traverse = shell->envp_list;
 	while (traverse)
 	{
-		envp[i] = ft_strjoin(traverse->key, traverse->value);
+		if (traverse->value)
+			envp[i] = ft_strjoin(traverse->key, traverse->value);
 		if (!envp[i])
 			return (NULL);
 		traverse = traverse->next;
