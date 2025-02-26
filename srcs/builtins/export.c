@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/26 10:41:48 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:07:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 			The return status is zero unless an invalid @arg is supplied.
 		########### TBD ###########
 		-->print_sorted_env
-		-->null checks
 */
 
 static int	invalid_arg(char *str,int *ret)
@@ -100,28 +99,29 @@ static int	append_env_node_null(t_envp *list, char *str)
 /*
 	handles case 2.3. RTFM.
 */
-static char *append_equal(t_envp *list,char **old_arg)
+static int	append_equal(t_envp *list,char **old_arg)
 {
 	char	*new_arg;
 
 	new_arg = NULL;
 	new_arg = ft_strjoin(*old_arg, "=");
 	if (!new_arg)
-		return (new_arg);
+		return (1);
 	free(*old_arg);
 	*old_arg = new_arg;
 	if (find_str(list,new_arg))
-		return (new_arg);
+		return (0);
 	if(!append_env_node_null(list, new_arg))
-		return (new_arg);
+		return (0);
 	else
-		return (NULL);
+		return (1);
 }
 
 int	bltn_export(char **args, t_envp *list)
 {
 	int		i;
 	int		ret;
+	int		flag;
 
 	i = 0;
 	ret = 0;
@@ -135,11 +135,13 @@ int	bltn_export(char **args, t_envp *list)
 		if (invalid_arg(args[i],&ret))
 			continue;
 		if (!ft_strchr(args[i],'='))
-			append_equal(list,&args[i]);//protection TODO.
+			flag = append_equal(list,&args[i]);
 		else if (find_str(list,args[i]))
-			mod_val(find_str(list,args[i]),(ft_strchr(args[i], '=') + 1));//protection tbd.
+			flag = mod_val(find_str(list,args[i]),(ft_strchr(args[i], '=') + 1));
 		else
-			append_env_node(list, args[i]);//protection TODO
+			flag = append_env_node(list, args[i]);
+		if (flag)
+			return(1);
 	}
 	return (ret);
 }

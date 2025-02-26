@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/26 10:37:45 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:49:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 # define MINISHELL_H
 # include "../libft/libft.h"
 # include <unistd.h>
-# include <ctype.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-
-#include <stdlib.h>
-#include <string.h>
 
 /*################# structs ############################*/
 

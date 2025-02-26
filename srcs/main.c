@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/26 10:43:51 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:06:04 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ int	shell_init(t_shell *shell, char **envp)
 	shell->envp_list = init_envp(envp);
 	return (0);
 }
-/* flow of rbsh:
-	1-read input
-	2-tokenize into words and ops
-	3-parse/lex words into commands and args
-	4-expand $,~,handle ""and''
-	5-redirections (if needed)
-	6- execute and collect exit status.
+/*
+	flow of rbsh:
+		1-read input
+		2-tokenize into words and ops
+		3-parse/lex words into commands and args
+		4-expand $,~,handle ""and''
+		5-redirections (if needed)
+		6- execute and collect exit status.
 	----------------------------------------------
 	signal handling and simple builtins are also implemented.
 */
