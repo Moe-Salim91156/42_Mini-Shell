@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 20:51:18 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:41:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,80 +15,131 @@
 /*
 	export: takes arguments, then stores values in keys.
 	behaviour cases:
-		1- no arguments: print all envp (sorted. that last part will cause pain)
+		1- no arguments: print all envp sorted.(that last part will cause pain)
 		2- :export with @arg(s):
-		per @arg
+		per @arg:
 		2.1: invalid key (doesnt begin with alpha or '_')
 			--> skip @arg, print out error.
-		2.2:@arg has key that already exists.
-			2.2A-@arg is solely key (no=)
-				--> do nothing to current key.
-			2.2B-@arg contains'='
-				--> replace current value with new value (anything post '=')
-		2.3:@arg has new key.
-			2.3A-@arg is solely key (no=)
-				--> create new key(entire @arg) with NULL value
-			2.3B-@arg contains'='
-				--> create new key with value==(anything post =)
+		2.2:@arg contains '='
+			2.2A-key already exists
+				--> modify existing node
+			2.2B-is key new
+				--> create new node and append to list.
+		2.3:@arg doesnt contain '='
+			--> append '=' to current @arg
+				--> reevaluate case 2.2B only.
+					--> if true, append key with value =NULL.
+		###########
+		return value:
+			The return status is zero unless an invalid @arg is supplied.
+		########### TBD ###########
+		-->print_sorted_env
+		-->null checks
 */
 
-static int	invalid_arg(char *str)
+static int	invalid_arg(char *str,int *ret)
 {
 	if ((!ft_isalpha(*str) && *str != '_') || !*str)
 	{
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(":Invalid Identefier!\n", 2);
+		*ret = 1;
 		return (1);
 	}
 	return (0);
 }
-/* looks for valid key in @str, fills it into buffer @key this
-is useful for handling no '=' and updating already existing keys. */
-static int	extract_key(char *str, char **key)
+/*
+	assigns value of NULL rather than a literal string.
+*/
+static t_envp	*build_env_node_null(char *str)
 {
-	if (!str)
-		return (1);
-	if (!ft_strchr(str, '='))
+	t_envp	*new;
+
+	new = malloc(sizeof(t_envp));
+	if (!new)
+		return (NULL);
+	new->next = NULL;
+	new->key = ft_strdup(str);
+	new->value = NULL;
+	if (!new->key)
+		return (NULL);
+	return (new);
+}
+
+/*
+	'' Code reuse is a fundamental principle of software engineering that
+	entails writing code that can be used in a variety of contexts and
+	purposes. It's a practice that isn't just good for efficiency and
+	productivity; it also opens organizations up to new levels of innovation. ,,
+*/
+static int	append_env_node_null(t_envp *list, char *str)
+{
+	t_envp	*visit;
+	t_envp	*new;
+
+	if (!list)
 	{
-		*key = ft_strjoin(str, "=");
-		if (!key)
+		list = build_env_node_null(str);
+		if (!list)
 			return (1);
 		return (0);
 	}
-	*key = ft_substr(str, 0, ft_strchr(str, '=') + 1 - str);
-	if (!key)
+	new = build_env_node_null(str);
+	visit = list;
+	while (visit->next)
+		visit = visit->next;
+	visit->next = new;
+	if (!visit->next)
+	{
+		ft_putstr_fd("Appending to env failed!\n", 2);
 		return (1);
+	}
 	return (0);
 }
 
-/* updates an already existing node.*/
-static int	update_node(t_shell *shell, char *str, char *key)
+/*
+	handles case 2.3. RTFM.
+*/
+static char *append_equal(t_envp *list,char **old_arg)
 {
-	modify_value(find_by_key(shell->envp_list, key), (ft_strchr(str, '=') + 1));
-	return (0);
+	char	*new_arg;
+
+	new_arg = NULL;
+	new_arg = ft_strjoin(*old_arg, "=");
+	if (!new_arg)
+		return (new_arg);
+	free(*old_arg);
+	*old_arg = new_arg;
+	if (find_str(list,new_arg))
+		return (new_arg);
+	if(!append_env_node_null(list, new_arg))
+		return (new_arg);
+	else
+		return (NULL);
 }
 
-int	bltn_export(char **args, t_shell *shell)
+int	bltn_export(char **args, t_envp *list)
 {
 	int		i;
 	int		ret;
-	char	*key;
 
-	ret = 1;
-	if (!args[1])
-		return (bltn_env(shell));
 	i = 0;
+	ret = 0;
+	if (!args[1])
+	{
+		/* print_env_sorted() *///TODO
+		return (ret);
+	}
 	while (args[++i])
 	{
-		if (invalid_arg(args[i]))
-			continue ;
-		ret = 0;
-		key = NULL;
-		extract_key(args[i], &key);
-		if (find_by_key(shell->envp_list, key))
-			update_node(shell, args[i], key);
-		else if (append_env_node(shell->envp_list, args[i]))
-			return (1);
+		if (invalid_arg(args[i],&ret))
+			continue;
+		if (!ft_strchr(args[i],'='))
+			append_equal(list,&args[i]);//protection TODO.
+		else if (find_str(list,args[i]))
+			mod_val(find_str(list,args[i]),(ft_strchr(args[i], '=') + 1));//protection tbd.
+		else
+			append_env_node(list, args[i]);//protection TODO
 	}
 	return (ret);
 }

@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 20:34:16 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:38:10 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <string.h>
 
 /*
 	counts current nodes (per keys) in @list
@@ -49,7 +50,7 @@ t_envp	*find_by_key(t_envp *list, char *key)
 	return (NULL);
 }
 
-int	modify_value(t_envp *node, char *new_value)
+int	mod_val(t_envp *node, char *new_value)
 {
 	if (node->value)
 		free(node->value);
@@ -71,4 +72,18 @@ int	del_env_node(t_envp *node)
 		return (0);
 	}
 	return (1);
+}
+/* wrapper function for find_by_key. */
+t_envp	*find_str(t_envp *list,char *str)
+{
+	char	*key;
+	t_envp	*find;
+
+	find = NULL;
+	key = ft_substr(str, 0, (ft_strchr(str, '=') + 1 - str));
+	if (!key)
+		return (NULL);
+	find = find_by_key(list, key);
+	free (key);
+	return(find);
 }

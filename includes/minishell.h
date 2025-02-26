@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/25 18:10:34 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:37:45 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,36 +74,39 @@ typedef struct s_shell
 	t_envp			*envp_list;
 }					t_shell;
 
-/*################ General functions #######################*/
+/*################# init(🇬🇧) #################*/
 int				shell_init(t_shell *shell, char **envp);
-/*################# tokenizing #########################*/
+/*################# tokenization #################*/
+t_cmd			*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
+t_cmd			*init_command(void);
+t_cmd_list		*init_cmd_list(void);
+t_token			*init_token(void);
+t_token_list	*init_list(void);
 void			print_tokens(t_token_list *list);
 void			print_command(t_cmd_list *cmd_list);
-t_cmd_list		*init_cmd_list(void);
-t_cmd			*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
-void			skip_beginning_spaces(char *str);
 void			lexemes(t_token *token);
-t_token			*init_token(void);
-t_cmd			*init_command(void);
-t_token_list	*init_list(void);
+void			skip_beginning_spaces(char *str);
 void			add_token(t_token_list *list, char *value);
 void			tokenize(char *str, t_token_list *token);
-/*################# enviroment handling ################*/
+/*################# enviroment #################*/
 int				envp_count(t_envp *list);
-int				modify_value(t_envp *node, char *new_value);
+int				mod_val(t_envp *node, char *new_value);
 int				append_env_node(t_envp *list, char *str);
 int				del_env_node(t_envp	*node);
+char			**build_envp(t_shell *shell);
 t_envp			*init_envp(char **envp);
 t_envp			*find_by_key(t_envp *list, char *key);
-void			*free_env(t_envp *list);
-char			**build_envp(t_shell *shell);
+t_envp			*find_str(t_envp *list,char *str);
 t_envp			*build_env_node(char *str);
-/*################# builtins ###########################*/
+void			*free_env(t_envp *list);
+/*################# built-ins #################*/
 int				bltn_env(t_shell *shell);
-int				bltn_export(char **args, t_shell *shell);
+int				bltn_export(char **args,t_envp *list);
 int				bltn_pwd(void);
 int				bltn_cd(char *dst);
 int				bltn_echo(char **args);
 int				bltn_unset(char **args);
 int 			bltn_exit(int status);
+/*################# general utils #################*/
+void			*free_str_arr(char **argv);
 #endif

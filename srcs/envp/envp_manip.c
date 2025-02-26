@@ -6,12 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/25 20:37:24 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:37:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdio.h>
 
 /*
 	what do we need with envp?
@@ -20,7 +19,7 @@
 	3-removing(unset)
 	4-easy key value lookup(expandning)
 	5-construct execve-compatible envp(2d array)
-	6- handle shlvl and _
+	6- handle shlvl
 	----------------------------------------------
 */
 
@@ -93,7 +92,10 @@ void	*free_env(t_envp *list)
 	return (NULL);
 }
 
-/* appends a node to list. just pass it the str. */
+/*
+	appends a node to list. just pass it the str.
+	pretty much a wrapper for build_env_node.
+*/
 int	append_env_node(t_envp *list, char *str)
 {
 	t_envp	*visit;
@@ -125,6 +127,9 @@ int	append_env_node(t_envp *list, char *str)
 	to construct and then append a new node.
 	(atheist funcion)
 	---------------------------------
+	its actually pretty good now, I just found the original comment too
+	funny and should serve as a warning to why you dont nest 13 conditions
+	inside each other.
 */
 t_envp	*build_env_node(char *str)
 {
@@ -134,14 +139,6 @@ t_envp	*build_env_node(char *str)
 	if (!new)
 		return (NULL);
 	new->next = NULL;
-	if (!ft_strchr(str, '='))
-	{
-		new->key = ft_strjoin(str, "=");
-		if (!new->key)
-			return (NULL);
-		new->value = NULL;
-		return (new);
-	}
 	new->key = ft_substr(str, 0, ft_strchr(str, '=') + 1 - str);
 	new->value = ft_strdup(ft_strchr(str, '=') + 1);
 	if (!new->key || !new->value)

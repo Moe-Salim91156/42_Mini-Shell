@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/26 10:03:58 by yokitane         ###   ########.fr       */
+/*   Created: 2025/02/26 10:28:35 by yokitane          #+#    #+#             */
+/*   Updated: 2025/02/26 10:43:32 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	bltn_env(t_shell *shell)
-{
-	t_envp	*visit;
 
-	if (!shell->envp_list)
-		return (1);
-	visit = shell->envp_list;
-	while (visit)
-	{
-		if (visit->key && visit->value)
-			if (printf("%s%s\n", visit->key,visit->value) == -1)
-				return (1);
-		visit = visit->next;
-	}
-	return (0);
+/*
+	in this file should be:
+	1- an exit handler.
+	2- print_env_sorted.
+	tbd
+*/
+int	export_err(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		{
+			free(argv[i]);
+			i++;
+		}
+		free(argv);
+	return (1);
 }
