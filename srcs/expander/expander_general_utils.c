@@ -1,26 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   qoute_handling.c                                   :+:      :+:    :+:   */
+/*   expander_general_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 19:30:46 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 19:34:01 by yokitane         ###   ########.fr       */
+/*   Created: 2025/02/25 13:32:32 by msalim            #+#    #+#             */
+/*   Updated: 2025/02/25 13:53:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-/*
-	expander jobs:
-	1- expand $, ~
-	2- handle single quotes
-		-nothing is expanded
-	3- handle double quotes
-		-$ and ~ are expanded
-	5- word splitting
-		-words are split by spaces
-	6- remove quotes
-	###############################
-*/

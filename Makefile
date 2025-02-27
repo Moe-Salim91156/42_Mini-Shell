@@ -15,7 +15,8 @@ INCLUDE = includes
 src = build_cmd.c main.c token_utils.c tokenizing.c lexing.c init.c token_handler.c build_cmd_utils.c
 PRSR = parser/build_cmd.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_cmd_utils.c
 BLTNS = builtins/bltn_env.c builtins/pwd.c
-src = debug_utils.c main.c $(PRSR) $(BLTNS)
+EXPANDER= expander/quote_handling.c
+src = debug_utils.c main.c $(PRSR) $(BLTNS) $(EXPANDER)
 
 SRCS = $(addprefix $(SRC_DIR)/, $(src))
 OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o))

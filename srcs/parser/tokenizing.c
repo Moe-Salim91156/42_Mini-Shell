@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 19:29:08 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:27:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	tokenizer(char *input, t_token_list *tokens)
 		{
 			result = handle_redirect(input, &i, &start, tokens);
 			if (result == 1)
-				return ; // You can exit the function,
+				return ;
 		}
 		else if (is_quotes(input[i]))
 			handle_quotes(input, &i);
