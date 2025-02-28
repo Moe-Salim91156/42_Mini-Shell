@@ -57,7 +57,6 @@ char	*double_quote_mode(char *value, int *index)
 		len++;
 	temp = malloc(len + 1);
 	ft_strncpy(temp, value + start, len);
-	printf("easdf\n\n");
 	temp[len] = '\0';
 	*index = start + len + 1;
 	return (temp);
@@ -74,7 +73,6 @@ char	*single_quote_mode(char *value, int *index)
 	while (value[start + len] && value[start + len] != '\'')
 		len++;
 	temp = malloc(len + 1);
-	printf("easdf\n\n");
 	ft_strncpy(temp, value + start, len);
 	temp[len] = '\0';
 	*index = start + len + 1;
