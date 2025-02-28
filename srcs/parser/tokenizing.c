@@ -77,14 +77,13 @@ int handle_quotes(char *input, int *i)
 	char	quote;
 
 	quote = input[*i];
-	(*i)++; // Skip the opening quote
+	(*i)++;
 	while (input[*i] && input[*i] != quote)
 		(*i)++;
 	if (input[*i] != quote)
 	{
 		printf("Syntax error: unclosed quote\n");
 		return (0);
-			// Or you can handle it by setting an error flag or returning a specific code
 	}
 	(*i)++;
 	return (1);
