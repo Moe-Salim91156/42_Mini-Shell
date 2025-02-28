@@ -81,7 +81,8 @@ int	main(void)
 				exit(1);
 			}
 			add_history(input);
-			tokenizer(input, tokens);
+			if (!tokenizer(input, tokens))
+				return (0);
 			lexing(tokens);
 			expander_main(tokens);
 			print_tokens(tokens);

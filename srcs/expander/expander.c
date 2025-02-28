@@ -73,6 +73,8 @@ char	*single_quote_mode(char *value, int *index)
 	while (value[start + len] && value[start + len] != '\'')
 		len++;
 	temp = malloc(len + 1);
+	if (!temp)
+		return (NULL);
 	ft_strncpy(temp, value + start, len);
 	temp[len] = '\0';
 	*index = start + len + 1;
@@ -134,7 +136,7 @@ char	*handle_quotes_mode(char *value)
 	return (result);
 }
 
-void	expander_main(t_token_list *list)
+char	*expander_main(t_token_list *list)
 {
 	t_token	*current;
 	char	*result;
@@ -142,9 +144,11 @@ void	expander_main(t_token_list *list)
 	current = list->head;
 	while (current)
 	{
-		if (ft_strchr(current->value, '\'') || ft_strchr(current->value, '"'))
+		if (ft_strchr(current->value, '\'') || ft_strchr(current->value, '\"'))
 		{
 			result = handle_quotes_mode(current->value);
+			if (!result)
+				return (NULL);
 			if (result)
 			{
 				free(current->value);
@@ -153,4 +157,5 @@ void	expander_main(t_token_list *list)
 		}
 		current = current->next;
 	}
+	return (result);
 }

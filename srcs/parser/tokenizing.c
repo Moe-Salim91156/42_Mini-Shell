@@ -72,18 +72,25 @@ int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 	return (0);
 }
 
-void	handle_quotes(char *input, int *i)
+int handle_quotes(char *input, int *i)
 {
 	char	quote;
 
 	quote = input[*i];
-	(*i)++;
+	(*i)++; // Skip the opening quote
 	while (input[*i] && input[*i] != quote)
 		(*i)++;
+	if (input[*i] != quote)
+	{
+		printf("Syntax error: unclosed quote\n");
+		return (0);
+			// Or you can handle it by setting an error flag or returning a specific code
+	}
 	(*i)++;
+	return (1);
 }
 
-void	tokenizer(char *input, t_token_list *tokens)
+int	tokenizer(char *input, t_token_list *tokens)
 {
 	int	i;
 	int	start;
@@ -100,12 +107,16 @@ void	tokenizer(char *input, t_token_list *tokens)
 		{
 			result = handle_redirect(input, &i, &start, tokens);
 			if (result == 1)
-				return ;
+				return (0);
 		}
 		else if (is_quotes(input[i]))
-			handle_quotes(input, &i);
+		{
+			if (!handle_quotes(input, &i))
+				return (0);
+		}
 		else
 			i++;
 	}
 	add_last_token(input, start, i, tokens);
+	return (1);
 }
