@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/25 15:51:49 by msalim           ###   ########.fr       */
+/*   Updated: 2025/02/28 18:41:16 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,6 @@ int					bltn_unset(char **args);
 int					bltn_exit(int status);
 /*################# expander ###########################*/
 int					check_for_quotes_in_tokens(t_token_list *list);
+void				expander_main(t_token_list *tokens);
+char				*handle_quotes_mode(char *value);
 #endif
