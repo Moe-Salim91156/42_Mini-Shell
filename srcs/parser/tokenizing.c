@@ -72,7 +72,7 @@ int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 	return (0);
 }
 
-int handle_quotes(char *input, int *i)
+int	handle_quotes(char *input, int *i)
 {
 	char	quote;
 

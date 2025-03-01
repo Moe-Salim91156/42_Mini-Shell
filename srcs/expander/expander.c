@@ -6,30 +6,11 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/28 19:13:40 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/01 15:24:33 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	find_first_quote(char *value)
-{
-	int		i;
-	char	s_quote;
-	char	d_quote;
-
-	s_quote = '\'';
-	d_quote = '\"';
-	i = 0;
-	while (value[i] && value[i] != s_quote && value[i] != d_quote)
-		i++;
-	if (value[i] == s_quote)
-		return (1);
-	if (value[i] == d_quote)
-		return (2);
-	else
-		return (0);
-}
 
 int	has_env_var(char *value)
 {
@@ -39,27 +20,74 @@ int	has_env_var(char *value)
 	while (value[i])
 	{
 		if (value[i] == '$')
+    {
 			return (i);
+    }
 		i++;
 	}
-	return (0);
+	return (-1);
+}
+char  *extract_env_value_from_name(char *value)
+{
+  char  *result;
+
+
+  result = getenv(value);
+  printf(" result in getenv %s\n", result);
+  if (result == NULL)
+    return (ft_strdup(""));
+  else
+    return (result);
+}
+
+char  *expand_env_var(char *value, int *env_index)
+{
+  int before;
+  char  *before_str;
+  char  *after_str;
+  char *last_after;
+  char *last_result;
+
+  before = 0;
+  while (value[before] && value[before] != '$')
+    before++;
+  before_str = malloc(before + 1);
+  ft_strncpy(before_str, value, before);
+  after_str = &value[*env_index + 1];
+  last_after = extract_env_value_from_name(after_str);
+  last_result = ft_strjoin(before_str,last_after);
+  return (last_result);
 }
 
 char	*double_quote_mode(char *value, int *index)
 {
 	int		start;
+  int env_index;
 	int		len;
 	char	*temp;
+  char *last_result;
 
 	start = *index + 1;
 	len = 0;
 	while (value[start + len] && value[start + len] != '\"')
 		len++;
 	temp = malloc(len + 1);
+  ft_strncpy(temp, value + start, len);
+  env_index = has_env_var(temp);
+  printf("env_INdex %d\n",env_index);
+  if (env_index != -1)
+  {
+    last_result = expand_env_var(temp, &env_index);
+    *index = ft_strlen(last_result) + 1;
+    return (last_result);
+  }
+  else
+  {
 	ft_strncpy(temp, value + start, len);
-	temp[len] = '\0';
-	*index = start + len + 1;
-	return (temp);
+  temp[len] = '\0';
+  *index = start + len + 1;
+  return (temp);
+  }
 }
 
 char	*single_quote_mode(char *value, int *index)

@@ -12,24 +12,19 @@ SRCS = ft_isalpha.c ft_bzero.c ft_isalnum.c ft_isascii.c ft_isdigit.c ft_isprint
 
 OBJS = $(SRCS:.c=.o)
 
-# making the library = all rule
 all: $(NAME)
 
-# Rule to create static library
 $(NAME): $(OBJS)
 	@ar $(ARFLAGS) $@ $^
 
-# Rule to compile .c files
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null 2>&1
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean up object files
 clean:
-	@rm -f $(OBJS) > /dev/null 2>&1
+	@rm -f $(OBJS)
 
-# Clean up everything
 fclean: clean
-	@rm -f $(NAME) > /dev/null 2>&1
+	@rm -f $(NAME) 
 
 # Rebuild everything
 re: fclean all
