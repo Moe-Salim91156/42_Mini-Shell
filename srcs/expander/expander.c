@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/01 15:24:33 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/01 15:47:53 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,69 @@ char  *extract_env_value_from_name(char *value)
 
 
   result = getenv(value);
-  printf(" result in getenv %s\n", result);
   if (result == NULL)
     return (ft_strdup(""));
   else
     return (result);
 }
 
-char  *expand_env_var(char *value, int *env_index)
+char	*get_before_str(char *value, int *before)
 {
-  int before;
-  char  *before_str;
-  char  *after_str;
-  char *last_after;
-  char *last_result;
+	char	*before_str;
 
-  before = 0;
-  while (value[before] && value[before] != '$')
-    before++;
-  before_str = malloc(before + 1);
-  ft_strncpy(before_str, value, before);
-  after_str = &value[*env_index + 1];
-  last_after = extract_env_value_from_name(after_str);
-  last_result = ft_strjoin(before_str,last_after);
-  return (last_result);
+	*before = 0;
+	while (value[*before] && value[*before] != '$')
+		(*before)++;
+	before_str = malloc(*before + 1);
+	if (!before_str)
+		return (NULL);
+	ft_strncpy(before_str, value, *before);
+	before_str[*before] = '\0';
+	return (before_str);
+}
+
+char	*get_env_name(char *value, int *env_index, int *env_len)
+{
+	char	*env_name;
+
+	*env_len = 0;
+	while (ft_isalnum(value[*env_index + 1 + *env_len])
+		|| value[*env_index + 1 + *env_len] == '_')
+		(*env_len)++;
+	env_name = malloc(*env_len + 1);
+	if (!env_name)
+		return (NULL);
+	ft_strncpy(env_name, &value[*env_index + 1], *env_len);
+	env_name[*env_len] = '\0';
+	return (env_name);
+}
+
+char	*expand_env_var(char *value, int *env_index)
+{
+	int		before;
+	int		env_len;
+	char	*before_str;
+	char	*env_name;
+	char	*env_value;
+	char	*result;
+	char	*final_result;
+
+	before_str = get_before_str(value, &before);
+	if (!before_str)
+		return (NULL);
+	env_name = get_env_name(value, env_index, &env_len);
+	if (!env_name)
+	{
+		free(before_str);
+		return (NULL);
+	}
+	env_value = extract_env_value_from_name(env_name);
+	free(env_name);
+	result = ft_strjoin(before_str, env_value);
+	final_result = ft_strjoin(result, &value[*env_index + 1 + env_len]);
+	free(before_str);
+	free(result);
+	return (final_result);
 }
 
 char	*double_quote_mode(char *value, int *index)
