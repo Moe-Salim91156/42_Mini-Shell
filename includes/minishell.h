@@ -88,7 +88,7 @@ int					is_quotes(char c);
 int					is_redirect(char c);
 void				add_last_token(char *input, int start, int i,
 						t_token_list *tokens);
-void				tokenizer(char *input, t_token_list *tokens);
+int					tokenizer(char *input, t_token_list *tokens);
 t_cmd_list			*init_cmd_list(void);
 t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);
@@ -118,6 +118,6 @@ int					bltn_unset(char **args);
 int					bltn_exit(int status);
 /*################# expander ###########################*/
 int					check_for_quotes_in_tokens(t_token_list *list);
-void				expander_main(t_token_list *tokens);
+char				*expander_main(t_token_list *tokens);
 char				*handle_quotes_mode(char *value);
 #endif

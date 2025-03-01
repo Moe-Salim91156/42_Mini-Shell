@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/27 18:49:26 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/01 15:47:09 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
@@ -81,7 +81,8 @@ int	main(void)
 				exit(1);
 			}
 			add_history(input);
-			tokenizer(input, tokens);
+			if (!tokenizer(input, tokens))
+				return (0);
 			lexing(tokens);
 			expander_main(tokens);
 			print_tokens(tokens);
