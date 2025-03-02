@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/02 13:55:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:23:17 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,43 +163,34 @@ char	*append_mode_result(char *result, char *mode_result)
 	free(mode_result);
 	return (new_result);
 }
-char	*normal_mode(char *value, int *index)
+char *normal_mode(char *value, int *index)
 {
-	int		start;
-	int		len;
-	char	*temp;
-	char	*result;
-	char	*expanded_result;
-	int		env_index;
+    int   start;
+    int   len;
+    char  *temp;
+    char *new_expanded;
+    int   env_index;
 
-	start = *index;
-	len = 0;
-	while (value[start + len] && value[start + len] != '\'' && value[start
-		+ len] != '"')
-		len++;
-	temp = malloc(len + 1);
-	if (!temp)
-		return (NULL);
-	ft_strncpy(temp, value + start, len);
-	temp[len] = '\0';
-	env_index = has_env_var(temp);
-	if (env_index != -1)
-	{
-		expanded_result = temp;
-		while ((env_index = has_env_var(expanded_result)) != -1)
-		{
-			result = expand_env_var(expanded_result, &env_index);
-			free(expanded_result); // Free the old expanded result
-			expanded_result = result;
-		}
-		*index = start + ft_strlen(expanded_result);
-		return (expanded_result);
-	}
-	else
-	{
-		*index = start + len;
-		return (temp);
-	}
+    start = *index;
+    len = 0;
+    while (value[start + len] && value[start + len] != '\'' && value[start + len] != '\"')
+        len++;
+    temp = malloc(len + 1);
+    if (!temp)
+        return (NULL);
+    ft_strncpy(temp, value + start, len);
+    temp[len] = '\0';
+    while ((env_index = has_env_var(temp)) != -1)
+    {
+        new_expanded = expand_env_var(temp, &env_index);
+        if (!new_expanded) // If expansion fails, default to empty string
+            new_expanded = ft_strdup("");
+
+        free(temp);
+        temp = new_expanded;
+    }
+    *index = start + len;
+    return (temp);
 }
 
 char	*handle_quotes_mode(char *value)
