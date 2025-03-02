@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/02 14:23:17 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:40:21 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,69 +69,74 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	return (env_name);
 }
 
-char	*expand_env_var(char *value, int *env_index)
+char *expand_env_var(char *value, int *env_index)
 {
-	int		before;
-	int		env_len;
-	char	*before_str;
-	char	*env_name;
-	char	*env_value;
-	char	*result;
-	char	*final_result;
+    int before;
+    int env_len;
+    char *before_str;
+    char *env_name;
+    char *env_value;
+    char *result;
+    char *final_result;
 
-	before_str = get_before_str(value, &before);
-	if (!before_str)
-		return (NULL);
-	env_name = get_env_name(value, env_index, &env_len);
-	if (!env_name)
-	{
-		free(before_str);
-		return (NULL);
-	}
-	env_value = extract_env_value_from_name(env_name);
-	free(env_name);
-	result = ft_strjoin(before_str, env_value);
-	final_result = ft_strjoin(result, &value[*env_index + 1 + env_len]);
-	*env_index += env_len - 1;
-	free(before_str);
-	free(result);
-	return (final_result);
+    before_str = get_before_str(value, &before);
+    if (!before_str)
+        return (NULL);
+    env_name = get_env_name(value, env_index, &env_len);
+    if (!env_name)
+    {
+        free(before_str);
+        return (NULL);
+    }
+    env_value = extract_env_value_from_name(env_name);
+    free(env_name);
+
+    if (env_value == NULL)
+        env_value = ft_strdup("");  // Return an empty string if not found
+    result = ft_strjoin(before_str, env_value);
+    final_result = ft_strjoin(result, &value[*env_index + 1 + env_len]);
+    *env_index += env_len - 1;  // Adjust the index to skip the processed variable
+    free(before_str);
+    free(result);
+    return (final_result);
 }
-char	*double_quote_mode(char *value, int *index)
+
+char *double_quote_mode(char *value, int *index)
 {
-	int		start;
-	int		env_index;
-	int		len;
-	char	*temp;
-	char	*last_result;
-	char	*expanded_result;
+    int start;
+    int env_index;
+    int len;
+    char *temp;
+    char *last_result;
+    char *expanded_result;
 
-	start = *index + 1;
-	len = 0;
-	while (value[start + len] && value[start + len] != '"')
-		len++;
-	temp = malloc(len + 1);
-	ft_strncpy(temp, value + start, len);
-	temp[len] = '\0'; // Null-terminate the string
-	env_index = has_env_var(temp);
-	if (env_index != -1)
-	{
-		expanded_result = temp;
-		while ((env_index = has_env_var(expanded_result)) != -1)
-		{
-			last_result = expand_env_var(expanded_result, &env_index);
-			free(expanded_result);
-			expanded_result = last_result;
-		}
-		*index = start + ft_strlen(expanded_result);
-		return (expanded_result);
-	}
-	else
-	{
-		*index = start + len + 1;
-		return (temp);
-	}
+    start = *index + 1;
+    len = 0;
+    while (value[start + len] && value[start + len] != '"')
+        len++;
+    temp = malloc(len + 1);
+    if (!temp)
+        return (NULL);
+    ft_strncpy(temp, value + start, len);
+    temp[len] = '\0'; 
+    while ((env_index = has_env_var(temp)) != -1)
+    {
+        last_result = expand_env_var(temp, &env_index);
+        free(temp);
+        if (!last_result)
+            last_result = ft_strdup("");
+        temp = last_result;
+    }
+    if (env_index == -1)
+    {
+        *index = start + len + 1;
+        return (temp);
+    }
+    expanded_result = temp;
+    *index = start + ft_strlen(expanded_result) + 1;
+    return (expanded_result);
 }
+
 
 char	*single_quote_mode(char *value, int *index)
 {
@@ -168,13 +173,14 @@ char *normal_mode(char *value, int *index)
     int   start;
     int   len;
     char  *temp;
-    char *new_expanded;
+    char  *new_expanded;
     int   env_index;
 
     start = *index;
     len = 0;
     while (value[start + len] && value[start + len] != '\'' && value[start + len] != '\"')
         len++;
+
     temp = malloc(len + 1);
     if (!temp)
         return (NULL);
@@ -185,13 +191,13 @@ char *normal_mode(char *value, int *index)
         new_expanded = expand_env_var(temp, &env_index);
         if (!new_expanded) // If expansion fails, default to empty string
             new_expanded = ft_strdup("");
-
         free(temp);
         temp = new_expanded;
     }
     *index = start + len;
     return (temp);
 }
+
 
 char	*handle_quotes_mode(char *value)
 {
