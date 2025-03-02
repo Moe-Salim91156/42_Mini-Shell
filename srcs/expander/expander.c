@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/01 15:47:53 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/02 13:46:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,22 @@ int	has_env_var(char *value)
 	while (value[i])
 	{
 		if (value[i] == '$')
-    {
+		{
 			return (i);
-    }
+		}
 		i++;
 	}
 	return (-1);
 }
-char  *extract_env_value_from_name(char *value)
+char	*extract_env_value_from_name(char *value)
 {
-  char  *result;
+	char	*result;
 
-
-  result = getenv(value);
-  if (result == NULL)
-    return (ft_strdup(""));
-  else
-    return (result);
+	result = getenv(value);
+	if (result == NULL)
+		return (ft_strdup(""));
+	else
+		return (result);
 }
 
 char	*get_before_str(char *value, int *before)
@@ -59,8 +58,8 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	char	*env_name;
 
 	*env_len = 0;
-	while (ft_isalnum(value[*env_index + 1 + *env_len])
-		|| value[*env_index + 1 + *env_len] == '_')
+	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1
+		+ *env_len] == '_')
 		(*env_len)++;
 	env_name = malloc(*env_len + 1);
 	if (!env_name)
@@ -93,6 +92,7 @@ char	*expand_env_var(char *value, int *env_index)
 	free(env_name);
 	result = ft_strjoin(before_str, env_value);
 	final_result = ft_strjoin(result, &value[*env_index + 1 + env_len]);
+	*env_index += env_len - 1;
 	free(before_str);
 	free(result);
 	return (final_result);
@@ -101,32 +101,32 @@ char	*expand_env_var(char *value, int *env_index)
 char	*double_quote_mode(char *value, int *index)
 {
 	int		start;
-  int env_index;
+	int		env_index;
 	int		len;
 	char	*temp;
-  char *last_result;
+	char	*last_result;
 
 	start = *index + 1;
 	len = 0;
 	while (value[start + len] && value[start + len] != '\"')
 		len++;
 	temp = malloc(len + 1);
-  ft_strncpy(temp, value + start, len);
-  env_index = has_env_var(temp);
-  printf("env_INdex %d\n",env_index);
-  if (env_index != -1)
-  {
-    last_result = expand_env_var(temp, &env_index);
-    *index = ft_strlen(last_result) + 1;
-    return (last_result);
-  }
-  else
-  {
 	ft_strncpy(temp, value + start, len);
-  temp[len] = '\0';
-  *index = start + len + 1;
-  return (temp);
-  }
+	env_index = has_env_var(temp);
+	printf("env_INdex %d\n", env_index);
+	if (env_index != -1)
+	{
+		last_result = expand_env_var(temp, &env_index);
+		*index = start + ft_strlen(last_result);
+		return (last_result);
+	}
+	else
+	{
+		ft_strncpy(temp, value + start, len);
+		temp[len] = '\0';
+		*index = start + len + 1;
+		return (temp);
+	}
 }
 
 char	*single_quote_mode(char *value, int *index)
@@ -165,6 +165,8 @@ char	*normal_mode(char *value, int *index)
 	int		start;
 	int		len;
 	char	*temp;
+	char	*result;
+	int		env_index;
 
 	start = *index;
 	len = 0;
@@ -176,8 +178,14 @@ char	*normal_mode(char *value, int *index)
 		return (NULL);
 	ft_strncpy(temp, value + start, len);
 	temp[len] = '\0';
+	env_index = has_env_var(temp);
+	if (env_index != -1)
+		result = expand_env_var(temp, &env_index);
+	else
+		result = ft_strdup(temp);
 	*index = start + len;
-	return (temp);
+	free(temp);
+	return (result);
 }
 
 char	*handle_quotes_mode(char *value)

@@ -10,13 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 char	*double_quote_mode(char *value, int *index)
 {
 	int		start;
-  int   env_index;
+	int		env_index;
 	int		len;
 	char	*temp;
 	char	*expanded_value;
@@ -28,7 +27,7 @@ char	*double_quote_mode(char *value, int *index)
 	temp = malloc(len + 1);
 	ft_strncpy(temp, value + start, len);
 	temp[len] = '\0';
-  env_index = has_env_var(temp);
+	env_index = has_env_var(temp);
 	if (env_index != -1)
 	{
 		expanded_value = expand_env_var(temp, &env_index);
@@ -40,5 +39,3 @@ char	*double_quote_mode(char *value, int *index)
 		return (temp);
 	}
 }
-
-
