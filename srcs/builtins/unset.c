@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 13:34:50 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/04 02:23:06 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/04 02:35:56 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@
 	#####
 */
 
-
 /*
 	I swear I've done this function before
 	if you find it delete this shit
 */
 t_envp *find_by_str(t_envp *list, char *str)
 {
-	char *key;
-	t_envp *ret;
+	char	*key;
+	t_envp	*ret;
 
 	key = ft_strjoin(str, "=");
 	if (!key)
@@ -64,7 +63,7 @@ int bltn_unset(char **args, t_envp *list)
 	int	i;
 
 	ret = 0;
-	i = 0;	
+	i = 0;
 	while (args[++i])
 	{
 		if (!find_by_str(list,args[i]))

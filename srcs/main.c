@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/26 18:14:15 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/04 02:38:22 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	main(int argc, char **argv, char **envp)
 	 args = malloc(6 * sizeof(args));
 	 args[0] = ft_strdup("export");
 	 args[1] = ft_strdup("arg2");
-	 args[2] = ft_strdup("_arg2=shouldseeme");
-	 args[3] = ft_strdup("3_arg2=");
+	 args[2] = ft_strdup("arg2=shouldseemenot");
+	 args[3] = ft_strdup("arg2=youshouldseme");
 	 args[4] = ft_strdup("arg1");
 	 args[5] = NULL;
 	if (argc != 1 || argv[1])

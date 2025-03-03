@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/04 02:20:00 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/04 02:56:32 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_envp	*find_by_key(t_envp *list, char *key)
 
 int	mod_val(t_envp *node, char *new_value)
 {
+	if (!new_value || !node)
+		return (1);
 	if (node->value)
 		free(node->value);
 	node->value = ft_strdup(new_value);
