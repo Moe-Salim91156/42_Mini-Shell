@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/03 13:56:55 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/04 02:15:20 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int				append_env_node(t_envp *list, char *str);
 int				del_env_node(t_envp	*node);
 int				print_env_sorted(t_envp *list);
 char			**build_envp(t_shell *shell);
+t_envp			*find_by_str(t_envp *list, char *str);
 t_envp			*init_envp(char **envp);
 t_envp			*find_by_key(t_envp *list, char *key);
 t_envp			*find_str(t_envp *list,char *str);

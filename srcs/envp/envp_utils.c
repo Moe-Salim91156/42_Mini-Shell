@@ -6,12 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/03 13:56:44 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/04 02:20:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <errno.h>
 
 /*
 	counts current nodes literal values.
@@ -79,10 +78,7 @@ int	del_env_node(t_envp *node)
 	}
 	return (1);
 }
-/*
-	wrapper function for find_by_key.
-	I need to redo.
-*/
+
 t_envp	*find_str(t_envp *list,char *str)
 {
 	char	*key;

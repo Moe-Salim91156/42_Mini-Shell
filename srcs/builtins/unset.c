@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 13:34:50 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/03 13:51:01 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/04 02:23:06 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,25 @@
 	in our case its return value is pretty much always 0. as we dont
 	incorporate enviroment variable permissons, so a variable may always be unset.
 	#####
-	tbd:
-		find_by_str().
 */
+
+
+/*
+	I swear I've done this function before
+	if you find it delete this shit
+*/
+t_envp *find_by_str(t_envp *list, char *str)
+{
+	char *key;
+	t_envp *ret;
+
+	key = ft_strjoin(str, "=");
+	if (!key)
+		return (NULL);
+	ret = find_by_key(list, key);
+	free (key);
+	return (ret);
+}
 
 static int unset_arg(char *arg, t_envp *list)
 {
@@ -48,7 +64,7 @@ int bltn_unset(char **args, t_envp *list)
 	int	i;
 
 	ret = 0;
-	i = 0;
+	i = 0;	
 	while (args[++i])
 	{
 		if (!find_by_str(list,args[i]))
