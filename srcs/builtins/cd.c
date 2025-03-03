@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/03 13:06:49 by yokitane         ###   ########.fr       */
+/*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
+/*   Updated: 2025/03/03 13:27:46 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+/*
+	bltn_cd: changes working directory.
+		takes @path as an str,passes it to
+		chdir, catches any chdir errors.
+		handles OLDPWD.
+	#######
+	return value:
+	0 if directory changed successfuly, >0 otherwise.
+*/
 
-int	bltn_env(t_shell *shell)
+int	bltnc_cd(char *path)
 {
-	t_envp	*visit;
 
-	if (!shell->envp_list)
-		return (1);
-	visit = shell->envp_list;
-	while (visit)
-	{
-		if (visit->key && visit->value)
-			if (printf("%s%s\n", visit->key,visit->value) == -1)
-				return (1);
-		visit = visit->next;
-	}
 	return (0);
 }

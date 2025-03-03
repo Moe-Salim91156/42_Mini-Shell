@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/02 13:34:47 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:49:52 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@
 		2.3:@arg doesnt contain '='
 			--> append '=' to current @arg
 				--> reevaluate case 2.2B only.
-					--> if true, append key with value =NULL.
+					--> if true, append key with value = NULL.
 		###########
 		return value:
 			The return status is zero unless an invalid @arg is supplied.
 		########### TBD ###########
-		-->print_sorted_env
+		nothing inshallah (=
 */
 
 static int	invalid_arg(char *str,int *ret)
@@ -97,7 +97,8 @@ static int	append_env_node_null(t_envp *list, char *str)
 }
 
 /*
-	handles case 2.3. RTFM.
+	appends an equal sign into buffer @old_arg
+	then appends it to list.
 */
 static int	append_equal(t_envp *list,char **old_arg)
 {

@@ -34,7 +34,6 @@ $(NAME) : $(OBJS)
 	@$(MAKE) -C $(LIBFT_DIR) all
 	$(CC) $(LDFLAGS) -I$(INCLUDE) $(OBJS) $(LIBFT_A) -o $@
 
-
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I $(INCLUDE) -c $< -o $@

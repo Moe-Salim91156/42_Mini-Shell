@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/03 08:23:53 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:56:55 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <errno.h>
 
 /*################# structs ############################*/
 
@@ -100,7 +101,7 @@ int				bltn_env(t_shell *shell);
 int				bltn_pwd(void);
 int				bltn_export(char **args,t_envp *list);
 int				bltn_unset(char **args,t_envp *list);
-int				bltn_cd(char *dst);
+int				bltn_cd(char *path);
 int				bltn_echo(char **args);
 int 			bltn_exit(int status);
 /*################# general utils #################*/
