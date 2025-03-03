@@ -18,8 +18,10 @@ all: $(NAME)
 
 # Rule to create static library
 $(NAME): $(OBJS)
-	ar $(ARFLAGS) $@ $^
+	@ar $(ARFLAGS) $@ $^
 
+%.o:%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean up object files
 clean:

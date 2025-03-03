@@ -1,7 +1,7 @@
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g
-MFLAGS= -lreadline -lncurses
+LDFLAGS= -lreadline -lncurses
 
 SRC_DIR = srcs
 OBJS_DIR = objs
@@ -15,7 +15,7 @@ INCLUDE = includes
 PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c\
 		parser/init.c parser/parser_utils.c
 
-BLTNS = builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c
+BLTNS = builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c
 
 ENVP = envp/envp_manip.c envp/envp_utils.c
 
@@ -32,12 +32,12 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@$(MAKE) -C $(LIBFT_DIR) all
-	@$(CC) $(CFLAGS) -I $(INCLUDE) $(OBJS) $(LIBFT_A) -o $@ $(MFLAGS)
+	$(CC) $(LDFLAGS) -I$(INCLUDE) $(OBJS) $(LIBFT_A) -o $@
 
 
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -I $(INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(INCLUDE) -c $< -o $@
 
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/26 18:11:47 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/03 09:04:28 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ int	mod_val(t_envp *node, char *new_value)
 	return (0);
 }
 
+/*
+	this deletes a node. does not edit
+	list pointers at all. use only to
+	delete indiviual nodes.
+*/
 int	del_env_node(t_envp *node)
 {
 	if (node)
@@ -73,7 +78,11 @@ int	del_env_node(t_envp *node)
 	}
 	return (1);
 }
-/* wrapper function for find_by_key. */
+/*
+	wrapper function for find_by_key.
+	use when dealing with keys that
+	dont contain a literal '='. :)
+*/
 t_envp	*find_str(t_envp *list,char *str)
 {
 	char	*key;
