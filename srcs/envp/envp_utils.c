@@ -6,13 +6,15 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/22 16:02:49 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/04 02:56:32 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* counts how many keys are there */
+/*
+	counts current nodes literal values.
+*/
 int	envp_count(t_envp *list)
 {
 	int		count;
@@ -22,18 +24,23 @@ int	envp_count(t_envp *list)
 	traverse = list;
 	while (traverse)
 	{
-		count++;
+		if (traverse->value)
+			count++;
 		traverse = traverse->next;
 	}
 	return (count);
 }
-
-/* returns node with matching key */
-t_envp	*find_by_key(t_envp *envp, char *key)
+/*
+	returns node with @key from @list
+	NULL if no match.
+ */
+t_envp	*find_by_key(t_envp *list, char *key)
 {
 	t_envp	*traverse;
 
-	traverse = envp;
+	if (!key || !list)
+		return (NULL);
+	traverse = list;
 	while (traverse)
 	{
 		if (!ft_strcmp(traverse->key, key))
@@ -43,28 +50,47 @@ t_envp	*find_by_key(t_envp *envp, char *key)
 	return (NULL);
 }
 
-int	modify_value(t_envp *node, char *new_value)
+int	mod_val(t_envp *node, char *new_value)
 {
-	free(node->value);
+	if (!new_value || !node)
+		return (1);
+	if (node->value)
+		free(node->value);
 	node->value = ft_strdup(new_value);
 	if (!node->value)
 		return (1);
 	return (0);
 }
 
-int	free_envp_list(t_envp *list)
+/*
+	this deletes a node. does not edit
+	list pointers at all. use only to
+	delete indiviual nodes.
+*/
+int	del_env_node(t_envp *node)
 {
-	t_envp	*traverse;
-	t_envp	*temp;
-
-	traverse = list;
-	while (traverse)
+	if (node)
 	{
-		temp = traverse;
-		traverse = traverse->next;
-		free(temp->key);
-		free(temp->value);
-		free(temp);
+		if (node->key)
+			free(node->key);
+		if (node->value)
+			free(node->value);
+		free(node);
+		return (0);
 	}
-	return (0);
+	return (1);
+}
+
+t_envp	*find_str(t_envp *list,char *str)
+{
+	char	*key;
+	t_envp	*find;
+
+	find = NULL;
+	key = ft_substr(str, 0, (ft_strchr(str, '=') + 1 - str));
+	if (!key)
+		return (NULL);
+	find = find_by_key(list, key);
+	free (key);
+	return(find);
 }
