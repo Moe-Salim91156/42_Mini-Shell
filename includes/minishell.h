@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/04 02:46:07 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:33:18 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <errno.h>
 
 /*################# structs ############################*/
-
 typedef enum e_token_type
 {
 	WORD,
@@ -69,7 +68,6 @@ typedef struct s_shell
 	t_cmd_list		*cmd_list;
 	t_envp			*envp_list;
 }					t_shell;
-
 /*################# init(🇬🇧) #################*/
 int				shell_init(t_shell *shell, char **envp);
 /*################# tokenization #################*/
@@ -102,9 +100,8 @@ int				bltn_env(t_shell *shell);
 int				bltn_pwd(void);
 int				bltn_export(char **args,t_envp *list);
 int				bltn_unset(char **args,t_envp *list);
-int				bltn_cd(char *path, t_envp *list);
+int				bltn_cd(char **args, t_envp *list);
 int				bltn_echo(char **args);
 int 			bltn_exit(int status);
 /*################# general utils #################*/
-void			*free_str_arr(char **argv);
 #endif

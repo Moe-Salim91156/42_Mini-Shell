@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/04 03:07:14 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/05 18:09:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,28 @@
 		passes args first)
 */
 
-int	bltnc_cd(char *path, t_envp *list)
+/* args[2]--> !NULL == invalid arguments. */
+static int invalid_args(char **args)
 {
-	char oldpwd[1024];
-
-	if (!*path && (chdir(find_by_key(list, "HOME=")->value) == -1))//placeholder stuff
+	if (args[2])
 	{
-			perror("cd: ");
-			return (1);
-	}
-	else if (chdir(path) == -1)
-	{
-		perror("cd: ");
+		write(2,"cd: too many argumentrs\n",25);
 		return (1);
 	}
+	return (0);
+}
+
+int	bltnc_cd(char **args, t_envp *list)
+{
+	char	oldpwd[1024];
+	char	*path;
+
 	if (!getcwd(oldpwd, 1024))
 	{
 		perror("cd: getcwd:");
 		return (-1);
 	}
-	if(mod_val(find_by_key(list, "OLDPWD="), oldpwd))
-	{
-		perror ("cd: mod_val: ");
-		return (-1);
-	}
-	return (0);
+	if (invalid_args(args))
+		return (1);
+
 }
