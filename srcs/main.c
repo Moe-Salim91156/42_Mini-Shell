@@ -81,6 +81,11 @@ int	main(void)
 				free_tokens(tokens);
 				free(input);
 				exit(1);
+			}	
+			if (!strcmp(input, "pwd"))
+			{
+				bltn_pwd();
+				//exit(1);
 			}
 			add_history(input);
 			if (!tokenizer(input, tokens))

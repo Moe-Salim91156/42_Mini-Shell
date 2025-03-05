@@ -6,20 +6,25 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 17:04:40 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:06:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	bltn_env(t_shell *shell)
+int	bltn_env(t_shell *shell)
 {
 	t_envp	*visit;
 
+	if (!shell->envp_list)
+		return (1);
 	visit = shell->envp_list;
 	while (visit)
 	{
-		printf("%s%s\n", visit->key, visit->value);
+		if (visit->key && visit->value)
+			if (printf("%s%s\n", visit->key,visit->value) == -1)
+				return (1);
 		visit = visit->next;
 	}
+	return (0);
 }
