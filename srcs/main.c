@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/06 03:01:34 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/06 04:21:25 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,24 @@ int	main(int argc, char **argv, char **envp)
 		print_command(shell.cmd_list);
 		free(input);
 	}*/
-	t_envp *list = shell->envp_list;
-	char *args1[]= {"cd","..",0};
-	char *args2[]= {"cd",0};
+	char *args2[]= {"cd","..",0};
+	char *args1[]= {"cd",0};
+	char **args3 = malloc(sizeof(args3) * 3);
+	args3[0] = ft_strdup("3");
+	args3[2] = NULL;
 	bltn_pwd();
-	bltn_cd(args1, list);
-	char *args3[]= {"cd",find_by_key(list, "OLDPWD=")->value,0};
+	bltn_cd(args1, shell->envp_list);
 	bltn_pwd();
-	bltn_cd(args2, list);
+	bltn_cd(args2, shell->envp_list);
 	bltn_pwd();
-	bltn_cd(args3, list);
+	args3[1] = ft_strdup(ft_getenv(shell->envp_list, "OLDPWD")->value);
+	bltn_cd(args3, shell->envp_list);
 	bltn_pwd();
 	free_env(shell->envp_list);
 	free(shell);
+	free(args3[0]);
+	free(args3[1]);
+	free(args3[2]);
+	free(args3);
 	return (0);
 }

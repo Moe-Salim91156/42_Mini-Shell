@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/06 03:12:24 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/06 04:10:31 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ static int invalid_args(char **args)
 */
 static int update_oldpwd(t_envp *list, char *oldpwd)
 {
-	if (!find_by_key(list, "OLDPWD="))
+	if (!ft_getenv(list, "OLDPWD"))
 	{
-		if(append_env_node(list, "OLDPWD=ushouldntsemee"))
+		if(append_env_node(list, "OLDPWD="))
 			return (1);
 	}
-	if(mod_val(find_by_str(list, "OLDPWD"), oldpwd))
+	if(mod_val(ft_getenv(list, "OLDPWD"), oldpwd))
 		return(1);
 	return (0);
 }
@@ -55,17 +55,17 @@ static int update_oldpwd(t_envp *list, char *oldpwd)
 /* no args cd handler */
 static int take_me_home(t_envp *list, char *oldpwd)
 {
-	if (!find_by_str(list,"HOME"))
+	if (!ft_getenv(list,"HOME"))
 	{
 		ft_putstr_fd("cd: HOME not set", 2);
 		return (1);
 	}
 	if (update_oldpwd(list, oldpwd))
 		return (1);
-	if (chdir(find_by_str(list, "HOME")->value) == -1)
+	if (chdir(ft_getenv(list, "HOME")->value) == -1)
 	{
 		ft_putstr_fd("cd: ", 2);
-		perror(find_by_str(list, "HOME")->value);
+		perror(ft_getenv(list, "HOME")->value);
 		ft_putstr_fd(": ", 2);
 		return (1);
 	}
