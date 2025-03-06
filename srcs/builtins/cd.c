@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/06 04:10:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/06 04:26:26 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 	#######
 	return value:
 	0 if directory changed successfuly, >0 otherwise.
-	######
 */
 
 /*
