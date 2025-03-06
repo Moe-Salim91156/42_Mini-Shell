@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/04 21:45:41 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/06 03:01:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,10 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	/* char			*input; */
 
-	 char	**args;
-	 args = malloc(6 * sizeof(args));
-	 args[0] = ft_strdup("export");
-	 args[1] = ft_strdup("arg2");
-	 args[2] = ft_strdup("arg2=shouldseemenot");
-	 args[3] = ft_strdup("arg2=youshouldseme");
-	 args[4] = ft_strdup("arg1");
-	 args[5] = NULL;
 	if (argc != 1 || argv[1])
 		return (1);
 	shell = malloc(sizeof(t_shell));
 	shell_init(shell, envp);
-	bltn_export(args, shell->envp_list);
-	bltn_env(shell);
 	/*while (1)
 	{
 		input = readline("rbsh$");
@@ -61,14 +51,18 @@ int	main(int argc, char **argv, char **envp)
 		print_command(shell.cmd_list);
 		free(input);
 	}*/
+	t_envp *list = shell->envp_list;
+	char *args1[]= {"cd","..",0};
+	char *args2[]= {"cd",0};
+	bltn_pwd();
+	bltn_cd(args1, list);
+	char *args3[]= {"cd",find_by_key(list, "OLDPWD=")->value,0};
+	bltn_pwd();
+	bltn_cd(args2, list);
+	bltn_pwd();
+	bltn_cd(args3, list);
+	bltn_pwd();
 	free_env(shell->envp_list);
-	free(args[0]);
-	free(args[1]);
-	free(args[2]);
-	free(args[3]);
-	free(args[4]);
-	free(args[5]);
-	free(args);
 	free(shell);
 	return (0);
 }

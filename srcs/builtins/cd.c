@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/05 18:09:49 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/06 03:12:24 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,93 @@
 	return value:
 	0 if directory changed successfuly, >0 otherwise.
 	######
-	TBD:
-		properly handle no args
-		properly handle too many args
-		(will have to see how executer
-		passes args first)
 */
 
-/* args[2]--> !NULL == invalid arguments. */
+/*
+	args[2]--> !NULL == invalid arguments.
+*/
 static int invalid_args(char **args)
 {
 	if (args[2])
 	{
-		write(2,"cd: too many argumentrs\n",25);
+		ft_putstr_fd("cd: too many arguments\n", 2);
 		return (1);
 	}
 	return (0);
 }
 
-int	bltnc_cd(char **args, t_envp *list)
+/*
+	if OLDPWD doesnt exist, create it.
+	update OLDPWD.
+*/
+static int update_oldpwd(t_envp *list, char *oldpwd)
+{
+	if (!find_by_key(list, "OLDPWD="))
+	{
+		if(append_env_node(list, "OLDPWD=ushouldntsemee"))
+			return (1);
+	}
+	if(mod_val(find_by_str(list, "OLDPWD"), oldpwd))
+		return(1);
+	return (0);
+}
+
+/* no args cd handler */
+static int take_me_home(t_envp *list, char *oldpwd)
+{
+	if (!find_by_str(list,"HOME"))
+	{
+		ft_putstr_fd("cd: HOME not set", 2);
+		return (1);
+	}
+	if (update_oldpwd(list, oldpwd))
+		return (1);
+	if (chdir(find_by_str(list, "HOME")->value) == -1)
+	{
+		ft_putstr_fd("cd: ", 2);
+		perror(find_by_str(list, "HOME")->value);
+		ft_putstr_fd(": ", 2);
+		return (1);
+	}
+	return (0);
+}
+
+int	bltn_cd(char **args, t_envp *list)
 {
 	char	oldpwd[1024];
-	char	*path;
 
 	if (!getcwd(oldpwd, 1024))
 	{
 		perror("cd: getcwd:");
 		return (-1);
 	}
+	if (!args[1])
+		return (take_me_home(list, oldpwd));
 	if (invalid_args(args))
 		return (1);
-
+	if (update_oldpwd(list, oldpwd))
+		return (1);
+	if (chdir(args[1]) == -1)
+	{
+		ft_putstr_fd("cd: ", 2);
+		perror(args[1]);
+		ft_putstr_fd(": ", 2);
+		return (1);
+	}
+	return (0);
 }
+/*
+int main(void)
+{
+	t_envp *list = init_envp(__environ);
+	char *args1[]= {"cd","..",NULL};
+	char *args2[]= {"cd","",NULL};
+	char *args3[]= {"cd",find_by_key(list, "OLDPWD")->value,NULL};
+	bltn_pwd();
+	bltn_cd(args1, list);
+	bltn_pwd();
+	bltn_cd(args1, list);
+	bltn_pwd();
+	bltn_cd(args1, list);
+	bltn_pwd();
+} */
