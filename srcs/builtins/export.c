@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/03 13:49:52 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:20:29 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_envp	*build_env_node_null(char *str)
 }
 
 /*
-	'' Code reuse is a fundamental principle of software engineering that
+	Code reuse is a fundamental principle of software engineering that
 	entails writing code that can be used in a variety of contexts and
 	purposes. It's a practice that isn't just good for efficiency and
 	productivity; it also opens organizations up to new levels of innovation. ,,

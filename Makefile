@@ -12,6 +12,7 @@ LIBFT_A= $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
+EXEC = execution/
 PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c\
 		parser/init.c parser/parser_utils.c
 
