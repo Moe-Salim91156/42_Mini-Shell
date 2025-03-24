@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/05 17:33:18 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:20:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
-# define COLOR_MAGENTA "\033[1;37m"
-# define COLOR_RESET "\033[0m"
+
 /*################# structs ############################*/
 typedef enum e_token_type
 {
@@ -78,29 +77,17 @@ typedef struct s_shell
 /*################# init(🇬🇧) #################*/
 int				shell_init(t_shell *shell, char **envp);
 /*################# tokenization #################*/
-void				lexing(t_token_list *list);
-char				**allocate_cmd_args(int count);
-int					is_seperator(int type);
-int					is_seperator_token(char c);
-int					is_quotes(char c);
-int					is_redirect(char c);
-void				add_last_token(char *input, int start, int i,
-						t_token_list *tokens);
-int					tokenizer(char *input, t_token_list *tokens);
-t_cmd_list			*init_cmd_list(void);
-t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
-void				skip_beginning_spaces(char *str);
-void				lexemes(t_token *token);
-t_token				*init_token(void);
-t_cmd				*init_command(void);
-t_token_list		*init_list(void);
-void				add_token(t_token_list *list, char *value);
-void				print_command(t_cmd_list *cmd_list);
-void				print_tokens(t_token_list *list);
-/*################# expander ###########################*/
-int					check_for_quotes_in_tokens(t_token_list *list);
-char				*expander_main(t_token_list *tokens);
-char				*handle_quotes_mode(char *value);
+t_cmd			*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
+t_cmd			*init_command(void);
+t_cmd_list		*init_cmd_list(void);
+t_token			*init_token(void);
+t_token_list	*init_list(void);
+void			print_tokens(t_token_list *list);
+void			print_command(t_cmd_list *cmd_list);
+void			lexemes(t_token *token);
+void			skip_beginning_spaces(char *str);
+void			add_token(t_token_list *list, char *value);
+void			tokenize(char *str, t_token_list *token);
 /*################# enviroment #################*/
 int				envp_count(t_envp *list);
 int				mod_val(t_envp *node, char *new_value);
@@ -108,7 +95,7 @@ int				append_env_node(t_envp *list, char *str);
 int				del_env_node(t_envp	*node);
 int				print_env_sorted(t_envp *list);
 char			**build_envp(t_shell *shell);
-t_envp			*find_by_str(t_envp *list, char *str);
+t_envp			*ft_getenv(t_envp *list, char *str);
 t_envp			*init_envp(char **envp);
 t_envp			*find_by_key(t_envp *list, char *key);
 t_envp			*find_str(t_envp *list,char *str);

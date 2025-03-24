@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 13:34:50 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/04 02:35:56 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:45:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 	I swear I've done this function before
 	if you find it delete this shit
 */
-t_envp *find_by_str(t_envp *list, char *str)
+t_envp *ft_getenv(t_envp *list, char *str)
 {
 	char	*key;
 	t_envp	*ret;
@@ -66,7 +66,7 @@ int bltn_unset(char **args, t_envp *list)
 	i = 0;
 	while (args[++i])
 	{
-		if (!find_by_str(list,args[i]))
+		if (!ft_getenv(list,args[i]))
 			continue;
 		if (unset_arg(args[i], list))
 			ret = 1;
