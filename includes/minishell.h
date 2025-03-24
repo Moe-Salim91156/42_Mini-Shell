@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/06 03:25:24 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:20:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,16 @@
 typedef enum e_token_type
 {
 	WORD,
+	COMMAND,
+	DQUOTE,
+	SQUOTE,
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
-	ARGS
+	ARGS,
+	NLINE,
+	HEREDOC,
+	APPEND
 }					t_token_type;
 
 typedef struct s_token
