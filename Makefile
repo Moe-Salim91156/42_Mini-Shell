@@ -9,21 +9,12 @@ LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
-src = build_cmd.c main.c token_utils.c tokenizing.c lexing.c init.c token_handler.c build_cmd_utils.c
+
 PRSR = parser/build_cmd.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_cmd_utils.c
-BLTNS = builtins/bltn_exit.c builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c
-ENVP = envp/envp_manip.c envp/envp_utils.c
 XPNDR = expander/expander.c
-
 EXEC = execution/
-PRSR = parser/build_cmd.c parser/tokenizer.c parser/lexing.c\
-		parser/init.c parser/parser_utils.c
-
 BLTNS = builtins/echo.c builtins/bltn_exit.c builtins/cd.c builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c
-
 ENVP = envp/envp_manip.c envp/envp_utils.c
-
-XPNDR =
 
 src = main.c $(PRSR) $(BLTNS) $(ENVP) $(XPNDR)
 
