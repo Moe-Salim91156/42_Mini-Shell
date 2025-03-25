@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/24 10:44:21 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:44:45 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(void)
   cmd_list = init_cmd_list();
 	while (1)
 	{
-		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
+		input = readline("rbsh$ ");
 		if (!input)
 			break ;
 		if (input)
