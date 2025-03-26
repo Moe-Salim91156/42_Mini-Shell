@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/26 21:57:35 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/27 01:48:22 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_shell
 	t_token_list	*token_list;
 	t_cmd_list		*cmd_list;
 	t_envp			*envp_list;
+	unsigned long	last_status;
 }					t_shell;
 /*################# init(🇬🇧) #################*/
 int				shell_init(t_shell *shell, char **envp);
