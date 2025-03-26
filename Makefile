@@ -16,7 +16,7 @@ EXEC = execution/
 BLTNS = builtins/echo.c builtins/bltn_exit.c builtins/cd.c builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c
 ENVP = envp/envp_manip.c envp/envp_utils.c
 
-src = main.c $(PRSR) $(BLTNS) $(ENVP) $(XPNDR)
+src = debug_utils.c main.c $(PRSR) $(BLTNS) $(ENVP) $(XPNDR)
 
 SRCS = $(addprefix $(SRC_DIR)/, $(src))
 OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o))
