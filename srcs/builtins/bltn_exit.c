@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/03 11:53:46 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:34:16 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,15 @@
 
 static int is_numeric(const char *str)
 {
-	if (*str ==
-
-	'+' || *str == '-')
+	if (*str == '+' || *str == '-')
 		str++;
-    while (*str)
-    {
-        if (!ft_isdigit(*str))
-            return (1);
-        str++;
-    }
-    return (0);
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (1);
+		str++;
+	}
+	return (0);
 }
 
 static unsigned long ft_atoul(char *str)
