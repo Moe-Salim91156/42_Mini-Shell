@@ -93,3 +93,56 @@ The **Minishell project** lies at the intersection of **low-level programming** 
 
 Would you like me to expand on how to approach specific parts of this project or create a plan for breaking it into manageable steps?
 
+
+
+
+
+##  execution flow 
+    : parse redirection 
+    : functions:
+      : redirect in check
+      : redirect out check 
+      : pipes redirect check
+      : ls | grep "hello"
+
+##
+      pirority list:
+      : < (input)
+      0-heredocc
+      1-infile
+      2-pipefd(0)
+      3- stdout(1)
+      : > (output)
+      1-outfile
+      2-pipefd(1)
+      3-stdin(0)
+
+
+           < 
+           in 
+           <
+           in
+           ls 
+           >
+           sdf
+           <
+           inf
+
+           payload: 
+           1 - red_in
+           2 - red_in
+           3 - skip word;
+           4 - red_out;
+           5 - red_in
+            printf(error) skip paylod;
+
+
+
+           ls  > out | grep e
+
+
+           while {
+             parse_redirect_in()
+            command 
+
+           }
