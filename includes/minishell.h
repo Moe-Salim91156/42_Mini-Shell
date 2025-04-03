@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/03 19:37:45 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:40:14 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,6 @@ int					bltn_export(char **args, t_envp *list);
 int					bltn_unset(char **args, t_envp *list);
 int					bltn_cd(char **args, t_envp *list);
 int					bltn_echo(char **args);
-int					bltn_exit(int status);
+int					bltn_exit(char **args, t_shell *shell)
 /*################# general utils #################*/
 #endif
