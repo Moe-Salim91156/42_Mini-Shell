@@ -6,14 +6,13 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/03 19:35:46 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:40:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-
 #########
 create -- file(heredoc) --> then just read from it in last step.
 ###
@@ -41,9 +40,5 @@ per command iteration:
     : undo_redirection
         //execve(/bin/cat, [cat,-options,NULL],build_env(shell))
     if
-
-
-
-
 
 */
