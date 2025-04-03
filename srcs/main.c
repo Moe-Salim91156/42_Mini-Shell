@@ -61,11 +61,11 @@ void	free_command_list(t_cmd_list *cmd_list)
 int	main(void)
 {
 	t_token_list	*tokens;
-  t_cmd_list *cmd_list;
+	t_cmd_list		*cmd_list;
 	char			*input;
 
 	tokens = init_list();
-  cmd_list = init_cmd_list();
+	cmd_list = init_cmd_list();
 	while (1)
 	{
 		input = readline("rbsh$ ");
@@ -82,7 +82,7 @@ int	main(void)
 			if (!strcmp(input, "pwd"))
 			{
 				bltn_pwd();
-				//exit(1);
+				// exit(1);
 			}
 			add_history(input);
 			if (!tokenizer(input, tokens))
