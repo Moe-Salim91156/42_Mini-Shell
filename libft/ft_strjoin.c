@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 17:46:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/27 18:19:07 by msalim           ###   ########.fr       */
+/*   Updated: 2025/03/24 10:24:58 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
+# include "libft.h"
 static char	*ft_strcat(char *s1, const char *s2)
 {
 	size_t	i;
@@ -34,6 +34,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	len_s1;
 	size_t	len_s2;
 
+	if (!s1 || !s2)
+		return (NULL);
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	ptr = malloc(len_s1 + len_s2 + 1);
