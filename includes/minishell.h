@@ -26,6 +26,7 @@
 typedef enum e_token_type
 {
 	WORD,
+	FILE_TOKEN,
 	COMMAND,
 	DQUOTE,
 	SQUOTE,
