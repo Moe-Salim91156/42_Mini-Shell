@@ -18,7 +18,6 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <errno.h>
 # include <unistd.h>
 # define COLOR_MAGENTA "\033[1;37m"
 # define COLOR_RESET "\033[0m"
@@ -26,6 +25,7 @@
 typedef enum e_token_type
 {
 	WORD,
+	FILE_TOKEN,
 	COMMAND,
 	DQUOTE,
 	SQUOTE,
@@ -103,18 +103,18 @@ int					check_for_quotes_in_tokens(t_token_list *list);
 char				*expander_main(t_token_list *tokens);
 char				*handle_quotes_mode(char *value);
 /*################# enviroment #################*/
-int				envp_count(t_envp *list);
-int				mod_val(t_envp *node, char *new_value);
-int				append_env_node(t_envp *list, char *str);
-int				del_env_node(t_envp	*node);
-int				print_env_sorted(t_envp *list);
-char			**build_envp(t_shell *shell);
-t_envp			*ft_getenv(t_envp *list, char *str);
-t_envp			*init_envp(char **envp);
-t_envp			*find_by_key(t_envp *list, char *key);
-t_envp			*find_str(t_envp *list,char *str);
-t_envp			*build_env_node(char *str);
-void			*free_env(t_envp *list);
+int					envp_count(t_envp *list);
+int					mod_val(t_envp *node, char *new_value);
+int					append_env_node(t_envp *list, char *str);
+int					del_env_node(t_envp *node);
+int					print_env_sorted(t_envp *list);
+char				**build_envp(t_shell *shell);
+t_envp				*ft_getenv(t_envp *list, char *str);
+t_envp				*init_envp(char **envp);
+t_envp				*find_by_key(t_envp *list, char *key);
+t_envp				*find_str(t_envp *list, char *str);
+t_envp				*build_env_node(char *str);
+void				*free_env(t_envp *list);
 int					envp_count(t_envp *list);
 int					mod_val(t_envp *node, char *new_value);
 int					append_env_node(t_envp *list, char *str);

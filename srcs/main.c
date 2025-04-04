@@ -63,9 +63,9 @@ void	free_command_list(t_cmd_list *cmd_list)
 
 int	main(void)
 {
-	t_token_list	*tokens;
-	t_cmd_list		*cmd_list;
-	char			*input;
+	t_token_list *tokens;
+	t_cmd_list *cmd_list;
+	char *input;
 
 	tokens = init_list();
 	cmd_list = init_cmd_list();
@@ -93,7 +93,7 @@ int	main(void)
 			lexing(tokens);
 			print_tokens(tokens);
 			expander_main(tokens);
-			build_cmd(tokens,cmd_list);
+			build_cmd(tokens, cmd_list);
 			print_command(cmd_list);
 			free_tokens(tokens);
 			tokens = NULL;

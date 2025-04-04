@@ -23,7 +23,8 @@
 	unset is pretty simple, it takes @args and looks for exact matches
 	in @list. if found, it deletes them, edits list pointers accordingly.
 	in our case its return value is pretty much always 0. as we dont
-	incorporate enviroment variable permissons, so a variable may always be unset.
+	incorporate enviroment variable permissons,
+		so a variable may always be unset.
 	#####
 */
 
@@ -31,7 +32,7 @@
 	I swear I've done this function before
 	if you find it delete this shit
 */
-t_envp *ft_getenv(t_envp *list, char *str)
+t_envp	*ft_getenv(t_envp *list, char *str)
 {
 	char	*key;
 	t_envp	*ret;
@@ -40,11 +41,11 @@ t_envp *ft_getenv(t_envp *list, char *str)
 	if (!key)
 		return (NULL);
 	ret = find_by_key(list, key);
-	free (key);
+	free(key);
 	return (ret);
 }
 
-static int unset_arg(char *arg, t_envp *list)
+static int	unset_arg(char *arg, t_envp *list)
 {
 	t_envp	*current;
 	t_envp	*prev;
@@ -58,7 +59,7 @@ static int unset_arg(char *arg, t_envp *list)
 	return (0);
 }
 
-int bltn_unset(char **args, t_envp *list)
+int	bltn_unset(char **args, t_envp *list)
 {
 	int	ret;
 	int	i;
@@ -67,8 +68,8 @@ int bltn_unset(char **args, t_envp *list)
 	i = 0;
 	while (args[++i])
 	{
-		if (!ft_getenv(list,args[i]))
-			continue;
+		if (!ft_getenv(list, args[i]))
+			continue ;
 		if (unset_arg(args[i], list))
 			ret = 1;
 	}
