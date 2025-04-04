@@ -15,7 +15,7 @@
 static void	print_sorted_array(t_envp **arr, int size)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (i < size)
@@ -28,13 +28,12 @@ static void	print_sorted_array(t_envp **arr, int size)
 			j++;
 		}
 		if (arr[i]->value)
-		{//can use a single print statment,was causing me problems, need to test on cluster device.
-			ft_putchar_fd('=',STDOUT_FILENO);
-			ft_putchar_fd('\"',STDOUT_FILENO);
+		{ // can use a single print statment,was causing me problems,need to test on cluster device.ft_putchar_fd('=', STDOUT_FILENO);
+			ft_putchar_fd('\"', STDOUT_FILENO);
 			ft_putstr_fd(arr[i]->value, STDOUT_FILENO);
-			ft_putchar_fd('\"',STDOUT_FILENO);
+			ft_putchar_fd('\"', STDOUT_FILENO);
 		}
-		ft_putchar_fd('\n',STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		i++;
 	}
 }

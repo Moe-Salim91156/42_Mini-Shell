@@ -23,7 +23,7 @@ void	print_command(t_cmd_list *cmd_list)
 	cmd = cmd_list->head;
 	while (cmd)
 	{
-		printf("command %d\n", index);
+		printf("Payload %d\n", index);
 		i = 0;
 		while (cmd->args[i])
 		{

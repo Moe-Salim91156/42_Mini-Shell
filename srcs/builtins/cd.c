@@ -26,7 +26,7 @@
 /*
 	args[2]--> !NULL == invalid arguments.
 */
-static int invalid_args(char **args)
+static int	invalid_args(char **args)
 {
 	if (args[2])
 	{
@@ -40,22 +40,22 @@ static int invalid_args(char **args)
 	if OLDPWD doesnt exist, create it.
 	update OLDPWD.
 */
-static int update_oldpwd(t_envp *list, char *oldpwd)
+static int	update_oldpwd(t_envp *list, char *oldpwd)
 {
 	if (!ft_getenv(list, "OLDPWD"))
 	{
-		if(append_env_node(list, "OLDPWD="))
+		if (append_env_node(list, "OLDPWD="))
 			return (1);
 	}
-	if(mod_val(ft_getenv(list, "OLDPWD"), oldpwd))
-		return(1);
+	if (mod_val(ft_getenv(list, "OLDPWD"), oldpwd))
+		return (1);
 	return (0);
 }
 
 /* no args cd handler */
-static int take_me_home(t_envp *list, char *oldpwd)
+static int	take_me_home(t_envp *list, char *oldpwd)
 {
-	if (!ft_getenv(list,"HOME"))
+	if (!ft_getenv(list, "HOME"))
 	{
 		ft_putstr_fd("cd: HOME not set", 2);
 		return (1);
@@ -97,7 +97,7 @@ int	bltn_cd(char **args, t_envp *list)
 	return (0);
 }
 /*
-int main(void)
+int	main(void)
 {
 	t_envp *list = init_envp(__environ);
 	char *args1[]= {"cd","..",NULL};

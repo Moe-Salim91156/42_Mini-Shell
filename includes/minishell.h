@@ -18,7 +18,6 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <errno.h>
 # include <unistd.h>
 # define COLOR_MAGENTA "\033[1;37m"
 # define COLOR_RESET "\033[0m"
@@ -26,6 +25,7 @@
 typedef enum e_token_type
 {
 	WORD,
+	FILE_TOKEN,
 	COMMAND,
 	DQUOTE,
 	SQUOTE,

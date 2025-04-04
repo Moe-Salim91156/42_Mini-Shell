@@ -29,15 +29,17 @@
 		so far seems to always return 0
 */
 
-static int is_flag(char *str)
+static int	is_flag(char *str)
 {
 	int	i;
 
 	i = 1;
 	if (*str == '-')
 	{
-		while(str[i] == 'n' || str[i] == 'e' || str[i] == 'E')// need to decide if we want
-			i++;											// to handle the E and e
+		while (str[i] == 'n' || str[i] == 'e' || str[i] == 'E')
+			// need to decide if we want
+			i++;
+		// to handle the E and e
 		if (!str[i])
 			return (1);
 	}
@@ -67,6 +69,6 @@ int	bltn_echo(char **args)
 		i++;
 	}
 	if (!n_flag)
-		write(1,"\n",1);
+		write(1, "\n", 1);
 	return (0);
 }
