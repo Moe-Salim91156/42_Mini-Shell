@@ -6,13 +6,13 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/03 13:06:49 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:43:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	bltn_env(t_shell *shell)
+int bltn_env(t_shell *shell)
 {
 	t_envp	*visit;
 
