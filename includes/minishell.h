@@ -6,8 +6,8 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/05 19:34:09 by msalim           ###   ########.fr       */
 /*   Updated: 2025/04/05 19:15:52 by yokitane         ###   ########.fr       */
-/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -36,6 +36,7 @@ typedef enum e_token_type
 	ARGS,
 	NLINE,
 	HEREDOC,
+	HEREDOC_DELIMITER,
 	APPEND
 }					t_token_type;
 
@@ -104,7 +105,7 @@ void				print_tokens(t_token_list *list);
 /*################# expander ###########################*/
 int					check_for_quotes_in_tokens(t_token_list *list);
 char				*expander_main(t_token_list *tokens);
-char				*handle_quotes_mode(char *value);
+char				*handle_quotes_mode(t_token *current);
 /*################# enviroment #################*/
 int					envp_count(t_envp *list);
 int					mod_val(t_envp *node, char *new_value);
