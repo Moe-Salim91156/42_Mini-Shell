@@ -6,13 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/05 18:01:52 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 18:16:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdio.h>
-#include <unistd.h>
 
 // returns boolean convention value(1--> true, 0 -->false)
 static int is_numeric(const char *str)
