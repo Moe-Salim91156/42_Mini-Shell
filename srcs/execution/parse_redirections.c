@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/03 19:40:48 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ per command iteration:
 		--> determine type
 		--> redirect accordingly
 	--> catch any errors
-	--> skip 2 args
+	--> skip 2 argv
 	check if element == arg or cmd
 		--> if cmd set cmd_index
 		--> skip
   : handle_cmd
-   build_args("echo","hi","skibidi",NULL);
+   build_argv("echo","hi","skibidi",NULL);
    check if elements[cmd_index] is bltn
 		: name of the command -> execute code.
 	else

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/05 14:50:52 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:22:30 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static unsigned long ft_atoul(char *str)
 /*
 	exit(unsigned long	status, t_shell shell):
 	passed an argument, gracefully terminates shell.
-	--> if no args, exit with last_status.
+	--> if no argv, exit with last_status.
 	--> else ensure 1 arg and numeric.
 		--> if non numeric, exit with status = 2.
 	--> if numeric
@@ -65,11 +65,15 @@ static unsigned long ft_atoul(char *str)
 	------
 	tbd: an exit handler to free heap and close open fds.
 	-----
-	a thought I had in mind: should  make exit prompt a
+	notes: as in with every builtin(I prolly forgot
+	to implement it this way in many of them)
+	-->argv[0] == exit
+	the argv[0] is the name of the command, to conform to execve behaviour.
 */
 
-int	bltn_exit(char **args, t_shell *shell)
+int	bltn_exit(char **argv, t_shell *shell)
 {
-	if (args[0] && args[1])
+	if (argv[1] && argv[2])
 		return (1);
+	if (!argv[1])
 }
