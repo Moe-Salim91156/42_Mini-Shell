@@ -6,11 +6,48 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/03 19:38:05 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:50:52 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+
+static int is_numeric(const char *str)
+{
+	if (*str == '+' || *str == '-')
+		str++;
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (1);
+		str++;
+	}
+	return (0);
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
+static unsigned long ft_atoul(char *str)
+{
+	unsigned long ret;
+
+	ret = 0;
+	if (*str == '+' || *str == '-')
+		str++;
+	while (*str && ft_isdigit(*str))
+	{
+		ret = ret * 10 + (*str - '0');
+		str++;
+	}
+	return (ret);
+}
 
 /*
 	exit(unsigned long	status, t_shell shell):
@@ -31,3 +68,8 @@
 	a thought I had in mind: should  make exit prompt a
 */
 
+int	bltn_exit(char **args, t_shell *shell)
+{
+	if (args[0] && args[1])
+		return (1);
+}
