@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 17:47:39 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:15:52 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef enum e_token_type
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
-	argv,
+	ARGS,
 	NLINE,
 	HEREDOC,
 	APPEND
@@ -112,7 +112,7 @@ int					append_env_node(t_envp *list, char *str);
 int					del_env_node(t_envp *node);
 int					print_env_sorted(t_envp *list);
 char				**build_envp(t_shell *shell);
-t_envp				*find_by_str(t_envp *list, char *str);
+t_envp				*ft_getenv(t_envp *list, char *str);
 t_envp				*init_envp(char **envp);
 t_envp				*find_by_key(t_envp *list, char *key);
 t_envp				*find_str(t_envp *list, char *str);
