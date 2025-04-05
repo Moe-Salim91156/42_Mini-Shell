@@ -6,20 +6,20 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/03 14:30:56 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/05 19:35:12 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	has_env_var(char *value)
+int	has_env_var(char *value, t_token *current)
 {
 	int	i;
 
 	i = 0;
 	while (value[i])
 	{
-		if (value[i] == '$')
+		if (value[i] == '$' && current->type != HEREDOC_DELIMITER)
 		{
 			return (i);
 		}
@@ -100,7 +100,7 @@ char	*expand_env_var(char *value, int *env_index)
 	return (final_result);
 }
 
-char	*double_quote_mode(char *value, int *index)
+char	*double_quote_mode(t_token *current, int *index)
 {
 	int		start;
 	int		env_index;
@@ -111,14 +111,14 @@ char	*double_quote_mode(char *value, int *index)
 
 	start = *index + 1;
 	len = 0;
-	while (value[start + len] && value[start + len] != '"')
+	while (current->value[start + len] && current->value[start + len] != '"')
 		len++;
 	temp = malloc(len + 1);
 	if (!temp)
 		return (NULL);
-	ft_strncpy(temp, value + start, len);
+	ft_strncpy(temp, current->value + start, len);
 	temp[len] = '\0';
-	while ((env_index = has_env_var(temp)) != -1)
+	while ((env_index = has_env_var(temp, current)) != -1)
 	{
 		last_result = expand_env_var(temp, &env_index);
 		free(temp);
@@ -136,7 +136,7 @@ char	*double_quote_mode(char *value, int *index)
 	return (expanded_result);
 }
 
-char	*single_quote_mode(char *value, int *index)
+char	*single_quote_mode(t_token *current, int *index)
 {
 	int		start;
 	int		len;
@@ -144,12 +144,12 @@ char	*single_quote_mode(char *value, int *index)
 
 	start = *index + 1;
 	len = 0;
-	while (value[start + len] && value[start + len] != '\'')
+	while (current->value[start + len] && current->value[start + len] != '\'')
 		len++;
 	temp = malloc(len + 1);
 	if (!temp)
 		return (NULL);
-	ft_strncpy(temp, value + start, len);
+	ft_strncpy(temp, current->value + start, len);
 	temp[len] = '\0';
 	*index = start + len + 1;
 	return (temp);
@@ -166,7 +166,7 @@ char	*append_mode_result(char *result, char *mode_result)
 	free(mode_result);
 	return (new_result);
 }
-char	*normal_mode(char *value, int *index)
+char	*normal_mode(t_token *current, int *index)
 {
 	int		start;
 	int		len;
@@ -176,15 +176,15 @@ char	*normal_mode(char *value, int *index)
 
 	start = *index;
 	len = 0;
-	while (value[start + len] && value[start + len] != '\'' && value[start
+	while (current->value[start + len] && current->value[start + len] != '\'' && current->value[start
 		+ len] != '\"')
 		len++;
 	temp = malloc(len + 1);
 	if (!temp)
 		return (NULL);
-	ft_strncpy(temp, value + start, len);
+	ft_strncpy(temp, current->value + start, len);
 	temp[len] = '\0';
-	while ((env_index = has_env_var(temp)) != -1)
+	while ((env_index = has_env_var(temp, current)) != -1)
 	{
 		new_expanded = expand_env_var(temp, &env_index);
 		if (!new_expanded) // If expansion fails, default to empty string
@@ -196,7 +196,7 @@ char	*normal_mode(char *value, int *index)
 	return (temp);
 }
 
-char	*handle_quotes_mode(char *value)
+char	*handle_quotes_mode(t_token *current)
 {
 	int		i;
 	char	*result;
@@ -206,14 +206,14 @@ char	*handle_quotes_mode(char *value)
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
-	while (value[i])
+	while (current->value[i])
 	{
-		if (value[i] == '\'')
-			temp = single_quote_mode(value, &i);
-		else if (value[i] == '\"')
-			temp = double_quote_mode(value, &i);
+		if (current->value[i] == '\'')
+			temp = single_quote_mode(current, &i);
+		else if (current->value[i] == '\"')
+			temp = double_quote_mode(current, &i);
 		else
-			temp = normal_mode(value, &i);
+			temp = normal_mode(current, &i);
 		result = append_mode_result(result, temp);
 	}
 	return (result);
@@ -227,7 +227,7 @@ char	*expander_main(t_token_list *list)
 	current = list->head;
 	while (current)
 	{
-		result = handle_quotes_mode(current->value);
+		result = handle_quotes_mode(current);
 		if (!result)
 			return (NULL);
 		if (result)

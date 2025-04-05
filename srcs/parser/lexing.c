@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:34:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 18:19:05 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/05 19:22:34 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void	lexemes(t_token *token)
 	else if (!ft_strcmp(token->value, ">>"))
 		token->type = APPEND;
 	else if (!ft_strcmp(token->value, "<<"))
+  {
 		token->type = HEREDOC;
+    token->next->type = HEREDOC_DELIMITER;
+  }
 	else if (ft_strchr(token->value, '-'))
 		token->type = ARGS;
 }
