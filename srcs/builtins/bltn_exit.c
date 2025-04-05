@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/05 18:16:00 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:14:56 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,5 @@ int	bltn_exit(char **argv, t_shell *shell)
 		return (1);
 	}
 	ft_exit(shell,ft_atoul(argv[1]) % 256);
+	return (1);
 }
