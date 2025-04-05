@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 00:12:42 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/18 00:13:46 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	print_command(t_cmd_list *cmd_list)
 	{
 		printf("command %d\n", index);
 		i = 0;
-		while (cmd->args[i])
+		while (cmd->argv[i])
 		{
-			printf("args[%d] : %s\n", i, cmd->args[i]);
+			printf("argv[%d] : %s\n", i, cmd->argv[i]);
 			i++;
 		}
-		printf("args[%d] : NULL\n", i);
+		printf("argv[%d] : NULL\n", i);
 		cmd = cmd->next;
 		index++;
 	}

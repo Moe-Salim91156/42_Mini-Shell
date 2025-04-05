@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/02 10:37:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	free_command_list(t_cmd_list *cmd_list)
 	while (current)
 	{
 		temp = current->next;
-		if (current->args)
+		if (current->argv)
 		{
 			i = 0;
-			while (current->args[i])
-				free(current->args[i++]);
-			free(current->args);
+			while (current->argv[i])
+				free(current->argv[i++]);
+			free(current->argv);
 		}
 		free(current);
 		current = temp;

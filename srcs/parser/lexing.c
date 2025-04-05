@@ -6,14 +6,14 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:34:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/22 18:19:05 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*lexer protal , give each token in the list a type using lexemes func*/
-/*and then does the logic of identifying ARGS*/
+/*and then does the logic of identifying argv*/
 static int	is_separator(t_token *token)
 {
 	return (token->type == PIPE);
@@ -38,10 +38,10 @@ static void	handle_word(t_token *token, int *next_is_cmd, int *saw_redirect)
 		*next_is_cmd = 0;
 	}
 	else
-		token->type = ARGS;
+		token->type = argv;
 }
 
-void	assign_command_and_args(t_token_list *list)
+void	assign_command_and_argv(t_token_list *list)
 {
 	t_token	*current;
 	int		next_is_command;
@@ -75,7 +75,7 @@ void	lexing(t_token_list *list)
 		lexemes(current);
 		current = current->next;
 	}
-	assign_command_and_args(list);
+	assign_command_and_argv(list);
 }
 
 /*responsible for lexing each node*/
@@ -92,5 +92,5 @@ void	lexemes(t_token *token)
 	else if (!ft_strcmp(token->value, "<<"))
 		token->type = HEREDOC;
 	else if (ft_strchr(token->value, '-'))
-		token->type = ARGS;
+		token->type = argv;
 }

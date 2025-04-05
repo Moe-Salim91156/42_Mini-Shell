@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 16:17:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:47:39 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef enum e_token_type
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
-	ARGS,
+	argv,
 	NLINE,
 	HEREDOC,
 	APPEND
@@ -54,7 +54,7 @@ typedef struct s_token_list
 
 typedef struct s_cmd
 {
-	char			**args;
+	char			**argv;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -76,12 +76,14 @@ typedef struct s_shell
 	t_token_list	*token_list;
 	t_cmd_list		*cmd_list;
 	t_envp			*envp_list;
+	unsigned long	last_status;
 }					t_shell;
+
 /*################# init(🇬🇧) #################*/
 int					shell_init(t_shell *shell, char **envp);
 /*################# tokenization #################*/
 void				lexing(t_token_list *list);
-char				**allocate_cmd_args(int count);
+char				**allocate_cmd_argv(int count);
 int					is_seperator(int type);
 int					is_seperator_token(char c);
 int					is_quotes(char c);
@@ -119,10 +121,14 @@ void				*free_env(t_envp *list);
 /*################# built-ins #################*/
 int					bltn_env(t_shell *shell);
 int					bltn_pwd(void);
-int					bltn_export(char **args, t_envp *list);
-int					bltn_unset(char **args, t_envp *list);
-int					bltn_cd(char **args, t_envp *list);
-int					bltn_echo(char **args);
-int					bltn_exit(char **args, t_shell *shell);
+int					bltn_export(char **argv, t_envp *list);
+int					bltn_unset(char **argv, t_envp *list);
+int					bltn_cd(char **argv, t_envp *list);
+int					bltn_echo(char **argv);
+int					bltn_exit(char **argv, t_shell *shell);
+/*################# execution #################*/
+// takes shell as substite for (char *const argv[] andchar *const envp[])
+int					bltn_execbe(char *cmdname, t_shell shell);
 /*################# general utils #################*/
+void				ft_exit(t_shell *shell, unsigned long status);
 #endif
