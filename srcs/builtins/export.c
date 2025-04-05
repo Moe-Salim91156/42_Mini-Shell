@@ -36,7 +36,7 @@
 		nothing inshallah (=
 */
 
-static int	invalid_arg(char *str,int *ret)
+static int	invalid_arg(char *str, int *ret)
 {
 	if ((!ft_isalpha(*str) && *str != '_') || !*str)
 	{
@@ -100,7 +100,7 @@ static int	append_env_node_null(t_envp *list, char *str)
 	appends an equal sign into buffer @old_arg
 	then appends it to list.
 */
-static int	append_equal(t_envp *list,char **old_arg)
+static int	append_equal(t_envp *list, char **old_arg)
 {
 	char	*new_arg;
 
@@ -110,9 +110,9 @@ static int	append_equal(t_envp *list,char **old_arg)
 		return (1);
 	free(*old_arg);
 	*old_arg = new_arg;
-	if (find_str(list,new_arg))
+	if (find_str(list, new_arg))
 		return (0);
-	if(!append_env_node_null(list, new_arg))
+	if (!append_env_node_null(list, new_arg))
 		return (0);
 	else
 		return (1);
@@ -120,9 +120,9 @@ static int	append_equal(t_envp *list,char **old_arg)
 
 int	bltn_export(char **args, t_envp *list)
 {
-	int		i;
-	int		ret;
-	int		flag;
+	int	i;
+	int	ret;
+	int	flag;
 
 	i = 0;
 	ret = 0;
@@ -131,17 +131,17 @@ int	bltn_export(char **args, t_envp *list)
 		return (print_env_sorted(list));
 	while (args[++i])
 	{
-		if (invalid_arg(args[i],&ret))
-			continue;
-		if (!ft_strchr(args[i],'='))
-			flag = append_equal(list,&args[i]);
-		else if (find_str(list,args[i]))
-			flag = mod_val(find_str(list,args[i]),
-		(ft_strchr(args[i], '=') + 1));
+		if (invalid_arg(args[i], &ret))
+			continue ;
+		if (!ft_strchr(args[i], '='))
+			flag = append_equal(list, &args[i]);
+		else if (find_str(list, args[i]))
+			flag = mod_val(find_str(list, args[i]), (ft_strchr(args[i], '=')
+						+ 1));
 		else
 			flag = append_env_node(list, args[i]);
 		if (flag)
-			return(1);
+			return (1);
 	}
 	return (ret);
 }

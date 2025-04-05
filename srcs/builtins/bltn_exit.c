@@ -13,6 +13,7 @@
 #include "../../includes/minishell.h"
 
 
+
 static int is_numeric(const char *str)
 {
 	if (*str == '+' || *str == '-')
@@ -72,4 +73,3 @@ int	bltn_exit(char **args, t_shell *shell)
 	if (args[0] && args[1])
 		return (1);
 }
-

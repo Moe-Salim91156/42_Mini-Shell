@@ -22,7 +22,7 @@ int bltn_env(t_shell *shell)
 	while (visit)
 	{
 		if (visit->key && visit->value)
-			if (printf("%s%s\n", visit->key,visit->value) == -1)
+			if (printf("%s%s\n", visit->key, visit->value) == -1)
 				return (1);
 		visit = visit->next;
 	}
