@@ -176,8 +176,8 @@ char	*normal_mode(t_token *current, int *index)
 
 	start = *index;
 	len = 0;
-	while (current->value[start + len] && current->value[start + len] != '\'' && current->value[start
-		+ len] != '\"')
+	while (current->value[start + len] && current->value[start + len] != '\''
+		&& current->value[start + len] != '\"')
 		len++;
 	temp = malloc(len + 1);
 	if (!temp)

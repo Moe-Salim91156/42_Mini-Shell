@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int bltn_env(t_shell *shell)
+int	bltn_env(t_shell *shell)
 {
 	t_envp	*visit;
 

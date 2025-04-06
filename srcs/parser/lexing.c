@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 15:34:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 19:17:31 by yokitane         ###   ########.fr       */
+/*   Created: 2025/04/06 18:05:32 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/06 18:05:33 by msalim           ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
@@ -89,10 +90,10 @@ void	lexemes(t_token *token)
 	else if (!ft_strcmp(token->value, ">>"))
 		token->type = APPEND;
 	else if (!ft_strcmp(token->value, "<<"))
-  {
+	{
 		token->type = HEREDOC;
-    token->next->type = HEREDOC_DELIMITER;
-  }
+		token->next->type = HEREDOC_DELIMITER;
+	}
 	else if (ft_strchr(token->value, '-'))
 		token->type = ARGS;
 }

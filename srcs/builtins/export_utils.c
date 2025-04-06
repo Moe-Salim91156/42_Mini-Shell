@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 10:28:35 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/05 17:55:58 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:01:41 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ static void	print_sorted_array(t_envp **arr, int size)
 			j++;
 		}
 		if (arr[i]->value)
-		{ // can use a single print statment,was causing me problems,need to test on cluster device.ft_putchar_fd('=', STDOUT_FILENO);
+		{
+			// can use a single print statment,was causing me problems,need to test on cluster device.ft_putchar_fd('=',
+			// STDOUT_FILENO);
 			ft_putchar_fd('\"', STDOUT_FILENO);
 			ft_putstr_fd(arr[i]->value, STDOUT_FILENO);
 			ft_putchar_fd('\"', STDOUT_FILENO);

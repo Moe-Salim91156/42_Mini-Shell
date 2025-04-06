@@ -13,7 +13,7 @@
 #include "../../includes/minishell.h"
 
 // returns boolean convention value(1--> true, 0 -->false)
-static int is_numeric(const char *str)
+static int	is_numeric(const char *str)
 {
 	int	len;
 
@@ -30,9 +30,9 @@ static int is_numeric(const char *str)
 	return (1);
 }
 
-static unsigned long ft_atoul(char *str)
+static unsigned long	ft_atoul(char *str)
 {
-	unsigned long ret;
+	unsigned long	ret;
 
 	ret = 0;
 	if (*str == '+' || *str == '-')
@@ -80,6 +80,6 @@ int	bltn_exit(char **argv, t_shell *shell)
 		ft_putendl_fd("rbsh: exit: too many arguments.", 2);
 		return (1);
 	}
-	ft_exit(shell,ft_atoul(argv[1]) % 256);
+	ft_exit(shell, ft_atoul(argv[1]) % 256);
 	return (1);
 }
