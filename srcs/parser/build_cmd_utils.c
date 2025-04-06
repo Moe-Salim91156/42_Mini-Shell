@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:19:11 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 18:11:51 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	is_seperator(int type)
 	return (type == PIPE);
 }
 
-char	**allocate_cmd_args(int count)
+char	**allocate_cmd_argv(int count)
 {
-	char	**args;
+	char	**argv;
 
-	args = malloc(sizeof(char *) * (count + 1));
-	if (!args)
+	argv = malloc(sizeof(char *) * (count + 1));
+	if (!argv)
 		return (NULL);
-	args[count] = NULL;
-	return (args);
+	argv[count] = NULL;
+	return (argv);
 }

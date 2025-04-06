@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/15 16:23:36 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:00:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_cmd_list	*init_cmd_list(void)
 	if (!cmd_list)
 		return (NULL);
 	cmd_list->count = 0;
+	cmd_list->total_heredocs = 0;
 	cmd_list->head = NULL;
 	return (cmd_list);
 }
@@ -56,7 +57,8 @@ t_cmd	*init_command(void)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->args = NULL;
+	cmd->argv = NULL;
+	cmd->here_doc_counts = 0;
 	cmd->next = NULL;
 	return (cmd);
 }

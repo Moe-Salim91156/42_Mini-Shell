@@ -6,10 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/26 21:56:55 by yokitane         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+/*   Updated: 2025/04/06 16:15:15 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +45,12 @@ void	free_command_list(t_cmd_list *cmd_list)
 	while (current)
 	{
 		temp = current->next;
-		if (current->args)
+		if (current->argv)
 		{
 			i = 0;
-			while (current->args[i])
-				free(current->args[i++]);
-			free(current->args);
+			while (current->argv[i])
+				free(current->argv[i++]);
+			free(current->argv);
 		}
 		free(current);
 		current = temp;
@@ -93,11 +90,14 @@ int	main(void)
 			lexing(tokens);
 			print_tokens(tokens);
 			expander_main(tokens);
-			build_cmd(tokens,cmd_list);
+			build_cmd(tokens, cmd_list);
 			print_command(cmd_list);
+			locate_heredoc(cmd_list);
 			free_tokens(tokens);
+			free_command_list(cmd_list);
 			tokens = NULL;
 			tokens = init_list();
+			cmd_list = init_cmd_list();
 		}
 	}
 	free(input);

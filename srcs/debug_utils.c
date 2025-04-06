@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:30:10 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/25 13:41:19 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	print_command(t_cmd_list *cmd_list)
 	cmd = cmd_list->head;
 	while (cmd)
 	{
-		printf("command %d\n", index);
+		printf("Payload %d\n", index);
 		i = 0;
-		while (cmd->args[i])
+		while (cmd->argv[i])
 		{
-			printf("args[%d] : %s\n", i, cmd->args[i]);
+			printf("argv[%d] : %s\n", i, cmd->argv[i]);
 			i++;
 		}
-		printf("args[%d] : NULL\n", i);
+		printf("argv[%d] : NULL\n", i);
 		cmd = cmd->next;
 		index++;
 	}

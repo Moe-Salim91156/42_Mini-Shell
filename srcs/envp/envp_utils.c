@@ -87,7 +87,7 @@ int	del_env_node(t_envp *node)
 /*
 	FINDS NODE WHE NU PASS KEY=VALUE
 */
-t_envp	*find_str(t_envp *list,char *str)
+t_envp	*find_str(t_envp *list, char *str)
 {
 	char	*key;
 	t_envp	*find;
@@ -97,6 +97,6 @@ t_envp	*find_str(t_envp *list,char *str)
 	if (!key)
 		return (NULL);
 	find = find_by_key(list, key);
-	free (key);
-	return(find);
+	free(key);
+	return (find);
 }

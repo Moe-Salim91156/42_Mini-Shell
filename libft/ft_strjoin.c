@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+#include "libft.h"
+
 static char	*ft_strcat(char *s1, const char *s2)
 {
 	size_t	i;
