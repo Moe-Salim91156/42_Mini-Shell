@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/06 15:30:38 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/06 16:15:34 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,21 @@
 int search_in_args(t_cmd *payload)
 {
   int i;
-  int here_doc_counts;
+  int found;
 
   i = 0;
-  here_doc_counts = 0;
+  found = 0;
   while (payload->argv[i])
   {
     if (!ft_strcmp(payload->argv[i],"<<"))
     {
       printf("here doc found in argv of %d\n",i);
-      here_doc_counts++;
+      payload->here_doc_counts++;
+      found = 1;
     }
     i++;
   }
-  if (here_doc_counts > 0)
-    return (1);
-  return (0);
+  return (found);
 }
 
 int locate_heredoc(t_cmd_list *cmd_list)
@@ -52,8 +51,13 @@ int locate_heredoc(t_cmd_list *cmd_list)
   payload = cmd_list->head;
   while (payload != NULL)
   {
-    search_in_args(payload);
+    if (search_in_args(payload))
+    {
+      printf("here doc counts %d\n",payload->here_doc_counts);
+      cmd_list->total_heredocs += payload->here_doc_counts;
+    }
     payload = payload->next;
   }
+  printf("total heredocs in all payloads %d\n",cmd_list->total_heredocs);
   return (0);
 }

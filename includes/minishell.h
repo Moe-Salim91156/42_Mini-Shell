@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/06 15:22:33 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/06 16:01:09 by msalim           ###   ########.fr       */
 /*   Updated: 2025/04/05 19:15:52 by yokitane         ###   ########.fr       */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ typedef struct s_token_list
 typedef struct s_cmd
 {
 	char			**argv;
+  int here_doc_counts;
 	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_cmd_list
 {
 	int				count;
+  int       total_heredocs;
 	t_cmd			*head;
 }					t_cmd_list;
 
