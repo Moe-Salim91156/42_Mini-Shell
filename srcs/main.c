@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:22:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	main(void)
 			expander_main(tokens);
 			build_cmd(tokens, cmd_list);
 			print_command(cmd_list);
+      locate_heredoc(cmd_list);
 			free_tokens(tokens);
 			tokens = NULL;
 			tokens = init_list();
