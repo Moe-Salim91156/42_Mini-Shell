@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   build_cmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/03 19:43:49 by yokitane         ###   ########.fr       */
+/*   Created: 2025/02/18 14:19:11 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	bltn_env(t_shell *shell)
+/*
+ * here we would put the NEWLINE enum new value
+ * for seperating commands(payload);
+ * */
+int	is_seperator(int type)
 {
-	t_envp	*visit;
+	return (type == PIPE);
+}
 
-	if (!shell->envp_list)
-		return (1);
-	visit = shell->envp_list;
-	while (visit)
-	{
-		if (visit->key && visit->value)
-			if (printf("%s%s\n", visit->key, visit->value) == -1)
-				return (1);
-		visit = visit->next;
-	}
-	return (0);
+char	**allocate_cmd_argv(int count)
+{
+	char	**argv;
+
+	argv = malloc(sizeof(char *) * (count + 1));
+	if (!argv)
+		return (NULL);
+	argv[count] = NULL;
+	return (argv);
 }

@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
+/*   Updated: 2025/03/24 10:45:14 by yokitane         ###   ########.fr       */
 /*   Updated: 2025/03/06 03:21:29 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -86,7 +87,7 @@ int	del_env_node(t_envp *node)
 /*
 	FINDS NODE WHE NU PASS KEY=VALUE
 */
-t_envp	*find_str(t_envp *list,char *str)
+t_envp	*find_str(t_envp *list, char *str)
 {
 	char	*key;
 	t_envp	*find;
@@ -96,6 +97,6 @@ t_envp	*find_str(t_envp *list,char *str)
 	if (!key)
 		return (NULL);
 	find = find_by_key(list, key);
-	free (key);
-	return(find);
+	free(key);
+	return (find);
 }

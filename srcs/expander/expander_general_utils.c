@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   expander_general_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/03 19:43:49 by yokitane         ###   ########.fr       */
+/*   Created: 2025/02/25 13:32:32 by msalim            #+#    #+#             */
+/*   Updated: 2025/03/01 14:17:12 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	bltn_env(t_shell *shell)
+char	*ft_strncpy_till_dollar(char *dest, char *src, size_t n)
 {
-	t_envp	*visit;
+	size_t	i;
 
-	if (!shell->envp_list)
-		return (1);
-	visit = shell->envp_list;
-	while (visit)
+	i = 0;
+	while (src[i] && i < n && src[i] != '$')
 	{
-		if (visit->key && visit->value)
-			if (printf("%s%s\n", visit->key, visit->value) == -1)
-				return (1);
-		visit = visit->next;
+		dest[i] = src[i];
+		i++;
 	}
-	return (0);
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

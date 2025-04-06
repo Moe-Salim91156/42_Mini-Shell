@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/19 21:20:29 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:26:20 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 		return value:
 			The return status is zero unless an invalid @arg is supplied.
 		########### TBD ###########
-		nothing inshallah (=
+		nothing inshallah (= unless future edge cases resurface)
 */
 
-static int	invalid_arg(char *str,int *ret)
+static int	invalid_arg(char *str, int *ret)
 {
 	if ((!ft_isalpha(*str) && *str != '_') || !*str)
 	{
@@ -100,7 +100,7 @@ static int	append_env_node_null(t_envp *list, char *str)
 	appends an equal sign into buffer @old_arg
 	then appends it to list.
 */
-static int	append_equal(t_envp *list,char **old_arg)
+static int	append_equal(t_envp *list, char **old_arg)
 {
 	char	*new_arg;
 
@@ -110,38 +110,38 @@ static int	append_equal(t_envp *list,char **old_arg)
 		return (1);
 	free(*old_arg);
 	*old_arg = new_arg;
-	if (find_str(list,new_arg))
+	if (find_str(list, new_arg))
 		return (0);
-	if(!append_env_node_null(list, new_arg))
+	if (!append_env_node_null(list, new_arg))
 		return (0);
 	else
 		return (1);
 }
 
-int	bltn_export(char **args, t_envp *list)
+int	bltn_export(char **argv, t_envp *list)
 {
-	int		i;
-	int		ret;
-	int		flag;
+	int	i;
+	int	ret;
+	int	flag;
 
 	i = 0;
 	ret = 0;
 	flag = 0;
-	if (!args[1])
+	if (!argv[1])
 		return (print_env_sorted(list));
-	while (args[++i])
+	while (argv[++i])
 	{
-		if (invalid_arg(args[i],&ret))
-			continue;
-		if (!ft_strchr(args[i],'='))
-			flag = append_equal(list,&args[i]);
-		else if (find_str(list,args[i]))
-			flag = mod_val(find_str(list,args[i]),
-		(ft_strchr(args[i], '=') + 1));
+		if (invalid_arg(argv[i], &ret))
+			continue ;
+		if (!ft_strchr(argv[i], '='))
+			flag = append_equal(list, &argv[i]);
+		else if (find_str(list, argv[i]))
+			flag = mod_val(find_str(list, argv[i]), (ft_strchr(argv[i], '=')
+						+ 1));
 		else
-			flag = append_env_node(list, args[i]);
+			flag = append_env_node(list, argv[i]);
 		if (flag)
-			return(1);
+			return (1);
 	}
 	return (ret);
 }

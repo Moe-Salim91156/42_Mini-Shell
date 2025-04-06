@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 17:46:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 15:24:44 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:24:58 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+#include "libft.h"
+
 static char	*ft_strcat(char *s1, const char *s2)
 {
 	size_t	i;

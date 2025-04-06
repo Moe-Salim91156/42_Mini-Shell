@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/06 04:26:26 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 */
 
 /*
-	args[2]--> !NULL == invalid arguments.
+	argv[2]--> !NULL == invalid arguments.
 */
-static int invalid_args(char **args)
+static int	invalid_argv(char **argv)
 {
-	if (args[2])
+	if (argv[2])
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
 		return (1);
@@ -39,22 +39,22 @@ static int invalid_args(char **args)
 	if OLDPWD doesnt exist, create it.
 	update OLDPWD.
 */
-static int update_oldpwd(t_envp *list, char *oldpwd)
+static int	update_oldpwd(t_envp *list, char *oldpwd)
 {
 	if (!ft_getenv(list, "OLDPWD"))
 	{
-		if(append_env_node(list, "OLDPWD="))
+		if (append_env_node(list, "OLDPWD="))
 			return (1);
 	}
-	if(mod_val(ft_getenv(list, "OLDPWD"), oldpwd))
-		return(1);
+	if (mod_val(ft_getenv(list, "OLDPWD"), oldpwd))
+		return (1);
 	return (0);
 }
 
-/* no args cd handler */
-static int take_me_home(t_envp *list, char *oldpwd)
+/* no argv cd handler */
+static int	take_me_home(t_envp *list, char *oldpwd)
 {
-	if (!ft_getenv(list,"HOME"))
+	if (!ft_getenv(list, "HOME"))
 	{
 		ft_putstr_fd("cd: HOME not set", 2);
 		return (1);
@@ -71,7 +71,7 @@ static int take_me_home(t_envp *list, char *oldpwd)
 	return (0);
 }
 
-int	bltn_cd(char **args, t_envp *list)
+int	bltn_cd(char **argv, t_envp *list)
 {
 	char	oldpwd[1024];
 
@@ -80,33 +80,33 @@ int	bltn_cd(char **args, t_envp *list)
 		perror("cd: getcwd:");
 		return (-1);
 	}
-	if (!args[1])
+	if (!argv[1])
 		return (take_me_home(list, oldpwd));
-	if (invalid_args(args))
+	if (invalid_argv(argv))
 		return (1);
 	if (update_oldpwd(list, oldpwd))
 		return (1);
-	if (chdir(args[1]) == -1)
+	if (chdir(argv[1]) == -1)
 	{
 		ft_putstr_fd("cd: ", 2);
-		perror(args[1]);
+		perror(argv[1]);
 		ft_putstr_fd(": ", 2);
 		return (1);
 	}
 	return (0);
 }
 /*
-int main(void)
+int	main(void)
 {
 	t_envp *list = init_envp(__environ);
-	char *args1[]= {"cd","..",NULL};
-	char *args2[]= {"cd","",NULL};
-	char *args3[]= {"cd",find_by_key(list, "OLDPWD")->value,NULL};
+	char *argv1[]= {"cd","..",NULL};
+	char *argv2[]= {"cd","",NULL};
+	char *argv3[]= {"cd",find_by_key(list, "OLDPWD")->value,NULL};
 	bltn_pwd();
-	bltn_cd(args1, list);
+	bltn_cd(argv1, list);
 	bltn_pwd();
-	bltn_cd(args1, list);
+	bltn_cd(argv1, list);
 	bltn_pwd();
-	bltn_cd(args1, list);
+	bltn_cd(argv1, list);
 	bltn_pwd();
 } */

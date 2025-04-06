@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/18 13:49:56 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:45:26 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_seperator_token(char c)
 {
-	return (c == ' ' || c == '|' || c == '\n');
+	return (c == ' ' || c == '|');
 }
 
 int	is_quotes(char c)
@@ -47,7 +47,7 @@ void	add_token(t_token_list *list, char *value)
 	new_node = init_token();
 	if (!new_node)
 		return ;
-	new_node->value = strdup(value);
+	new_node->value = ft_strdup(value);
 	new_node->next = NULL;
 	if (!list->head)
 		list->head = new_node;
