@@ -60,9 +60,9 @@ void	free_command_list(t_cmd_list *cmd_list)
 
 int	main(void)
 {
-	t_token_list *tokens;
-	t_cmd_list *cmd_list;
-	char *input;
+	t_token_list	*tokens;
+	t_cmd_list		*cmd_list;
+	char			*input;
 
 	tokens = init_list();
 	cmd_list = init_cmd_list();
@@ -92,12 +92,12 @@ int	main(void)
 			expander_main(tokens);
 			build_cmd(tokens, cmd_list);
 			print_command(cmd_list);
-      locate_heredoc(cmd_list);
+			locate_heredoc(cmd_list);
 			free_tokens(tokens);
-      free_command_list(cmd_list);
+			free_command_list(cmd_list);
 			tokens = NULL;
 			tokens = init_list();
-      cmd_list = init_cmd_list();
+			cmd_list = init_cmd_list();
 		}
 	}
 	free(input);

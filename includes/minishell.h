@@ -18,7 +18,6 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <errno.h>
 # include <unistd.h>
 # define COLOR_MAGENTA "\033[1;37m"
 # define COLOR_RESET "\033[0m"
@@ -56,14 +55,14 @@ typedef struct s_token_list
 typedef struct s_cmd
 {
 	char			**argv;
-  int here_doc_counts;
+	int				here_doc_counts;
 	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_cmd_list
 {
 	int				count;
-  int       total_heredocs;
+	int				total_heredocs;
 	t_cmd			*head;
 }					t_cmd_list;
 
@@ -132,7 +131,7 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 // takes shell as substite for (char *const argv[] andchar *const envp[])
 int					bltn_execbe(char *cmdname, t_shell shell);
-int locate_heredoc(t_cmd_list *cmd_list);
+int					locate_heredoc(t_cmd_list *cmd_list);
 /*################# general utils #################*/
 void				ft_exit(t_shell *shell, unsigned long status);
 #endif

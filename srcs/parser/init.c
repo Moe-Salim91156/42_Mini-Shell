@@ -45,7 +45,7 @@ t_cmd_list	*init_cmd_list(void)
 	if (!cmd_list)
 		return (NULL);
 	cmd_list->count = 0;
-  cmd_list->total_heredocs = 0;
+	cmd_list->total_heredocs = 0;
 	cmd_list->head = NULL;
 	return (cmd_list);
 }
@@ -58,7 +58,7 @@ t_cmd	*init_command(void)
 	if (!cmd)
 		return (NULL);
 	cmd->argv = NULL;
-  cmd->here_doc_counts = 0;
+	cmd->here_doc_counts = 0;
 	cmd->next = NULL;
 	return (cmd);
 }
