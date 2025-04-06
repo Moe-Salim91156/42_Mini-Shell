@@ -12,11 +12,11 @@ INCLUDE = includes
 
 PRSR = parser/build_cmd.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_cmd_utils.c
 XPNDR = expander/expander.c
-EXEC = execution/
+EXEC = execution/search_heredocs.c
 BLTNS = builtins/echo.c builtins/cd.c builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c # builtins/bltn_exit.c
 ENVP = envp/envp_manip.c envp/envp_utils.c
 
-src = debug_utils.c main.c $(PRSR) $(BLTNS) $(ENVP) $(XPNDR)
+src = debug_utils.c main.c $(PRSR) $(BLTNS) $(ENVP) $(XPNDR) $(EXEC)
 
 SRCS = $(addprefix $(SRC_DIR)/, $(src))
 OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o))

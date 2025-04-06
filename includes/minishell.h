@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 19:34:09 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/06 15:22:33 by msalim           ###   ########.fr       */
 /*   Updated: 2025/04/05 19:15:52 by yokitane         ###   ########.fr       */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 // takes shell as substite for (char *const argv[] andchar *const envp[])
 int					bltn_execbe(char *cmdname, t_shell shell);
+int locate_heredoc(t_cmd_list *cmd_list);
 /*################# general utils #################*/
 void				ft_exit(t_shell *shell, unsigned long status);
 #endif
