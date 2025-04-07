@@ -6,8 +6,8 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/06 16:01:09 by msalim           ###   ########.fr       */
-/*   Updated: 2025/04/05 19:15:52 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:08:05 by yokitane         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -129,7 +129,7 @@ int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
-// takes shell as substite for (char *const argv[] andchar *const envp[])
+// takes @shell as substite for (char *const argv[] andchar *const envp[])
 int					bltn_execbe(char *cmdname, t_shell shell);
 int					locate_heredoc(t_cmd_list *cmd_list);
 /*################# general utils #################*/
