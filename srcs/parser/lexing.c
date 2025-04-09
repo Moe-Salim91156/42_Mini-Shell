@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:05:32 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/06 18:05:33 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:57:06 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	lexemes(t_token *token)
 		token->type = REDIRECT_IN;
 	else if (!ft_strcmp(token->value, ">>"))
 		token->type = APPEND;
+
 	else if (!ft_strcmp(token->value, "<<"))
 	{
 		token->type = HEREDOC;

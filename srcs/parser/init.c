@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/06 16:00:23 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:23:44 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,12 @@ t_cmd	*init_command(void)
 	if (!cmd)
 		return (NULL);
 	cmd->argv = NULL;
+	cmd->type = 0;
+  cmd->payload_array = NULL;
 	cmd->here_doc_counts = 0;
+  cmd->heredoc_buffer = NULL;
+  cmd->in_fd = 0;
+  cmd->out_fd = 1;
 	cmd->next = NULL;
 	return (cmd);
 }
