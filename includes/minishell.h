@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/06 16:01:09 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:11:28 by msalim           ###   ########.fr       */
 /*   Updated: 2025/04/05 19:15:52 by yokitane         ###   ########.fr       */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ typedef struct s_token_list
 
 typedef struct s_cmd
 {
-	char			**argv;
+	char			**payload_array;
+	t_token_type	*type;
+  char  **argv; // execve compaitable array
+  char  *heredoc_buffer;
 	int				here_doc_counts;
+  int     in_fd;
+  int     out_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -84,6 +89,7 @@ typedef struct s_shell
 /*################# init(🇬🇧) #################*/
 int					shell_init(t_shell *shell, char **envp);
 /*################# tokenization #################*/
+void	lexer_cmd_list(t_cmd_list *list);
 void				lexing(t_token_list *list);
 char				**allocate_cmd_argv(int count);
 int					is_seperator(int type);

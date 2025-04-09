@@ -41,10 +41,10 @@ int	add_argument(t_cmd *cmd, t_token *current, int i)
 		ft_putstr_fd("Error: Value NULL\n", 2);
 		return (0);
 	}
-	cmd->argv[i] = malloc(ft_strlen(current->value) + 1);
-	if (!cmd->argv[i])
+	cmd->payload_array[i] = malloc(ft_strlen(current->value) + 1);
+	if (!cmd->payload_array[i])
 		return (0);
-	ft_strcpy(cmd->argv[i], current->value);
+	ft_strcpy(cmd->payload_array[i], current->value);
 	return (i + 1);
 }
 
@@ -66,8 +66,8 @@ t_cmd	*handle_seperator(t_cmd *cmd, t_token_list *list)
 		exit(1);
 	}
 	cmd = cmd->next;
-	cmd->argv = allocate_cmd_argv(count_cmd_tokens(list));
-	if (!cmd->argv)
+	cmd->payload_array = allocate_cmd_argv(count_cmd_tokens(list));
+	if (!cmd->payload_array)
 	{
 		ft_putstr_fd("error mallocating a new argv\n", 2);
 		// free
@@ -97,7 +97,7 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 	{
 		if (is_seperator(current->type))
 		{
-			cmd->argv[i] = NULL;
+			cmd->payload_array[i] = NULL;
 			cmd = handle_seperator(cmd, list);
 			i = 0;
 		}
@@ -107,7 +107,7 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 		}
 		current = current->next;
 	}
-	cmd->argv[i] = NULL;
+	cmd->payload_array[i] = NULL;
 }
 
 t_cmd	*build_cmd(t_token_list *list, t_cmd_list *cmd_list)
@@ -122,8 +122,8 @@ t_cmd	*build_cmd(t_token_list *list, t_cmd_list *cmd_list)
 		return (NULL);
 	}
 	cmd = cmd_list->head;
-	cmd->argv = allocate_cmd_argv(cmd_list->count);
-	if (!cmd->argv)
+	cmd->payload_array = allocate_cmd_argv(cmd_list->count);
+	if (!cmd->payload_array)
 		return (NULL);
 	fill_command(cmd, list);
 	return (cmd_list->head);

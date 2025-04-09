@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/06 16:15:34 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:09:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	search_in_args(t_cmd *payload)
 
 	i = 0;
 	found = 0;
-	while (payload->argv[i])
+	while (payload->payload_array[i])
 	{
-		if (!ft_strcmp(payload->argv[i], "<<"))
+		if (!ft_strcmp(payload->payload_array[i], "<<"))
 		{
 			printf("here doc found in argv of %d\n", i);
 			payload->here_doc_counts++;

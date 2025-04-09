@@ -10,7 +10,7 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-PRSR = parser/build_cmd.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_cmd_utils.c
+PRSR = parser/build_payload.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_payload_utils.c parser/payload_lexing.c
 XPNDR = expander/expander.c
 EXEC = execution/search_heredocs.c
 BLTNS = builtins/echo.c builtins/cd.c builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c # builtins/bltn_exit.c
