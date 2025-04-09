@@ -1,8 +1,7 @@
-
 /******************************* EXECUTION ENTRY POINT *******************************
  * There are 3 flowpaths in execution:
  * CASE 1: single(no pipeline) command builtin (execute within parent)
- *	 rbsh$ echo "arg1" >>EOF1 <in1 >out2 "arg2" >>EOF2
+ *	 rbsh$ echo "arg1" >> EOF1 <in1 >out2 "arg2" >>EOF2
  * CASE 2: single command (non-builtin) (execute within children)
  *	 rbsh$ ls "arg1" >>EOF1 <in1 >out2 "arg2" >>EOF2
  * CASE 3: multiple commands(payloads) separated by pipes (execute within children)
@@ -95,4 +94,4 @@
  *		---> Record the exit status of the last command in pipeline
  *		---> Free all allocated resources
  *		---> Continuously t_shell last_status
- */
+ *

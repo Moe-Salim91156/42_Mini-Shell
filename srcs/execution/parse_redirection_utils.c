@@ -1,24 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redirections.c                               :+:      :+:    :+:   */
+/*   parse_redirection_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/09 20:17:04 by yokitane         ###   ########.fr       */
+/*   Created: 2025/04/09 15:36:24 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/09 15:37:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include  "../../includes/minishell.h"
 
-// redtreect in
-// redirect out
-// redirect append.
-// HEREDOC
-
-
-void  execution_entry()
-{
-
-}
+// look for redirections
