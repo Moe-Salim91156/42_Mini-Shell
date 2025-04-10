@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 15:39:41 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:43:06 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	main(void)
 {
 	t_shell			shell;//please add this
-	char			*input;g
+	char			*input;
 
 	shell_init(&shell, __environ);
 	shell.token_list = init_list();
