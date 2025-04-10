@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 14:46:21 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:54:09 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(void)
 	{
 		input = readline("rbsh$ ");
 		if (!input)
-			break ;
+			break;
 		if (input)
 		{
 			add_history(input);
@@ -41,7 +41,7 @@ int	main(void)
 			free_command_list(shell->cmd_list);//and this
 			shell->token_list = NULL;// this too
 			shell->token_list = init_list();//dont forget this
-			shell->cmd_list = init_cmd_list();// and lastly this, need o
+			shell->cmd_list = init_cmd_list();// and lastly this, need to put all that stuff in a seperate function (loop_clean or smth)
 		}
 	}
 	//exit_handler
