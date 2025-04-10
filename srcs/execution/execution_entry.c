@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 13:57:02 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:58:11 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,4 @@ int execution_entry(t_shell *shell)
     return 0;
 }
 
-build_cmd_structure(t_token_list *list)
+build_cmd_structure(t_token_list *list);
