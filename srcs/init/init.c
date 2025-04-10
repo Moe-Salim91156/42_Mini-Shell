@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_entry.c                                  :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 13:57:02 by yokitane         ###   ########.fr       */
+/*   Created: 2025/04/10 14:23:21 by yokitane          #+#    #+#             */
+/*   Updated: 2025/04/10 14:48:04 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-// handle heredocs
-// handle redirections
-// is_cmd
-char  *locate_cmd()
+int					shell_init(t_shell *shell, char **envp)
 {
-
+	shell->token_list = init_list();
+	shell->cmd_list = init_cmd_list();
+	shell->envp_list = init_envp(envp);
+	if(!shell->token_list || !shell->cmd_list ||!shell->envp_list)
+		return (-1);
+	return (0);
 }
-int execution_entry(t_shell *shell)
-{
-  if (shell->cmd_list->count == 1)
-  {
-    if (is_builtin(locate_cmd()))
-    {
-      ft_execbe();
-    }
-  }
-    return 0;
-}
-
-build_cmd_structure(t_token_list *list)
