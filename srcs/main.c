@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 15:43:06 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:03:46 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(void)
 			print_tokens(shell.token_list);
 			print_command((shell.cmd_list));
 			// execution_entry(shell);//tbd
+      build_cmd_argv(shell.cmd_list);
 			free_tokens(shell.token_list);//this
 			free_command_list(shell.cmd_list);//and this
 			shell.token_list = NULL;// this too
