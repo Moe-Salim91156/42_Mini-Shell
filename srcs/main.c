@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 15:06:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:38:39 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	main(void)
 {
-	t_shell			shell;
+	t_shell			shell;//please add this
 	char			*input;
 
 	shell_init(&shell, __environ);
