@@ -53,9 +53,11 @@ typedef struct s_token_list
 
 typedef struct s_cmd
 {
+
 	char			**payload_array;
 	t_token_type	*type;
 	char			**argv; // execve compaitable array
+	char	*cmd_path;
 	char			*heredoc_buffer;
 	int				here_doc_counts;
 	int				in_fd;
@@ -144,4 +146,6 @@ int					locate_heredoc(t_cmd_list *cmd_list);
 /*################# general utils #################*/
 void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);
+void debug_build_cmd_argv(t_cmd_list *list);
+void print_argv(t_cmd *payload);
 #endif

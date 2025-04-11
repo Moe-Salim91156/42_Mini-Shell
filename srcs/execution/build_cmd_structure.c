@@ -31,47 +31,59 @@ int count_args(t_cmd *payload)
   return (count);
 }
 
-char  **malloc_argv(t_cmd *payload)
+char  **malloc_cmd_argv(t_cmd *payload)
 {
   char **argv;
   int args_num;
 
   args_num = count_args(payload);
-  
-
+  argv = malloc(sizeof(char *) * (args_num + 1));
+  argv[args_num] = NULL;
+  return (argv);
 }
+/*
+ * malloc a 2d array argv
+ * argv = [path, cmd_and_its_arguments, envp];
+ * path will be found using pipex functions;
+ * argv building;
+ *  // malloc 3 arguments for the whole array;
+ *  // cmd_and argument gonna have a sepearte 2d array for them cmd_argv
+ *
+ *
+ */
 
-void  fill_args_for_cmd(t_cmd *payload, int *i, int *j)
-{
-  while (payload->payload_array[*i])
-  {
-    if (payload->type[*i] == ARGS)
-    {
-      payload->argv[*j] = payload->payload_array[*i];
-      j++;
-    }
-    i++;
-  }
-}
 
 char  **build_cmd_argv(t_cmd_list *list)
 {
   int i;
-  int j;
+  int j = 0;
+  int args_num;
   t_cmd *payload;
 
-  payload = list->head;
   i = 0;
-  j = 0;
+  payload = list->head;
+  args_num = count_args(payload);
+  payload->argv = malloc(sizeof(char *) * ( args_num + 1));
+  if (!payload->argv)
+    return (NULL);
   while (payload->payload_array[i])
   {
     if (payload->type[i] == COMMAND || payload->type[i] == WORD)
     {
-      payload->argv[j] = payload->payload_array[i];
-      j++;
-      i++;
+      payload->argv[0] = ft_strdup(payload->payload_array[i]);
+      break;
     }
-    fill_args_for_cmd(payload, &i, &j);
+    i++;
   }
+  i = 0;
+  j = 1;
+  while (payload->payload_array[i])
+  {
+    if (payload->type[i] == ARGS)
+      payload->argv[j] = ft_strdup(payload->payload_array[i]);
+    i++;
+    j++;
+  }
+  payload->argv[args_num] = NULL;
   return (payload->argv);
 }
