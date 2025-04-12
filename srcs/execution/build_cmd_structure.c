@@ -10,36 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // takes the payload
 // extracts the cmd and its args
 // put it into payload->argv
-int count_args(t_cmd *payload)
+int	count_args(t_cmd *payload)
 {
-  int i; 
-  int count;
+	int	i;
+	int	count;
 
-  count = 0;
-  i = 0;
-  while (payload->payload_array[i])
-  {
-  if (payload->type[i] == ARGS || payload->type[i] == COMMAND || payload->type[i] == WORD)
-      count++;
-    i++;
-  }
-  return (count);
+	count = 0;
+	i = 0;
+	while (payload->payload_array[i])
+	{
+		if (payload->type[i] == ARGS || payload->type[i] == COMMAND
+			|| payload->type[i] == WORD)
+			count++;
+		i++;
+	}
+  printf("payload->array in payload count %d\n", count);
+	return (count);
 }
 
-char  **malloc_cmd_argv(t_cmd *payload)
+char	**malloc_cmd_argv(t_cmd *payload)
 {
-  char **argv;
-  int args_num;
+	char	**argv;
+	int		args_num;
 
-  args_num = count_args(payload);
-  argv = malloc(sizeof(char *) * (args_num + 1));
-  argv[args_num] = NULL;
-  return (argv);
+	args_num = count_args(payload);
+	argv = malloc(sizeof(char *) * (args_num + 1));
+	argv[args_num] = NULL;
+	return (argv);
 }
 /*
  * malloc a 2d array argv
@@ -52,40 +54,43 @@ char  **malloc_cmd_argv(t_cmd *payload)
  *
  */
 
-
-char  **build_cmd_argv(t_cmd_list *list)
+char	**build_cmd_argv(t_cmd_list *list)
 {
-  int i;
-  int j = 0;
-  int args_num;
-  t_cmd *payload;
+	int		i;
+	int		j;
+	t_cmd	*payload;
 
-  i = 0;
-  payload = list->head;
-  args_num = count_args(payload);
-  payload->argv = malloc_cmd_argv(payload);
-  if (!payload->argv)
-    return (NULL);
-  while (payload->payload_array[i])
-  {
-    if (payload->type[i] == COMMAND || payload->type[i] == WORD)
-    {
-      payload->argv[0] = ft_strdup(payload->payload_array[i]);
-      break;
-    }
-    i++;
-  }
-  i = 0;
-  j = 1;
-  while (payload->payload_array[i])
-  {
-    if (payload->type[i] == ARGS)
-    {
-      payload->argv[j] = ft_strdup(payload->payload_array[i]);
-      j++;
-    }
-    i++;
-  }
-  payload->argv[args_num] = NULL;
-  return (payload->argv);
+	j = 0;
+	i = 0;
+	payload = list->head;
+	while (payload)
+	{
+		payload->argv = malloc_cmd_argv(payload);
+		if (!payload->argv)
+			return (NULL);
+		i = 0;
+		while (payload->payload_array[i])
+		{
+			if (payload->type[i] == COMMAND || payload->type[i] == WORD)
+			{
+				payload->argv[0] = ft_strdup(payload->payload_array[i]);
+				break ;
+			}
+			i++;
+		}
+		i = 0;
+		j = 1;
+		while (payload->payload_array[i])
+		{
+			if (payload->type[i] == ARGS)
+			{
+				payload->argv[j] = ft_strdup(payload->payload_array[i]);
+				j++;
+			}
+			i++;
+		}        
+		payload->argv[j] = NULL;  // Null-terminate
+		payload = payload->next;
+	}
+	return (list->head->argv);
 }

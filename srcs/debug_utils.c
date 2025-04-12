@@ -62,7 +62,11 @@ void debug_build_cmd_argv(t_cmd_list *list)
         printf("Payload is NULL\n");
         return;
     }
+    while (payload)
+    {
     print_argv(payload);
+    payload = payload->next;
+    }
 }
 void print_argv(t_cmd *payload)
 {
