@@ -40,6 +40,46 @@ void print_command(t_cmd_list *cmd_list)
     }
     printf("Total commands in list: %d\n", cmd_list->count);
 }
+void print_payload(t_cmd *payload)
+{
+    int i = 0;
+
+    // Print the payload_array and types for debugging
+    printf("payload_array and types:\n");
+    while (payload->payload_array[i])
+    {
+        printf("[%d] %s (type: %d)\n", i, payload->payload_array[i], payload->type[i]);
+        i++;
+    }
+}
+
+void debug_build_cmd_argv(t_cmd_list *list)
+{
+    t_cmd *payload = list->head;
+
+    if (!payload)
+    {
+        printf("Payload is NULL\n");
+        return;
+    }
+    while (payload)
+    {
+    print_argv(payload);
+    payload = payload->next;
+    }
+}
+void print_argv(t_cmd *payload)
+{
+    int i = 0;
+
+    // Print the entire argv array (for execve)
+    printf("argv array:\n");
+    while (payload->argv[i])
+    {
+        printf("[%d] %s\n", i, payload->argv[i]);
+        i++;
+    }
+}
 
 void	print_tokens(t_token_list *list)
 {

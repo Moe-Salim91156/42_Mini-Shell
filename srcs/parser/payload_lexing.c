@@ -11,53 +11,83 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	assign_redirection_type(char **payload, t_token_type *type, int *i)
+static void handle_heredoc(char **payload, t_token_type *type, int *i)
 {
-	if (!ft_strcmp(payload[*i], ">"))
-		type[*i] = REDIRECT_OUT;
-	else if (!ft_strcmp(payload[*i], "<"))
-		type[*i] = REDIRECT_IN;
-	else if (!ft_strcmp(payload[*i], ">>"))
-		type[*i] = APPEND;
-	else if (!ft_strcmp(payload[*i], "<<"))
-	{
-		type[*i] = HEREDOC;
-		if (payload[*i + 1])
-		{
-			type[*i + 1] = HEREDOC_DELIMITER;
-			(*i)++;
-		}
-	}
+    type[*i] = HEREDOC;
+    if (payload[*i + 1])
+    {
+        type[*i + 1] = HEREDOC_DELIMITER;
+        (*i)++;
+    }
 }
 
-static void	handle_payload(char **payload, t_token_type *type)
+static int is_redirect_1(char *str)
 {
-	int	i;
-	int	next_is_cmd;
-	int	saw_redirect;
-
-	i = 0;
-	next_is_cmd = 1;
-	saw_redirect = 0;
-	while (payload[i])
-	{
-		if (!ft_strcmp(payload[i], "|"))
-			type[i] = PIPE, next_is_cmd = 1, saw_redirect = 0;
-		else if (!ft_strcmp(payload[i], "<<") || !ft_strcmp(payload[i], ">>")
-			|| !ft_strcmp(payload[i], ">") || !ft_strcmp(payload[i], "<"))
-			assign_redirection_type(payload, type, &i), saw_redirect = 1;
-		else if (saw_redirect)
-			type[i] = FILE_TOKEN, saw_redirect = 0;
-		else if (next_is_cmd)
-			type[i] = COMMAND, next_is_cmd = 0;
-		else
-			type[i] = ARGS;
-		i++;
-	}
-	type[i] = -1;
+    if (!ft_strcmp(str, ">"))
+        return (1);
+    if (!ft_strcmp(str, ">>"))
+        return (1);
+    if (!ft_strcmp(str, "<"))
+        return (1);
+    return (0);
 }
 
+static void handle_redirect(char *str, t_token_type *type,
+                            int i, int *saw_redirect)
+{
+    if (!ft_strcmp(str, ">"))
+        type[i] = REDIRECT_OUT;
+    else if (!ft_strcmp(str, ">>"))
+        type[i] = APPEND;
+    else if (!ft_strcmp(str, "<"))
+        type[i] = REDIRECT_IN;
+    *saw_redirect = 1;
+}
+
+static void handle_token_type(t_token_type *type, int i,
+                              int *saw_redirect, int *next_is_cmd)
+{
+    if (*saw_redirect)
+    {
+        type[i] = FILE_TOKEN;
+        *saw_redirect = 0;
+    }
+    else if (*next_is_cmd)
+    {
+        type[i] = COMMAND;
+        *next_is_cmd = 0;
+    }
+    else
+        type[i] = ARGS;
+}
+
+void handle_payload(char **payload, t_token_type *type)
+{
+    int i;
+    int next_is_cmd;
+    int saw_redirect;
+
+    i = 0;
+    next_is_cmd = 1;
+    saw_redirect = 0;
+    while (payload[i])
+    {
+        if (!ft_strcmp(payload[i], "|"))
+        {
+            type[i] = PIPE;
+            next_is_cmd = 1;
+            saw_redirect = 0;
+        }
+        else if (!ft_strcmp(payload[i], "<<"))
+            handle_heredoc(payload, type, &i);
+        else if (is_redirect_1(payload[i]))
+            handle_redirect(payload[i], type, i, &saw_redirect);
+        else
+            handle_token_type(type, i, &saw_redirect, &next_is_cmd);
+        i++;
+    }
+    type[i] = -1;
+}
 
 void	lexer_cmd_list(t_cmd_list *list)
 {
