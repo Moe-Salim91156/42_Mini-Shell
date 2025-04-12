@@ -227,8 +227,6 @@ char	*expander_main(t_token_list *list)
 	current = list->head;
 	while (current)
 	{
-		if (current->type != HEREDOC_DELIMITER)
-		{
 		result = handle_quotes_mode(current);
 		if (!result)
 			return (NULL);
@@ -236,7 +234,6 @@ char	*expander_main(t_token_list *list)
 		{
 			free(current->value);
 			current->value = result;
-		}
 		}
 		current = current->next;
 	}

@@ -9,7 +9,6 @@
 /*   Updated: 2025/04/09 16:09:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../../includes/minishell.h"
 
 /*
@@ -60,4 +59,15 @@ int	locate_heredoc(t_cmd_list *cmd_list)
 	}
 	printf("total heredocs in all payloads %d\n", cmd_list->total_heredocs);
 	return (0);
+
 }
+/*
+ * filling the heredoc in each payload last one wins
+ * if has quotes, no expansion inside and quotes removed from delimiter
+ * if no quotes	, expanding content but not the delimiter
+ * 
+ *
+ *
+ *
+ *
+ */
