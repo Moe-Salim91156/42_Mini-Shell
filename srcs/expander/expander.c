@@ -219,6 +219,29 @@ char	*handle_quotes_mode(t_token *current)
 	return (result);
 }
 
+/* this will get called before expander for heredoc content expansion or not*/
+/* just to set the flag for heredoc */
+int	see_heredoc_if_quoted(t_token_list *list)
+{
+	t_token *current;
+	int quoted;
+	quoted = 0;
+	current = list->head;
+	while (current)
+	{
+		if (current->type == HEREDOC_DELIMITER)
+		{
+			if(ft_strchr(current->value,'\''))
+				quoted = 1;
+			else if (ft_strchr(current->value, '\"'))
+				quoted = 1;
+		}
+		current = current->next;
+	}
+	printf("qouted ? %d\n",quoted);
+	return (quoted);
+}
+
 char	*expander_main(t_token_list *list)
 {
 	t_token	*current;
