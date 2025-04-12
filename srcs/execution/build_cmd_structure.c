@@ -63,7 +63,7 @@ char  **build_cmd_argv(t_cmd_list *list)
   i = 0;
   payload = list->head;
   args_num = count_args(payload);
-  payload->argv = malloc(sizeof(char *) * ( args_num + 1));
+  payload->argv = malloc_cmd_argv(payload);
   if (!payload->argv)
     return (NULL);
   while (payload->payload_array[i])
@@ -80,9 +80,11 @@ char  **build_cmd_argv(t_cmd_list *list)
   while (payload->payload_array[i])
   {
     if (payload->type[i] == ARGS)
+    {
       payload->argv[j] = ft_strdup(payload->payload_array[i]);
+      j++;
+    }
     i++;
-    j++;
   }
   payload->argv[args_num] = NULL;
   return (payload->argv);
