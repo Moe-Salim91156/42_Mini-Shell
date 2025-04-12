@@ -92,5 +92,5 @@ char	**build_cmd_argv(t_cmd_list *list)
 		payload->argv[j] = NULL;  // Null-terminate
 		payload = payload->next;
 	}
-	return (list->head->argv);
+	return (list->head->argv); // not important
 }
