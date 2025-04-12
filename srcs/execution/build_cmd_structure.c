@@ -24,8 +24,7 @@ int	count_args(t_cmd *payload)
 	i = 0;
 	while (payload->payload_array[i])
 	{
-		if (payload->type[i] == ARGS || payload->type[i] == COMMAND
-			|| payload->type[i] == WORD)
+		if (payload->type[i] == ARGS || payload->type[i] == COMMAND)
 			count++;
 		i++;
 	}
@@ -71,7 +70,7 @@ char	**build_cmd_argv(t_cmd_list *list)
 		i = 0;
 		while (payload->payload_array[i])
 		{
-			if (payload->type[i] == COMMAND || payload->type[i] == WORD)
+			if (payload->type[i] == COMMAND)
 			{
 				payload->argv[0] = ft_strdup(payload->payload_array[i]);
 				break ;
@@ -93,4 +92,36 @@ char	**build_cmd_argv(t_cmd_list *list)
 		payload = payload->next;
 	}
 	return (list->head->argv); // not important
+}
+
+char	**build_payload_argv(t_cmd *payload)
+{
+	int i; 
+	int j;
+
+	i = 0;
+	j = 0;
+	payload->argv = malloc_cmd_argv(payload);
+	if (!payload->argv)
+		return (NULL);
+	while (payload->payload_array[i])
+	{
+		if (payload->type[i] == COMMAND)
+		{
+			payload->argv[0] = ft_strdup(payload->payload_array[i]);
+			break;
+		}
+		i++;
+	}
+	while (payload->payload_array[i])
+	{
+		if (payload->type[i] == ARGS)
+		{
+			payload->argv[j] = ft_strdup(payload->payload_array[i]);
+			j++;
+		}
+		i++;
+	}
+	payload->argv[j] = NULL;
+	return (payload->argv);
 }
