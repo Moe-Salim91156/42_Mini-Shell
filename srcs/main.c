@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 18:03:46 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:44:43 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 int	main(void)
 {
+
 	t_shell			shell;//please add this
 	char			*input;
 
@@ -38,8 +39,8 @@ int	main(void)
 			lexer_cmd_list(shell.cmd_list);
 			print_tokens(shell.token_list);
 			print_command((shell.cmd_list));
-    build_cmd_argv(shell.cmd_list);
-		debug_build_cmd_argv(shell.cmd_list);
+      build_cmd_argv(shell.cmd_list);
+		  debug_build_cmd_argv(shell.cmd_list);
 			free_tokens(shell.token_list);//this
 			free_command_list(shell.cmd_list);//and this
 			shell.token_list = NULL;// this too
