@@ -10,6 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // look for redirections

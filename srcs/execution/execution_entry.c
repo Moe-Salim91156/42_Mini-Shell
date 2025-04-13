@@ -10,25 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 // handle heredocs
 // handle redirections
 // is_cmd
-char  *locate_cmd()
+char	*locate_cmd(void)
 {
-
 }
-int execution_entry(t_shell *shell)
+int	execution_entry(t_shell *shell)
 {
-  if (shell->cmd_list->count == 1)
-  {
-    if (is_builtin(locate_cmd()))
-    {
-      ft_execbe();
-    }
-  }
-    return 0;
+	if (shell->cmd_list->count == 1)
+	{
+		if (is_builtin(locate_cmd()))
+		{
+			ft_execbe();
+		}
+	}
+	return (0);
 }
 
 build_cmd_structure(t_token_list *list);

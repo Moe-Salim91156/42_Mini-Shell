@@ -53,11 +53,10 @@ typedef struct s_token_list
 
 typedef struct s_cmd
 {
-
 	char			**payload_array;
 	t_token_type	*type;
-	char			**argv; // execve compaitable array
-	char	*cmd_path;
+	char **argv; // execve compaitable array
+	char			*cmd_path;
 	char			*heredoc_buffer;
 	int				here_doc_counts;
 	int				in_fd;
@@ -97,7 +96,7 @@ t_envp				*init_envp(char **envp);
 void				*free_env(t_envp *list);
 void				free_command_list(t_cmd_list *cmd_list);
 void				free_tokens(t_token_list *list);
-//ft_exit is the ultimate exit handler. termination is always done through it.
+// ft_exit is the ultimate exit handler. termination is always done through it.
 void				ft_exit(t_shell *shell, unsigned long status);
 /*################# tokenization #################*/
 void				lexer_cmd_list(t_cmd_list *list);
@@ -140,11 +139,12 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
-int					bltn_execbe(char *cmdname, char **argv, char **envp,t_shell *shell);
+int					bltn_execbe(char *cmdname, char **argv, char **envp,
+						t_shell *shell);
 int					locate_heredoc(t_cmd_list *cmd_list);
 /*################# general utils #################*/
 void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);
-void debug_build_cmd_argv(t_cmd_list *list);
-void print_argv(t_cmd *payload);
+void				debug_build_cmd_argv(t_cmd_list *list);
+void				print_argv(t_cmd *payload);
 #endif

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 int	has_env_var(char *value, t_token *current)
 {
 	int	i;
@@ -64,11 +65,11 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 
 	*env_len = 0;
 	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
-		return (ft_strdup("")); // return empty string so it won't be re-expanded
-
-	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1 + *env_len] == '_')
+		return (ft_strdup(""));
+	// return empty string so it won't be re-expanded
+	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1
+		+ *env_len] == '_')
 		(*env_len)++;
-
 	env_name = malloc(*env_len + 1);
 	if (!env_name)
 		return (NULL);
@@ -88,27 +89,23 @@ char	*expand_env_var(char *value, int *env_index)
 	char	*final_result;
 	char	*temp;
 	int		next_index;
+	int		has_trailing_dollar;
 
 	before_str = get_before_str(value, &before);
 	if (!before_str)
 		return (NULL);
-
 	env_name = get_env_name(value, env_index, &env_len);
 	if (!env_name)
 	{
 		free(before_str);
 		return (NULL);
 	}
-
 	env_value = extract_env_value_from_name(env_name);
 	if (!env_value)
 		env_value = ft_strdup("");
-
 	free(env_name);
-
 	next_index = *env_index + 1 + env_len;
-	int has_trailing_dollar = (value[next_index] == '$');
-
+	has_trailing_dollar = (value[next_index] == '$');
 	if (has_trailing_dollar)
 	{
 		temp = ft_strjoin(env_value, "$");
@@ -116,14 +113,11 @@ char	*expand_env_var(char *value, int *env_index)
 		env_value = temp;
 		next_index++;
 	}
-
 	result = ft_strjoin(before_str, env_value);
 	final_result = ft_strjoin(result, &value[next_index]);
-
 	free(before_str);
 	free(env_value);
 	free(result);
-
 	*env_index = next_index - 1;
 	return (final_result);
 }
@@ -251,22 +245,23 @@ char	*handle_quotes_mode(t_token *current)
 /* just to set the flag for heredoc */
 int	see_heredoc_if_quoted(t_token_list *list)
 {
-	t_token *current;
-	int quoted;
+	t_token	*current;
+	int		quoted;
+
 	quoted = 0;
 	current = list->head;
 	while (current)
 	{
 		if (current->type == HEREDOC_DELIMITER)
 		{
-			if(ft_strchr(current->value,'\''))
+			if (ft_strchr(current->value, '\''))
 				quoted = 1;
 			else if (ft_strchr(current->value, '\"'))
 				quoted = 1;
 		}
 		current = current->next;
 	}
-	printf("qouted ? %d\n",quoted);
+	printf("qouted ? %d\n", quoted);
 	return (quoted);
 }
 

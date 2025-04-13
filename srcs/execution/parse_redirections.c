@@ -17,8 +17,6 @@
 // redirect append.
 // HEREDOC
 
-
-void  execution_entry()
+void	execution_entry(void)
 {
-
 }

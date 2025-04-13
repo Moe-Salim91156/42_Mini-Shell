@@ -12,8 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-
-
 void	free_tokens(t_token_list *list)
 {
 	t_token	*current;
@@ -33,9 +31,9 @@ void	free_tokens(t_token_list *list)
 
 void	free_command_list(t_cmd_list *cmd_list)
 {
-	t_cmd	*current;
-	t_cmd	*temp;
-	int		i;
+	t_cmd *current;
+	t_cmd *temp;
+	int i;
 
 	current = cmd_list->head;
 	while (current)
