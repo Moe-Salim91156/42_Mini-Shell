@@ -1,0 +1,12 @@
+-> expander:  
+  : replace get_env with kittaneh's search_list;
+  : norminette;
+
+-> tokenizer:
+  -norminette;
+
+-> execution: 
+  : README
+
+  : what has been done: 
+    :

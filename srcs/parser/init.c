@@ -59,11 +59,11 @@ t_cmd	*init_command(void)
 		return (NULL);
 	cmd->argv = NULL;
 	cmd->type = 0;
-  cmd->payload_array = NULL;
+	cmd->payload_array = NULL;
 	cmd->here_doc_counts = 0;
-  cmd->heredoc_buffer = NULL;
-  cmd->in_fd = 0;
-  cmd->out_fd = 1;
+	cmd->heredoc_buffer = NULL;
+	cmd->in_fd = 0;
+	cmd->out_fd = 1;
 	cmd->next = NULL;
 	return (cmd);
 }

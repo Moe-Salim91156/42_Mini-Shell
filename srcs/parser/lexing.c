@@ -89,7 +89,6 @@ void	lexemes(t_token *token)
 		token->type = REDIRECT_IN;
 	else if (!ft_strcmp(token->value, ">>"))
 		token->type = APPEND;
-
 	else if (!ft_strcmp(token->value, "<<"))
 	{
 		token->type = HEREDOC;

@@ -59,17 +59,15 @@ int	locate_heredoc(t_cmd_list *cmd_list)
 	}
 	printf("total heredocs in all payloads %d\n", cmd_list->total_heredocs);
 	return (0);
-
 }
 /*
  * filling the heredoc in each payload last one wins
  * if has quotes, no expansion inside and quotes removed from delimiter
  * if no quotes	, expanding content but not the delimiter
- * see_if_heredoc_quoted will be executed before expander, good fix 
+ * see_if_heredoc_quoted will be executed before expander, good fix
  * a flag (quoted) will determine if we will expand content or nah
  * locate, fill, expand?, get executed if command
  *
  *
  *
  */
-

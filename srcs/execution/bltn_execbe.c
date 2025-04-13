@@ -16,7 +16,7 @@
  passed cmdname, executes it as a bltn (i.e without forking)
  treated as execve, only it doesnt overwrite parent process image
 */
-int	bltn_execbe(char *cmdname,char **argv,char **envp,t_shell *shell)
+int	bltn_execbe(char *cmdname, char **argv, char **envp, t_shell *shell)
 {
 	if (ft_strcmp("env", cmdname))
 		return (bltn_env(shell));

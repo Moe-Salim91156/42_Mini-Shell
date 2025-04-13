@@ -6,20 +6,17 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/11 17:44:43 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:04:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-
 int	main(void)
 {
+	char	*input;
 
-	t_shell			shell;//please add this
-	char			*input;
-
+	t_shell shell; // please add this
 	shell_init(&shell, __environ);
 	shell.token_list = init_list();
 	shell.cmd_list = init_cmd_list();
@@ -27,12 +24,12 @@ int	main(void)
 	{
 		input = readline("rbsh$ ");
 		if (!input)
-			break;
+			break ;
 		if (input)
 		{
 			add_history(input);
 			if (!tokenizer(input, shell.token_list))
-				return (0);//wtf is a return doing here.
+				return (0); // wtf is a return doing here.
 			lexing(shell.token_list);
 			expander_main(shell.token_list);
 			build_cmd(shell.token_list, shell.cmd_list);
@@ -41,14 +38,15 @@ int	main(void)
 			print_command((shell.cmd_list));
 			build_cmd_argv(shell.cmd_list);
 			debug_build_cmd_argv(shell.cmd_list);
-			free_tokens(shell.token_list);//this
-			free_command_list(shell.cmd_list);//and this
-			shell.token_list = NULL;// this too
-			shell.token_list = init_list();//dont forget this
-			shell.cmd_list = init_cmd_list();// and lastly this, need to put all that stuff in a seperate function (loop_clean or smth)
+			free_tokens(shell.token_list);     // this
+			free_command_list(shell.cmd_list); // and this
+			shell.token_list = NULL;           // this too
+			shell.token_list = init_list();    // dont forget this
+			shell.cmd_list = init_cmd_list();  // and lastly this,
+												// need to put all that stuff in a seperate function(loop_clean or smth)
 		}
 	}
-	//exit_handler
+	// exit_handler
 	free(input);
 	return (0);
 }
