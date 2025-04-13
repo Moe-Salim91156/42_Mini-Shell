@@ -6,12 +6,11 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 19:35:12 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/13 13:30:35 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 int	has_env_var(char *value, t_token *current)
 {
 	int	i;
@@ -21,12 +20,19 @@ int	has_env_var(char *value, t_token *current)
 	{
 		if (value[i] == '$' && current->type != HEREDOC_DELIMITER)
 		{
+			// Don't expand if nothing follows
+			if (value[i + 1] == '\0')
+				return (-1);
+			// Don't expand if it's not a valid variable start
+			if (!ft_isalnum(value[i + 1]) && value[i + 1] != '_')
+				return (-1);
 			return (i);
 		}
 		i++;
 	}
 	return (-1);
 }
+
 char	*extract_env_value_from_name(char *value)
 {
 	char	*result;
@@ -35,7 +41,7 @@ char	*extract_env_value_from_name(char *value)
 	if (result == NULL)
 		return (ft_strdup(""));
 	else
-		return (result);
+		return (ft_strdup(result));
 }
 
 char	*get_before_str(char *value, int *before)
@@ -52,15 +58,17 @@ char	*get_before_str(char *value, int *before)
 	before_str[*before] = '\0';
 	return (before_str);
 }
-
 char	*get_env_name(char *value, int *env_index, int *env_len)
 {
 	char	*env_name;
 
 	*env_len = 0;
-	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1
-		+ *env_len] == '_')
+	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
+		return (ft_strdup("")); // return empty string so it won't be re-expanded
+
+	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1 + *env_len] == '_')
 		(*env_len)++;
+
 	env_name = malloc(*env_len + 1);
 	if (!env_name)
 		return (NULL);
@@ -78,25 +86,45 @@ char	*expand_env_var(char *value, int *env_index)
 	char	*env_value;
 	char	*result;
 	char	*final_result;
+	char	*temp;
+	int		next_index;
 
 	before_str = get_before_str(value, &before);
 	if (!before_str)
 		return (NULL);
+
 	env_name = get_env_name(value, env_index, &env_len);
 	if (!env_name)
 	{
 		free(before_str);
 		return (NULL);
 	}
+
 	env_value = extract_env_value_from_name(env_name);
+	if (!env_value)
+		env_value = ft_strdup("");
+
 	free(env_name);
-	if (env_value == NULL)
-		env_value = ft_strdup(""); // Return an empty string if not found
+
+	next_index = *env_index + 1 + env_len;
+	int has_trailing_dollar = (value[next_index] == '$');
+
+	if (has_trailing_dollar)
+	{
+		temp = ft_strjoin(env_value, "$");
+		free(env_value);
+		env_value = temp;
+		next_index++;
+	}
+
 	result = ft_strjoin(before_str, env_value);
-	final_result = ft_strjoin(result, &value[*env_index + 1 + env_len]);
-	*env_index += env_len - 1;
+	final_result = ft_strjoin(result, &value[next_index]);
+
 	free(before_str);
+	free(env_value);
 	free(result);
+
+	*env_index = next_index - 1;
 	return (final_result);
 }
 
