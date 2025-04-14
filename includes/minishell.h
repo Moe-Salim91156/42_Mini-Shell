@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/12 16:54:55 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:57:12 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-
+# define HEREDOC_PATH "m7md ent 7otto"
 /*################# structs ############################*/
 typedef enum e_token_type
 {
@@ -55,7 +55,7 @@ typedef struct s_cmd
 {
 	char			**payload_array;
 	t_token_type	*type;
-	char **argv; // execve compaitable array
+	char			**argv;
 	char			*cmd_path;
 	char			*heredoc_buffer;
 	int				here_doc_counts;
@@ -139,9 +139,17 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
-int					bltn_execbe(char *cmdname, char **argv, char **envp,
-						t_shell *shell);
+int					bltn_execbe(char **argv, t_shell *shell);
+int					is_bltn(char **argv);
+int					manage_bltn(t_shell *shell);
+					/* REDIRECTIONS */
 int					locate_heredoc(t_cmd_list *cmd_list);
+int					parse_redirs(t_shell *shell,char **payload_array);
+void				restore_io(t_cmd *payload);
+int					redir_in(t_shell *shell, char *file);
+int					redir_out(t_shell *shell, char *file);
+int					redir_append(t_shell *shell, char *file);
+int					redir_heredoc(t_shell *shell, char *file);
 /*################# general utils #################*/
 void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);
