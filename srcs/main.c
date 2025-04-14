@@ -37,7 +37,7 @@ int	main(void)
 			print_tokens(shell.token_list);
 			print_command((shell.cmd_list));
 			build_cmd_argv(shell.cmd_list);
-      locate_heredoc(shell.cmd_list);
+			locate_heredoc(shell.cmd_list);
 			debug_build_cmd_argv(shell.cmd_list);
 			free_tokens(shell.token_list);     // this
 			free_command_list(shell.cmd_list); // and this

@@ -11,16 +11,19 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-//!!!!!!!!!!!!!!!!! if first command $U ls , should work, so locate cmd, should handle that, 
-//                                /// in the token list it should be correctly assigned
+
+//!!!!!!!!!!!!!!!!! if first command $U ls , should work, so locate cmd,
+	should handle that,
+//                               
+	/// in the token list it should be correctly assigned
 // handle heredocs
 // handle redirections
 /*
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 
   // will check if the command is a builtin inside shell or not
-  // if yes will return 1;
+  // if yes will return (1);
   // no , maybe external or doesnt exist (
 }*/
 /*
@@ -34,27 +37,27 @@ int	execution_entry(t_shell *shell)
   // parse_redirection
   //      in_fd ; out_fd;
   //      in_fd; error out, outfile gonna be created;
-  // locate_cmd : return cmd_name | assigns payload->cmd_name;
+  // locate_cmd : return (cmd_name | assigns payload->cmd_name);
   // execute_cases:
-  // 
+  //
 	if (shell->cmd_list->count == 1)
 	{
 		if (bltn_execbe(cmd_name,payload->argv, shell) != -1)
 		{
-      printf("execution success\n");
+		printf("execution success\n");
 		}
-    else
-    {
-      //case 2 -> non_builtin one command no pipes
-      //execute_in_child();
-    }
+	else
+	{
+		//case 2 -> non_builtin one command no pipes
+		//execute_in_child();
+	}
   }
-    else
-    {
-      //case 3 -> one pipe and more
-      //build_pipeline();//fork for each child
-                       //build pipes --> pipe()
-    }
-    return (0);
+	else
+	{
+		//case 3 -> one pipe and more
+		//build_pipeline();//fork for each child
+						//build pipes --> pipe()
+	}
+	return (0);
 	}
   */

@@ -45,9 +45,9 @@ void	free_split(char **split)
 
 void	free_command_list(t_cmd_list *cmd_list)
 {
-	t_cmd *current;
-	t_cmd *temp;
-	int i;
+	t_cmd	*current;
+	t_cmd	*temp;
+	int		i;
 
 	current = cmd_list->head;
 	while (current)

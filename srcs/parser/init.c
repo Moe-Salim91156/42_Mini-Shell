@@ -62,9 +62,10 @@ t_cmd	*init_command(void)
 	cmd->payload_array = NULL;
 	cmd->here_doc_counts = 0;
 	cmd->heredoc_buffer = NULL;
-  cmd->has_heredoc = 0;
-  cmd->heredoc_quoted = 0;
-  cmd->heredoc_delimiter = NULL;
+	cmd->has_heredoc = 0;
+	cmd->heredoc_fd = 0;
+	cmd->heredoc_quoted = 0;
+	cmd->heredoc_delimiter = NULL;
 	cmd->in_fd = 0;
 	cmd->out_fd = 1;
 	cmd->next = NULL;
