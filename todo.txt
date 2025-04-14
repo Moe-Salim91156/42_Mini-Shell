@@ -8,5 +8,8 @@
 -> execution: 
   : README
 
+  -> builtins:
+    : for args we should not forget that if -na not correct
+      : it will be considered an arg not an option
   : what has been done: 
     :
