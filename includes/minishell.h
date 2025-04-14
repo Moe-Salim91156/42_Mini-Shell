@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 14:16:03 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/14 15:49:42 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
-char	*search_command_in_path(char *cmd, char **envp);
+char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload);
 char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
 int					bltn_execbe(char *cmdname, char **argv, char **envp,

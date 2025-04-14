@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:47 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 14:23:06 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/14 15:50:03 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,17 @@ static char	*get_path_from_env(char **envp)
 	return (NULL);
 }
 
-char	*search_command_in_path(char *cmd, char **envp)
+char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload)
 {
 	char	*path;
 	char	**dir;
 	char	*result;
 
+  if (ft_strchr(cmd, '/'))
+  {
+    payload->cmd_path = cmd;
+    return (cmd);
+  }
 	path = get_path_from_env(envp);
 	if (!path)
 		return (NULL);
@@ -74,5 +79,6 @@ char	*search_command_in_path(char *cmd, char **envp)
 		return (NULL);
 	}
 	free_split(dir);
+  printf("result %s\n", result);
 	return (result);
 }
