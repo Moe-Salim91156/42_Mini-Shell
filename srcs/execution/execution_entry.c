@@ -6,12 +6,13 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 16:38:20 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/14 16:57:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+//!!!!!!!!!!!!!!!!! if first command $U ls , should work, so locate cmd, should handle that, 
+//                                /// in the token list it should be correctly assigned
 // handle heredocs
 // handle redirections
 /*

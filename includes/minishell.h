@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 16:39:37 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/14 17:03:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ typedef struct s_cmd
 	char **argv; // execve compaitable array
 	char			*cmd_path;
 	char			*heredoc_buffer;
+  int       has_heredoc;
+  char      *heredoc_delimiter;
+  int       heredoc_quoted;
 	int				here_doc_counts;
 	int				in_fd;
 	int				out_fd;
