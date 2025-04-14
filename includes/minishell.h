@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/12 16:54:55 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:03:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ typedef struct s_cmd
 	char **argv; // execve compaitable array
 	char			*cmd_path;
 	char			*heredoc_buffer;
+  int       has_heredoc;
+  char      *heredoc_delimiter;
+  int       heredoc_quoted;
 	int				here_doc_counts;
 	int				in_fd;
 	int				out_fd;
@@ -137,12 +140,14 @@ int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
+char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload);
 char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
 int					bltn_execbe(char *cmdname, char **argv, char **envp,
 						t_shell *shell);
 int					locate_heredoc(t_cmd_list *cmd_list);
 /*################# general utils #################*/
+void  free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);
 void				debug_build_cmd_argv(t_cmd_list *list);

@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/09 16:09:20 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/14 18:00:40 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../includes/minishell.h"
@@ -22,25 +22,66 @@
  *      4. thats it;
  *
  * */
+int	see_heredoc_if_quoted(t_shell *shell)
+{
+	t_token	*current;
+  t_cmd *payload;
+
+	current = shell->token_list->head;
+  payload = shell->cmd_list->head;
+	while (current)
+	{
+		if (current->type == HEREDOC_DELIMITER)
+		{
+			if (ft_strchr(current->value, '\''))
+				payload->heredoc_quoted = 1;
+			else if (ft_strchr(current->value, '\"'))
+				payload->heredoc_quoted = 1;
+		}
+		current = current->next;
+	}
+	printf("qouted ? %d\n", payload->heredoc_quoted);
+	return (payload->heredoc_quoted);
+}
+
+void  run_heredoc(char *delimiter)
+{
+  char  *input ;
+  int heredoc_fd = open("/tmp/.heredoc_tmp", O_RDONLY, O_WRONLY, O_CREAT, 0644);
+  if (heredoc_fd < 0)
+  {
+    // error
+    perror("heredoc file ");
+  }
+  while (1)
+  {
+    input = readline("> ");
+    if (!input || !ft_strcmp(input,delimiter))
+    {
+      break;
+    }
+    write(heredoc_fd, input, ft_strlen(input));
+    free(input);
+  }
+  close(heredoc_fd);
+}
+
 
 int	search_in_args(t_cmd *payload)
 {
 	int	i;
-	int	found;
 
 	i = 0;
-	found = 0;
 	while (payload->payload_array[i])
 	{
 		if (!ft_strcmp(payload->payload_array[i], "<<"))
 		{
-			printf("here doc found in argv of %d\n", i);
-			payload->here_doc_counts++;
-			found = 1;
+      payload->has_heredoc = 1;
+      payload->heredoc_delimiter = ft_strdup(payload->payload_array[i + 1]);
 		}
 		i++;
 	}
-	return (found);
+	return (payload->has_heredoc);
 }
 
 int	locate_heredoc(t_cmd_list *cmd_list)
@@ -51,15 +92,15 @@ int	locate_heredoc(t_cmd_list *cmd_list)
 	while (payload != NULL)
 	{
 		if (search_in_args(payload))
-		{
-			printf("here doc counts %d\n", payload->here_doc_counts);
-			cmd_list->total_heredocs += payload->here_doc_counts;
-		}
+      run_heredoc(payload->heredoc_delimiter);
 		payload = payload->next;
 	}
 	printf("total heredocs in all payloads %d\n", cmd_list->total_heredocs);
 	return (0);
 }
+
+
+
 /*
  * filling the heredoc in each payload last one wins
  * if has quotes, no expansion inside and quotes removed from delimiter
