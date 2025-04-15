@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 16:54:01 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:56:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ int	has_env_var(char *value, t_token *current)
 	{
 		if (value[i] == '$' && current->type != HEREDOC_DELIMITER)
 		{
-			// Don't expand if nothing follows
 			if (value[i + 1] == '\0')
 				return (-1);
-			// Don't expand if it's not a valid variable start
 			if (!ft_isalnum(value[i + 1]) && value[i + 1] != '_')
 				return (-1);
 			return (i);
