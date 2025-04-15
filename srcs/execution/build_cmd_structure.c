@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 16:56:20 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:17:57 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	**build_cmd_argv(t_cmd_list *list)
 			}
 			i++;
 		}
-		payload->argv[j] = NULL; // Null-terminate
 		payload = payload->next;
 	}
 	return (list->head->argv); // not important

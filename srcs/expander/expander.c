@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 17:58:34 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:54:01 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,14 +243,21 @@ char	*handle_quotes_mode(t_token *current)
 
 /* this will get called before expander for heredoc content expansion or not*/
 /* just to set the flag for heredoc */
-char	*expander_main(t_token_list *list)
+char	*expander_main(t_shell *shell)
 {
 	t_token	*current;
 	char	*result;
 
-	current = list->head;
+	current = shell->token_list->head;
 	while (current)
 	{
+		if (current->type == HEREDOC_DELIMITER)
+		{
+			if (ft_strchr(current->value, '\''))
+				current->heredoc_quoted = 1;
+			else if (ft_strchr(current->value, '\"'))
+				current->heredoc_quoted = 1;
+		}
 		result = handle_quotes_mode(current);
 		if (!result)
 			return (NULL);

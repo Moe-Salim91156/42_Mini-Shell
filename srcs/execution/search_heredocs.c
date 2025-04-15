@@ -6,16 +6,13 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 18:00:40 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:51:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
-
 #include "../../includes/minishell.h"
 #define HEREDOC_FILE "/tmp/.heredoc_tmp"
+
 /*
  * lookup payloads array of args for (<<)
  * if found execute the heredoc function
@@ -38,63 +35,22 @@ int	see_heredoc_if_quoted(t_shell *shell)
 	{
 		if (current->type == HEREDOC_DELIMITER)
 		{
-			if (ft_strchr(current->value, '\''))
-				payload->heredoc_quoted = 1;
-			else if (ft_strchr(current->value, '\"'))
-				payload->heredoc_quoted = 1;
+       payload->heredoc_quoted = current->heredoc_quoted;
 		}
 		current = current->next;
 	}
-	printf("qouted ? %d\n", payload->heredoc_quoted);
 	return (payload->heredoc_quoted);
 }
 
-void	redirect_stdin_to_heredoc(const char *heredoc_filename,
-		int *original_stdin)
+void	run_heredoc(t_cmd *payload, char *delimiter)
 {
-	int	heredoc_fd;
-
-	*original_stdin = dup(STDIN_FILENO);
-	if (*original_stdin < 0)
-	{
-		perror("Error saving original stdin");
-		return ;
-	}
-	heredoc_fd = open(heredoc_filename, O_RDONLY);
-	if (heredoc_fd < 0)
-	{
-		perror("Error opening heredoc file");
-		return ;
-	}
-	if (dup2(heredoc_fd, STDIN_FILENO) < 0)
-	{
-		perror("Error redirecting stdin");
-		close(heredoc_fd);
-		return ;
-	}
-	close(heredoc_fd);
-}
-
-void	restore_stdin(int original_stdin)
-{
-	if (dup2(original_stdin, STDIN_FILENO) < 0)
-	{
-		perror("Error restoring stdin");
-		return ;
-	}
-	close(original_stdin);
-}
-
-void	run_heredoc(char *delimiter)
-{
-	int		heredoc_fd;
 	char	*input;
-	int		original_stdin;
 
-	heredoc_fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (heredoc_fd < 0)
+	payload->heredoc_fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC,
+			0644);
+	if (payload->heredoc_fd < 0)
 	{
-		perror("heredoc file");
+		perror("heredoc file open error");
 		return ;
 	}
 	while (1)
@@ -105,21 +61,11 @@ void	run_heredoc(char *delimiter)
 			free(input);
 			break ;
 		}
-		write(heredoc_fd, input, ft_strlen(input));
-		write(heredoc_fd, "\n", 1);
+		write(payload->heredoc_fd, input, ft_strlen(input));
+		write(payload->heredoc_fd, "\n", 1);
 		free(input);
 	}
-	close(heredoc_fd);
-	redirect_stdin_to_heredoc(HEREDOC_FILE, &original_stdin);
-	heredoc_fd = open(HEREDOC_FILE, O_RDONLY);
-	if (heredoc_fd < 0)
-	{
-		perror("heredoc file reopen");
-		return ;
-	}
-  printf("%s\n",get_next_line(heredoc_fd));
-	close(heredoc_fd);
-	restore_stdin(original_stdin);
+	close(payload->heredoc_fd);
 }
 
 int	search_in_args(t_cmd *payload)
@@ -134,7 +80,14 @@ int	search_in_args(t_cmd *payload)
 			payload->has_heredoc = 1;
 			payload->heredoc_delimiter = ft_strdup(payload->payload_array[i
 					+ 1]);
-			run_heredoc(payload->heredoc_delimiter);
+			run_heredoc(payload, payload->heredoc_delimiter);
+			if (payload->heredoc_fd < 0)
+			{
+				// error
+				// exit;
+				// or return (-1 for error);
+				// 0 if no heredoc and 1 if there is heredoc
+			}
 		}
 		i++;
 	}
@@ -146,13 +99,12 @@ int	locate_heredoc(t_cmd_list *cmd_list)
 	t_cmd	*payload;
 
 	payload = cmd_list->head;
-	while (payload != NULL)
-	{
-		search_in_args(payload);
-		payload = payload->next;
-	}
-	printf("total heredocs in all payloads %d\n", cmd_list->total_heredocs);
-	return (0);
+	if (search_in_args(payload) == -1)
+		return (-1); // error if we wanna return or exit handler
+	printf("payload has heredoc ? %d\n", payload->has_heredoc);
+	printf("payload heredoc file fd %d\n", payload->heredoc_fd);
+	printf("payload heredoc delim is quoted ? %d\n", payload->heredoc_quoted);
+	return (payload->has_heredoc); // will be 0 or 1 for heredoc detection;
 }
 
 /*

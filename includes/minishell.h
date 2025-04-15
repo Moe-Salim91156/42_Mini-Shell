@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 17:03:07 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:34:29 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	int				heredoc_quoted;
 	struct s_token	*next;
 }					t_token;
 
@@ -59,9 +60,10 @@ typedef struct s_cmd
 	char			*cmd_path;
 	char			*heredoc_buffer;
 	int				heredoc_fd;
-	int				has_heredoc;
+	// a way to communicate or call it when parsing redirection in;
+	int has_heredoc; // flag
 	char			*heredoc_delimiter;
-	int				heredoc_quoted;
+	int heredoc_quoted; // for expansion or not
 	int				here_doc_counts;
 	int				in_fd;
 	int				out_fd;
@@ -113,13 +115,13 @@ int					is_redirect(char c);
 void				add_last_token(char *input, int start, int i,
 						t_token_list *tokens);
 int					tokenizer(char *input, t_token_list *tokens);
-t_cmd				*build_cmd(t_token_list *list, t_cmd_list *cmd_list);
+t_cmd				*build_payloads(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);
 void				lexemes(t_token *token);
 void				add_token(t_token_list *list, char *value);
 /*################# expander ###########################*/
 int					check_for_quotes_in_tokens(t_token_list *list);
-char				*expander_main(t_token_list *tokens);
+char				*expander_main(t_shell *shell);
 char				*handle_quotes_mode(t_token *current);
 /*################# enviroment #################*/
 int					envp_count(t_envp *list);
@@ -143,6 +145,7 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 char				*search_command_in_path(char *cmd, char **envp,
 						t_cmd *payload);
+int					see_heredoc_if_quoted(t_shell *shell);
 char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
 int					bltn_execbe(char *cmdname, char **argv, char **envp,
