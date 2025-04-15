@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/14 20:58:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:48:05 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,19 @@ int	parse_redirs(t_shell *shell,char **payload)
 			ret = redir_heredoc(shell, HEREDOC_PATH);
 			i+=2;
 		}
-		if (ret)
+		if (ret == -1)
 			break;
 		i++;
 	}
 	return (ret);
+}
+
+int	redir_in(t_shell *shell, char *file)
+{
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (-1);
+	shell->
 }

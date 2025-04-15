@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 20:57:12 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:54:06 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_cmd
 	int				here_doc_counts;
 	int				in_fd;
 	int				out_fd;
+	int				exit_status;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -146,10 +147,10 @@ int					manage_bltn(t_shell *shell);
 int					locate_heredoc(t_cmd_list *cmd_list);
 int					parse_redirs(t_shell *shell,char **payload_array);
 void				restore_io(t_cmd *payload);
-int					redir_in(t_shell *shell, char *file);
-int					redir_out(t_shell *shell, char *file);
-int					redir_append(t_shell *shell, char *file);
-int					redir_heredoc(t_shell *shell, char *file);
+int					redir_in(t_cmd *payload, char *file);
+int					redir_out(t_cmd *payload, char *file);
+int					redir_append(t_cmd *payload, char *file);
+int					redir_heredoc(t_cmd *payload, char *file);
 /*################# general utils #################*/
 void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);

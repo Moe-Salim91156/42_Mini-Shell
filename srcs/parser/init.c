@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 18:07:09 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/15 10:54:46 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ t_cmd	*init_command(void)
 	cmd->in_fd = 0;
 	cmd->out_fd = 1;
 	cmd->next = NULL;
+	cmd->exit_status = 0;
 	return (cmd);
 }
