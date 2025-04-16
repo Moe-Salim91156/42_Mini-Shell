@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 16:50:04 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:40:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*locate_cmd(void)
 }
 int	execution_entry(t_shell *shell)
 {
-
 	t_cmd *current_payload;
 
 	current_payload = shell->cmd_list->head;
@@ -28,7 +27,7 @@ int	execution_entry(t_shell *shell)
 	{
 		if (is_bltn(current_payload->argv))//case1
 		{
-			shell->last_status = manage_bltn(shell);
+			shell->last_status = manage_bltn(shell, current_payload);
 		}
 		else
 		{

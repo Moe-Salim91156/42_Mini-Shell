@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/15 11:11:12 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:00:49 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell)
+int manage_bltn(t_shell *shell, t_cmd *current_payload)
 {
 	int	ret;
 
 	ret = 0;
 	if(locate_heredoc(shell->cmd_list))
-	//REDO MANAGE_BLTN TO ACCOMADTE PIPELINE!!!	
-		if (parse_redirs(shell->cmd_list->head,shell->cmd_list->head->payload_array))
+	//REDO MANAGE_BLTN TO ACCOMADTE PIPELINE!!!
+		if(parse_redirs(shell->cmd_list->head,shell->cmd_list->head->payload_array))
 			ret = bltn_execbe(shell->cmd_list->head->argv, shell);
 	restore_io(shell->cmd_list->head);
 	// free heredoc

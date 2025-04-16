@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 11:03:20 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:24:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,15 +142,15 @@ char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
-int					manage_bltn(t_shell *shell);
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
 					/* REDIRECTIONS */
 int					locate_heredoc(t_cmd_list *cmd_list);
-int					parse_redirs(t_cmd *cmd,char **payload_array);
+int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *payload);
-int					redir_in(t_cmd *payload, char *file);
-int					redir_out(t_cmd *payload, char *file);
-int					redir_append(t_cmd *payload, char *file);
-int					redir_heredoc(t_cmd *payload, char *file);
+int					redir_in(t_cmd *current_payload, char *file);
+int					redir_out(t_cmd *current_payload, char *file);
+int					redir_append(t_cmd *current_payload, char *file);
+int					redir_heredoc(t_cmd *current_payload, char *file);
 /*################# general utils #################*/
 void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);
