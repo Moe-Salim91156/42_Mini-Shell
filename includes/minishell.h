@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/16 14:24:00 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:18:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
 					/* REDIRECTIONS */
 int					locate_heredoc(t_cmd_list *cmd_list);
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
-void				restore_io(t_cmd *payload);
+void				restore_io(t_cmd *current_payload);
 int					redir_in(t_cmd *current_payload, char *file);
 int					redir_out(t_cmd *current_payload, char *file);
 int					redir_append(t_cmd *current_payload, char *file);

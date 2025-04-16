@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:36:24 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/14 17:55:54 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:18:53 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 // look for redirections
 
-void	restore_io(t_cmd *payload)
+void	restore_io(t_cmd *current_payload)
 {
-	if (payload->in_fd)
-		dup2(payload->in_fd,STDIN_FILENO);
-	if (payload->out_fd)
-		dup2(payload->out_fd,STDOUT_FILENO);
+	if (current_payload->in_fd)
+		dup2(current_payload->in_fd,STDIN_FILENO);
+	if (current_payload->out_fd)
+		dup2(current_payload->out_fd,STDOUT_FILENO);
 }
