@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include  "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static char	*find_command_in_directories(char *cmd, char **dir)
 {
@@ -61,11 +60,11 @@ char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload)
 	char	**dir;
 	char	*result;
 
-  if (ft_strchr(cmd, '/'))
-  {
-    payload->cmd_path = cmd;
-    return (cmd);
-  }
+	if (ft_strchr(cmd, '/'))
+	{
+		payload->cmd_path = cmd;
+		return (cmd);
+	}
 	path = get_path_from_env(envp);
 	if (!path)
 		return (NULL);
@@ -79,6 +78,6 @@ char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload)
 		return (NULL);
 	}
 	free_split(dir);
-  printf("result %s\n", result);
+	printf("result %s\n", result);
 	return (result);
 }
