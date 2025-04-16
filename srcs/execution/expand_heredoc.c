@@ -6,32 +6,31 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:38:09 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 17:41:14 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/16 14:25:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-char	*expand_heredoc_line(char *line, char **envp)
+#include "../../includes/minishell.h"
+char	*get_env_value_from_envp(char *key, char **envp)
 {
-	char	*result;
-	char	*tmp;
 	int		i;
+	char	*prefix;
+	size_t	len;
 
+	len = ft_strlen(key);
+	prefix = ft_strjoin(key, "=");
 	i = 0;
-	result = ft_strdup(line);
-	while (result[i])
+	while (envp[i])
 	{
-		if (result[i] == '$' && ft_isalpha(result[i + 1]))
+		if (!ft_strncmp(envp[i], prefix, len + 1))
 		{
-			tmp = expand_env_segment(result, &i, envp);
-			free(result);
-			result = tmp;
-			i = -1;
+			free(prefix);
+			return (ft_strdup(envp[i] + len + 1));
 		}
 		i++;
 	}
-	return (result);
+	free(prefix);
+	return (NULL);
 }
 
 char	*expand_env_segment(char *line, int *i, char **envp)
@@ -64,3 +63,24 @@ char	*expand_env_segment(char *line, int *i, char **envp)
 	return (res);
 }
 
+char	*expand_heredoc_line(char *line, char **envp)
+{
+	char	*result;
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	result = ft_strdup(line);
+	while (result[i])
+	{
+		if (result[i] == '$' && ft_isalpha(result[i + 1]))
+		{
+			tmp = expand_env_segment(result, &i, envp);
+			free(result);
+			result = tmp;
+			i = -1;
+		}
+		i++;
+	}
+	return (result);
+}

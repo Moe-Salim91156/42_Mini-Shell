@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 16:51:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/16 14:26:57 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	see_heredoc_if_quoted(t_shell *shell)
 	return (payload->heredoc_quoted);
 }
 
-void	run_heredoc(t_cmd *payload, char *delimiter)
+void	run_heredoc(t_cmd *payload, char *delimiter, char **envp)
 {
 	char	*input;
 
@@ -61,6 +61,8 @@ void	run_heredoc(t_cmd *payload, char *delimiter)
 			free(input);
 			break ;
 		}
+    if (!payload->heredoc_quoted)
+      input = expand_heredoc_line(input,envp);
 		write(payload->heredoc_fd, input, ft_strlen(input));
 		write(payload->heredoc_fd, "\n", 1);
 		free(input);
@@ -68,7 +70,7 @@ void	run_heredoc(t_cmd *payload, char *delimiter)
 	close(payload->heredoc_fd);
 }
 
-int	search_in_args(t_cmd *payload)
+int	search_in_args(t_cmd *payload, char **envp)
 {
 	int	i;
 
@@ -80,7 +82,7 @@ int	search_in_args(t_cmd *payload)
 			payload->has_heredoc = 1;
 			payload->heredoc_delimiter = ft_strdup(payload->payload_array[i
 					+ 1]);
-			run_heredoc(payload, payload->heredoc_delimiter);
+			run_heredoc(payload, payload->heredoc_delimiter,envp);
 			if (payload->heredoc_fd < 0)
 			{
 				// error
@@ -94,12 +96,13 @@ int	search_in_args(t_cmd *payload)
 	return (payload->has_heredoc);
 }
 
-int	locate_heredoc(t_cmd_list *cmd_list)
+int	locate_heredoc(t_cmd_list *cmd_list, t_shell *shell)
 {
 	t_cmd	*payload;
-
+  char **envp = build_envp(shell);
 	payload = cmd_list->head;
-	if (search_in_args(payload) == -1)
+
+	if (search_in_args(payload, envp) == -1)
 		return (-1); // error if we wanna return or exit handler
 	printf("payload has heredoc ? %d\n", payload->has_heredoc);
 	printf("payload heredoc file fd %d\n", payload->heredoc_fd);

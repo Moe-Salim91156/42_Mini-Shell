@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 16:34:29 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/16 14:27:22 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,9 @@ char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
 int					bltn_execbe(char *cmdname, char **argv, char **envp,
 						t_shell *shell);
-int					locate_heredoc(t_cmd_list *cmd_list);
+int					locate_heredoc(t_cmd_list *cmd_list, t_shell *shell);
+char	*expand_heredoc_line(char *line, char **envp);
+t_envp	*find_by_key(t_envp *list, char *key);
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);
