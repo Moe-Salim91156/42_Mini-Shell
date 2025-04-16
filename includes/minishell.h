@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/16 15:18:40 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:28:14 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ t_cmd				*init_command(void);
 t_token_list		*init_list(void);
 t_cmd_list			*init_cmd_list(void);
 t_envp				*init_envp(char **envp);
+					/* CLEAN UP */
 void				*free_env(t_envp *list);
 void				free_command_list(t_cmd_list *cmd_list);
 void				free_tokens(t_token_list *list);
@@ -140,10 +141,11 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 char				**build_cmd_argv(t_cmd_list *payload);
 int					execution_entry(t_shell *shell);
+					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
 int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
-					/* REDIRECTIONS */
+					/*	REDIRECTIONS	*/
 int					locate_heredoc(t_cmd_list *cmd_list);
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
