@@ -6,13 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/16 15:23:26 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:04:20 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdio.h>
-#include <unistd.h>
 
 /*
  passed cmdname, executes it as a bltn (i.e without forking)
@@ -61,13 +59,24 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload)
+int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
 {
-	if(locate_heredoc(shell->cmd_list))
-	//REDO MANAGE_BLTN TO ACCOMADTE PIPELINE!!! (done (: )
-		if(parse_redirs(shell->cmd_list->head,shell->cmd_list->head->payload_array))
-			bltn_execbe(shell->cmd_list->head->argv, shell);
-	restore_io(shell->cmd_list->head);
-	// free heredoc
+	int		err;
+
+	if (pipe)
+	{
+		printf("this is just to shut up a warning\n");
+		/* handle_pipe(pipe); */
+	}
+	err = 0;
+	/* if(locate_heredoc(shell->cmd_list)) TBD */
+	err = parse_redirs(current_payload,current_payload->payload_array);
+		if(!err)
+			bltn_execbe(current_payload->argv, shell);
+		else
+			current_payload->exit_status = 1;
+	restore_io(current_payload);
+	// delete heredoc tmp file
+
 	return (current_payload->exit_status);
 }

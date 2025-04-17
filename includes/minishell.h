@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/16 15:28:14 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:01:41 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+
 # define HEREDOC_PATH "m7md ent 7otto"
 /*################# structs ############################*/
 typedef enum e_token_type
@@ -144,7 +147,9 @@ int					execution_entry(t_shell *shell);
 					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
-int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int pipe[]);
+					/*	FORK OPERATIONS	*/
+int					manage_child(t_shell *shell, t_cmd *current_payload, int pipe[]);
 					/*	REDIRECTIONS	*/
 int					locate_heredoc(t_cmd_list *cmd_list);
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);

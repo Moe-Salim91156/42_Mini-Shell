@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/16 14:34:22 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:30:19 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	redir_in(t_cmd *current_payload, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
+		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
 		return (-1);
 	}
@@ -60,6 +61,7 @@ int redir_out(t_cmd *current_payload, char *file)
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
+		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
 		return (-1);
 	}
@@ -74,6 +76,7 @@ int redir_append(t_cmd *current_payload, char *file)
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
+		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
 		return (-1);
 	}
@@ -88,6 +91,7 @@ int redir_heredoc(t_cmd *current_payload, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
+		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
 		return (-1);
 	}
