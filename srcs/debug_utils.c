@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:30:10 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/09 16:41:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,71 @@ void	print_command(t_cmd_list *cmd_list)
 	int		i;
 	int		index;
 
-	i = 0;
 	index = 0;
 	cmd = cmd_list->head;
 	while (cmd)
 	{
-		printf("Payload %d\n", index);
+		printf("=========== Command %d ===========\n", index);
+		// Print the payload and corresponding token types in a more structured format
 		i = 0;
-		while (cmd->argv[i])
+		while (cmd->payload_array[i])
 		{
-			printf("argv[%d] : %s\n", i, cmd->argv[i]);
+			printf("argv[%d]: %-20s | Type[%d]: %-3d\n", i,
+				cmd->payload_array[i], i, cmd->type[i]);
 			i++;
 		}
-		printf("argv[%d] : NULL\n", i);
+		printf("argv[%d]: %-20s | Type[%d]: %-3d\n", i, "NULL", i, 0);
+		// Mark the end of the array
+		// Print a separator for readability between different commands
+		printf("\n==============================\n\n");
 		cmd = cmd->next;
 		index++;
 	}
-	printf("number of arguments in total allocated %d\n", cmd_list->count);
+	printf("Total commands in list: %d\n", cmd_list->count);
+}
+void	print_payload(t_cmd *payload)
+{
+	int	i;
+
+	i = 0;
+	// Print the payload_array and types for debugging
+	printf("payload_array and types:\n");
+	while (payload->payload_array[i])
+	{
+		printf("[%d] %s (type: %d)\n", i, payload->payload_array[i],
+			payload->type[i]);
+		i++;
+	}
+}
+
+void	debug_build_cmd_argv(t_cmd_list *list)
+{
+	t_cmd	*payload;
+
+	payload = list->head;
+	if (!payload)
+	{
+		printf("Payload is NULL\n");
+		return ;
+	}
+	while (payload)
+	{
+		print_argv(payload);
+		payload = payload->next;
+	}
+}
+void	print_argv(t_cmd *payload)
+{
+	int	i;
+
+	i = 0;
+	// Print the entire argv array (for execve)
+	printf("argv array:\n");
+	while (payload->argv[i])
+	{
+		printf("[%d] %s\n", i, payload->argv[i]);
+		i++;
+	}
 }
 
 void	print_tokens(t_token_list *list)
