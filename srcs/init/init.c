@@ -1,38 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 16:39:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/12 17:15:34 by yokitane         ###   ########.fr       */
+/*   Created: 2025/04/10 14:23:21 by yokitane          #+#    #+#             */
+/*   Updated: 2025/04/10 15:06:15 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-	1024 stack allocated buffer to make life a tiny
-	bit easier for us when exiting.
-*/
-
-int	bltn_pwd(void)
+int	shell_init(t_shell *shell, char **envp)
 {
-	char	cwd[1024];
-
-	if (getcwd(cwd, 1024) != NULL)
-	{
-		printf("%s\n", cwd);
-		return (0);
-	}
-	else
-	{
-		perror("getcwd failed");
-		return (1);
-	}
+	// shell = malloc(sizeof(t_shell));
+	shell->token_list = init_list();
+	shell->cmd_list = init_cmd_list();
+	shell->envp_list = init_envp(envp);
+	if (!shell->token_list || !shell->cmd_list || !shell->envp_list)
+		return (-1);
+	return (0);
 }
-// int main(void)
-// {
-// 	bltn_pwd();
-// }

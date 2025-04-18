@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/25 19:27:05 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:33:50 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	substr_and_add(char *input, int start, int i, t_token_list *tokens)
 		add_token(tokens, result);
 		free(result);
 	}
+}
+
+void	skip_beginning_spaces(char *str)
+{
+	while (*str == ' ')
+		str++;
 }
 
 void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
