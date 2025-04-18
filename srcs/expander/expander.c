@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/13 13:30:35 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:56:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ int	has_env_var(char *value, t_token *current)
 	{
 		if (value[i] == '$' && current->type != HEREDOC_DELIMITER)
 		{
-			// Don't expand if nothing follows
 			if (value[i + 1] == '\0')
 				return (-1);
-			// Don't expand if it's not a valid variable start
 			if (!ft_isalnum(value[i + 1]) && value[i + 1] != '_')
 				return (-1);
 			return (i);
@@ -243,36 +241,21 @@ char	*handle_quotes_mode(t_token *current)
 
 /* this will get called before expander for heredoc content expansion or not*/
 /* just to set the flag for heredoc */
-int	see_heredoc_if_quoted(t_token_list *list)
+char	*expander_main(t_shell *shell)
 {
 	t_token	*current;
-	int		quoted;
+	char	*result;
 
-	quoted = 0;
-	current = list->head;
+	current = shell->token_list->head;
 	while (current)
 	{
 		if (current->type == HEREDOC_DELIMITER)
 		{
 			if (ft_strchr(current->value, '\''))
-				quoted = 1;
+				current->heredoc_quoted = 1;
 			else if (ft_strchr(current->value, '\"'))
-				quoted = 1;
+				current->heredoc_quoted = 1;
 		}
-		current = current->next;
-	}
-	printf("qouted ? %d\n", quoted);
-	return (quoted);
-}
-
-char	*expander_main(t_token_list *list)
-{
-	t_token	*current;
-	char	*result;
-
-	current = list->head;
-	while (current)
-	{
 		result = handle_quotes_mode(current);
 		if (!result)
 			return (NULL);

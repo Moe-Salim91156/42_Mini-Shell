@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_cmd.c                                        :+:      :+:    :+:   */
+/*   build_payload.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:55:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 	cmd->payload_array[i] = NULL;
 }
 
-t_cmd	*build_cmd(t_token_list *list, t_cmd_list *cmd_list)
+t_cmd	*build_payloads(t_token_list *list, t_cmd_list *cmd_list)
 {
 	t_cmd	*cmd;
 

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/10 15:03:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:15:44 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,26 @@ void	free_tokens(t_token_list *list)
 	}
 	free(list);
 }
+void	free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 
 void	free_command_list(t_cmd_list *cmd_list)
 {
-	t_cmd *current;
-	t_cmd *temp;
-	int i;
+	t_cmd	*current;
+	t_cmd	*temp;
+	int		i;
 
 	current = cmd_list->head;
 	while (current)
