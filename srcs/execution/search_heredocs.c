@@ -35,7 +35,7 @@ int	see_heredoc_if_quoted(t_shell *shell)
 	{
 		if (current->type == HEREDOC_DELIMITER)
 		{
-       payload->heredoc_quoted = current->heredoc_quoted;
+			payload->heredoc_quoted = current->heredoc_quoted;
 		}
 		current = current->next;
 	}
@@ -61,8 +61,8 @@ void	run_heredoc(t_cmd *payload, char *delimiter, char **envp)
 			free(input);
 			break ;
 		}
-    if (!payload->heredoc_quoted)
-      input = expand_heredoc_line(input,envp);
+		if (!payload->heredoc_quoted)
+			input = expand_heredoc_line(input, envp);
 		write(payload->heredoc_fd, input, ft_strlen(input));
 		write(payload->heredoc_fd, "\n", 1);
 		free(input);
@@ -82,7 +82,7 @@ int	search_in_args(t_cmd *payload, char **envp)
 			payload->has_heredoc = 1;
 			payload->heredoc_delimiter = ft_strdup(payload->payload_array[i
 					+ 1]);
-			run_heredoc(payload, payload->heredoc_delimiter,envp);
+			run_heredoc(payload, payload->heredoc_delimiter, envp);
 			if (payload->heredoc_fd < 0)
 			{
 				// error
@@ -99,9 +99,10 @@ int	search_in_args(t_cmd *payload, char **envp)
 int	locate_heredoc(t_cmd_list *cmd_list, t_shell *shell)
 {
 	t_cmd	*payload;
-  char **envp = build_envp(shell);
-	payload = cmd_list->head;
+	char	**envp;
 
+	envp = build_envp(shell);
+	payload = cmd_list->head;
 	if (search_in_args(payload, envp) == -1)
 		return (-1); // error if we wanna return or exit handler
 	printf("payload has heredoc ? %d\n", payload->has_heredoc);

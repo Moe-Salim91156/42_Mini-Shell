@@ -1,0 +1,10 @@
+includes
+libft
+Makefile
+minishell
+objs
+out
+readline_curses.supp
+README.md
+srcs
+todo.txt

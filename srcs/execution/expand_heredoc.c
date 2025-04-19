@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 char	*get_env_value_from_envp(char *key, char **envp)
 {
 	int		i;
