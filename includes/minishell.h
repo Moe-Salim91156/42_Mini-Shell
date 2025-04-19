@@ -151,8 +151,8 @@ int					execution_entry(t_shell *shell);
 int					bltn_execbe(char *cmdname, char **argv, char **envp,
 						t_shell *shell);
 int					locate_heredoc(t_cmd_list *cmd_list, t_shell *shell);
-char	*expand_heredoc_line(char *line, char **envp);
-t_envp	*find_by_key(t_envp *list, char *key);
+char				*expand_heredoc_line(char *line, char **envp);
+t_envp				*find_by_key(t_envp *list, char *key);
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);

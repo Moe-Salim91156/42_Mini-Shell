@@ -33,12 +33,12 @@ int	main(void)
 			lexing(shell.token_list);
 			expander_main(&shell);
 			build_payloads(shell.token_list, shell.cmd_list);
-      see_heredoc_if_quoted(&shell);
+			see_heredoc_if_quoted(&shell);
 			lexer_cmd_list(shell.cmd_list);
 			print_tokens(shell.token_list);
 			print_command((shell.cmd_list));
 			build_cmd_argv(shell.cmd_list);
-			locate_heredoc(shell.cmd_list,&shell);
+			locate_heredoc(shell.cmd_list, &shell);
 			debug_build_cmd_argv(shell.cmd_list);
 			free_tokens(shell.token_list);     // this
 			free_command_list(shell.cmd_list); // and this
