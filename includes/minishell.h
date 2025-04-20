@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 19:12:17 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 20:56:15 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void				add_token(t_token_list *list, char *value);
 /*################# expander ###########################*/
 int					check_for_quotes_in_tokens(t_token_list *list);
 char				*expander_main(t_shell *shell);
-char				*handle_quotes_mode(t_token *current);
+//char				*handle_quotes_mode(t_token *current);
 /*################# enviroment #################*/
 int					envp_count(t_envp *list);
 int					mod_val(t_envp *node, char *new_value);
