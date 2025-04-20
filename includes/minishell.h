@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/17 19:01:41 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/20 15:15:53 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int					redir_in(t_cmd *current_payload, char *file);
 int					redir_out(t_cmd *current_payload, char *file);
 int					redir_append(t_cmd *current_payload, char *file);
 int					redir_heredoc(t_cmd *current_payload, char *file);
+void				apply_redirs(t_cmd *current_payload);
 /*################# general utils #################*/
 void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);

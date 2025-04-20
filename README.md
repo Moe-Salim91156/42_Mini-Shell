@@ -22,7 +22,8 @@
  * ---> run cmd
  * ---> Store exit status in last_status
  * ---> Restore original stdin, stdout, stderr
- * ---> Clean up (close files, free buffers)
+ * ---> Clean up (close files, free buff
+ rs)
  */
 
 /******* CASE 2: single command (non-builtin) (execute within children) *******
@@ -95,3 +96,4 @@
  *		---> Free all allocated resources
  *		---> Continuously t_shell last_status
  *
+

@@ -6,12 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/17 18:30:19 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/20 15:51:31 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	parse_redirs(t_cmd *cmd,char **payload_array)
 {
@@ -20,7 +19,7 @@ int	parse_redirs(t_cmd *cmd,char **payload_array)
 
 	ret = 0;
 	i = 0;
-	while(payload_array[i])
+	while(payload_array[i]!= NULL && payload_array[i][0] != '|')
 	{
 		if (ft_strcmp("<", payload_array[i]))
 			ret = redir_in(cmd,payload_array[++i]);
@@ -37,6 +36,7 @@ int	parse_redirs(t_cmd *cmd,char **payload_array)
 			break;
 		i++;
 	}
+	apply_redirs(cmd);
 	return (ret);
 }
 
@@ -52,6 +52,7 @@ int	redir_in(t_cmd *current_payload, char *file)
 		return (-1);
 	}
 	current_payload->in_fd = fd;
+	return (0);
 }
 
 int redir_out(t_cmd *current_payload, char *file)

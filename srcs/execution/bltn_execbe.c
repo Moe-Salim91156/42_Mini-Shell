@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/17 19:04:20 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/20 15:46:26 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ int	is_bltn(char **argv)
 
 int	bltn_execbe(char **argv, t_shell *shell)
 {
-
-	dup2(STDIN_FILENO, shell->cmd_list->head->in_fd);
-	dup2(STDOUT_FILENO, shell->cmd_list->head->out_fd);
 	if (ft_strcmp("env", argv[0]))
 		return (bltn_env(shell));
 	else if (ft_strcmp("pwd", argv[0]))
@@ -54,8 +51,8 @@ int	bltn_execbe(char **argv, t_shell *shell)
 		return (bltn_cd(argv, shell->envp_list));
 	else if (ft_strcmp("echo", argv[0]))
 		return (bltn_echo(argv));
-	else if (ft_strcmp("exit", argv[0]))
-		return (bltn_exit(argv, shell));
+	/* else if (ft_strcmp("exit", argv[0])) */
+		/* return (bltn_exit(argv, shell)); */
 	else
 		return (-1);
 }
@@ -72,11 +69,10 @@ int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
 	/* if(locate_heredoc(shell->cmd_list)) TBD */
 	err = parse_redirs(current_payload,current_payload->payload_array);
 		if(!err)
-			bltn_execbe(current_payload->argv, shell);
+			current_payload->exit_status = bltn_execbe(current_payload->argv, shell);
 		else
 			current_payload->exit_status = 1;
 	restore_io(current_payload);
 	// delete heredoc tmp file
-
 	return (current_payload->exit_status);
 }
