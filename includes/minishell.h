@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -6,8 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/17 19:01:41 by yokitane         ###   ########.fr       */
-/*   Updated: 2025/04/16 14:27:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 19:12:17 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +21,6 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-
-# define HEREDOC_PATH "m7md ent 7otto"
 /*################# structs ############################*/
 typedef enum e_token_type
 {
@@ -60,7 +57,7 @@ typedef struct s_cmd
 {
 	char			**payload_array;
 	t_token_type	*type;
-	char			**argv;
+	char **argv; // execve compaitable array
 	char			*cmd_path;
 	char			*heredoc_buffer;
 	int				heredoc_fd;
@@ -69,14 +66,17 @@ typedef struct s_cmd
 	char			*heredoc_delimiter;
 	int heredoc_quoted; // for expansion or not
 	int				here_doc_counts;
-	int				in_fd;
-	int				out_fd;
 	int				exit_status;
+	int				in_fd;
+  int       backup_in_fd;
+  int       backup_out_fd;
+	int				out_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_cmd_list
 {
+  int payload_count;
 	int				count;
 	int				total_heredocs;
 	t_cmd			*head;
@@ -104,7 +104,6 @@ t_cmd				*init_command(void);
 t_token_list		*init_list(void);
 t_cmd_list			*init_cmd_list(void);
 t_envp				*init_envp(char **envp);
-					/* CLEAN UP */
 void				*free_env(t_envp *list);
 void				free_command_list(t_cmd_list *cmd_list);
 void				free_tokens(t_token_list *list);
@@ -148,12 +147,8 @@ int					bltn_unset(char **argv, t_envp *list);
 int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
-/*################# execution #################*/
-char				*search_command_in_path(char *cmd, char **envp,
-						t_cmd *payload);
-int					see_heredoc_if_quoted(t_shell *shell);
+/****************************************/
 char				**build_cmd_argv(t_cmd_list *payload);
-int					execution_entry(t_shell *shell);
 					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
@@ -161,16 +156,22 @@ int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int pipe[]);
 					/*	FORK OPERATIONS	*/
 int					manage_child(t_shell *shell, t_cmd *current_payload, int pipe[]);
 					/*	REDIRECTIONS	*/
-int					locate_heredoc(t_cmd_list *cmd_list);
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
 int					redir_in(t_cmd *current_payload, char *file);
 int					redir_out(t_cmd *current_payload, char *file);
 int					redir_append(t_cmd *current_payload, char *file);
 int					redir_heredoc(t_cmd *current_payload, char *file);
+void				apply_redirs(t_cmd *current_payload);
+char				*search_command_in_path(char *cmd, char **envp,
+    t_cmd *payload);
+int					see_heredoc_if_quoted(t_shell *shell);
+int					execution_entry(t_shell *shell);
 int					locate_heredoc(t_cmd_list *cmd_list, t_shell *shell);
-char	*expand_heredoc_line(char *line, char **envp);
-t_envp	*find_by_key(t_envp *list, char *key);
+char				*expand_heredoc_line(char *line, char **envp);
+t_envp				*find_by_key(t_envp *list, char *key);
+/*################# execution #################*/
+
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);
