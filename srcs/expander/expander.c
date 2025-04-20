@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 16:56:56 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 20:55:14 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,30 @@ int	has_env_var(char *value, t_token *current)
 		{
 			if (value[i + 1] == '\0')
 				return (-1);
-			if (!ft_isalnum(value[i + 1]) && value[i + 1] != '_')
-				return (-1);
-			return (i);
+			// Check for $? as a special case
+			if (value[i + 1] == '?' || ft_isalnum(value[i + 1]) || value[i + 1] == '_')
+				return (i);
+			return (-1);
 		}
 		i++;
 	}
 	return (-1);
 }
 
-char	*extract_env_value_from_name(char *value)
+char	*extract_env_value_from_name(char *value, t_shell *shell)
 {
 	char	*result;
+	char	*exit_status_str;
 
+	// Handle $? - special case for last exit status
+	if (ft_strcmp(value, "?") == 0)
+	{
+		exit_status_str = ft_itoa(shell->last_status);
+		if (exit_status_str == NULL)
+			return (ft_strdup(""));
+		return (exit_status_str);
+	}
+	
 	result = getenv(value);
 	if (result == NULL)
 		return (ft_strdup(""));
@@ -57,11 +68,20 @@ char	*get_before_str(char *value, int *before)
 	before_str[*before] = '\0';
 	return (before_str);
 }
+
 char	*get_env_name(char *value, int *env_index, int *env_len)
 {
 	char	*env_name;
 
 	*env_len = 0;
+	
+	// Handle $? as a special case
+	if (value[*env_index + 1] == '?')
+	{
+		*env_len = 1;
+		return (ft_strdup("?"));
+	}
+	
 	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
 		return (ft_strdup(""));
 	// return empty string so it won't be re-expanded
@@ -76,7 +96,7 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	return (env_name);
 }
 
-char	*expand_env_var(char *value, int *env_index)
+char	*expand_env_var(char *value, int *env_index, t_shell *shell)
 {
 	int		before;
 	int		env_len;
@@ -98,7 +118,7 @@ char	*expand_env_var(char *value, int *env_index)
 		free(before_str);
 		return (NULL);
 	}
-	env_value = extract_env_value_from_name(env_name);
+	env_value = extract_env_value_from_name(env_name, shell);
 	if (!env_value)
 		env_value = ft_strdup("");
 	free(env_name);
@@ -120,7 +140,7 @@ char	*expand_env_var(char *value, int *env_index)
 	return (final_result);
 }
 
-char	*double_quote_mode(t_token *current, int *index)
+char	*double_quote_mode(t_token *current, int *index, t_shell *shell)
 {
 	int		start;
 	int		env_index;
@@ -140,7 +160,7 @@ char	*double_quote_mode(t_token *current, int *index)
 	temp[len] = '\0';
 	while ((env_index = has_env_var(temp, current)) != -1)
 	{
-		last_result = expand_env_var(temp, &env_index);
+		last_result = expand_env_var(temp, &env_index, shell);
 		free(temp);
 		if (!last_result)
 			last_result = ft_strdup("");
@@ -186,7 +206,8 @@ char	*append_mode_result(char *result, char *mode_result)
 	free(mode_result);
 	return (new_result);
 }
-char	*normal_mode(t_token *current, int *index)
+
+char	*normal_mode(t_token *current, int *index, t_shell *shell)
 {
 	int		start;
 	int		len;
@@ -206,7 +227,7 @@ char	*normal_mode(t_token *current, int *index)
 	temp[len] = '\0';
 	while ((env_index = has_env_var(temp, current)) != -1)
 	{
-		new_expanded = expand_env_var(temp, &env_index);
+		new_expanded = expand_env_var(temp, &env_index, shell);
 		if (!new_expanded) // If expansion fails, default to empty string
 			new_expanded = ft_strdup("");
 		free(temp);
@@ -216,7 +237,7 @@ char	*normal_mode(t_token *current, int *index)
 	return (temp);
 }
 
-char	*handle_quotes_mode(t_token *current)
+char	*handle_quotes_mode(t_token *current, t_shell *shell)
 {
 	int		i;
 	char	*result;
@@ -231,9 +252,9 @@ char	*handle_quotes_mode(t_token *current)
 		if (current->value[i] == '\'')
 			temp = single_quote_mode(current, &i);
 		else if (current->value[i] == '\"')
-			temp = double_quote_mode(current, &i);
+			temp = double_quote_mode(current, &i, shell);
 		else
-			temp = normal_mode(current, &i);
+			temp = normal_mode(current, &i, shell);
 		result = append_mode_result(result, temp);
 	}
 	return (result);
@@ -256,7 +277,7 @@ char	*expander_main(t_shell *shell)
 			else if (ft_strchr(current->value, '\"'))
 				current->heredoc_quoted = 1;
 		}
-		result = handle_quotes_mode(current);
+		result = handle_quotes_mode(current, shell);
 		if (!result)
 			return (NULL);
 		if (result)
