@@ -1,42 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   children.c                                         :+:      :+:    :+:   */
+/*   parse_redirection_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:00:59 by msalim           ###   ########.fr       */
+/*   Created: 2025/04/09 15:36:24 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/20 19:16:28 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
-int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
+// look for redirections
+void restore_io(t_cmd *cmd)
 {
-	/* int	pid; */
-	/* int	status; */
-	char	**env;
-
-	env = build_envp(shell);
-	if (pipe)
+	if (cmd->backup_in_fd != -1)
 	{
-		printf("this is just to shut up a warning\n");
-		/* handle_pipe(pipe); */
+		dup2(cmd->backup_in_fd, STDIN_FILENO); // restore stdin
+		close(cmd->backup_in_fd);
+		cmd->backup_in_fd = -1;
 	}
-		/* if (locate_heredoc(current_payload)) TBD*/
-			if (parse_redirs(current_payload, current_payload->payload_array))
-			{
-				env = build_envp(shell);
-				if(env)
-          printf("cmd_path %s\n",current_payload->cmd_path);
-					if (execve(current_payload->cmd_path, current_payload->argv, env) == -1)
-					{
-						perror("execve:");
-						exit(1); //exit handler
-					}
-			}
-		//we only get here if shit goes	wrong
-		free(env);
-		exit(1);//exit handler
+	if (cmd->backup_out_fd != -1)
+	{
+		dup2(cmd->backup_out_fd, STDOUT_FILENO); // restore stdout
+		close(cmd->backup_out_fd);
+		cmd->backup_out_fd = -1;
+	}
+	cmd->in_fd = STDIN_FILENO;
+	cmd->out_fd = STDOUT_FILENO;
+}
+
+
+void	apply_redirs(t_cmd *current_payload)
+{
+	if (current_payload->in_fd != STDIN_FILENO)
+	{
+		dup2(current_payload->in_fd, STDIN_FILENO);
+		close(current_payload->in_fd);
+	}
+	if (current_payload->out_fd != STDOUT_FILENO)
+	{
+		dup2(current_payload->out_fd, STDOUT_FILENO);
+		close(current_payload->out_fd);
+	}
 }

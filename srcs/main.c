@@ -1,102 +1,68 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redirections.c                               :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:17:18 by msalim           ###   ########.fr       */
+/*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/20 18:40:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "../includes/minishell.h"
 
-#include "../../includes/minishell.h"
-# define HEREDOC_FILE "/tmp/.heredoc_tmp"
 
-int	parse_redirs(t_cmd *cmd,char **payload_array)
+int count_payloads(t_cmd_list *list)
 {
-	int	i;
-	int	ret;
+  t_cmd *pay;
 
-	ret = 0;
-	i = 0;
-	while(payload_array[i]!= NULL)
+  pay = list->head;
+  while (pay && pay->argv[0])
+  {
+    list->payload_count++;
+    pay = pay->next;
+  }
+  return (list->payload_count);
+}
+
+int	main(void)
+{
+	char	*input;
+
+	t_shell shell; // please add this
+	shell_init(&shell, __environ);
+	shell.token_list = init_list();
+	shell.cmd_list = init_cmd_list();
+	while (1)
 	{
-		if (!ft_strcmp("<", payload_array[i]))
-			ret = redir_in(cmd,payload_array[++i]);
-		if (!ft_strcmp(">", payload_array[i]))
-			ret = redir_out(cmd,payload_array[++i]);
-		if (!ft_strcmp(">>", payload_array[i]))
-			ret = redir_append(cmd,payload_array[++i]);
-		if (!ft_strncmp("<<", payload_array[i], 2))
+		input = readline("rbsh$ ");
+		if (!input)
+			break ;
+		if (input)
 		{
-			ret = redir_heredoc(cmd, HEREDOC_FILE);
-			i+=2;
+			add_history(input);
+			if (!tokenizer(input, shell.token_list))
+				return (0); // wtf is a return doing here.
+			lexing(shell.token_list);
+			expander_main(&shell);
+			build_payloads(shell.token_list, shell.cmd_list);
+			see_heredoc_if_quoted(&shell);
+			lexer_cmd_list(shell.cmd_list);
+	//		print_tokens(shell.token_list);
+		//	print_command((shell.cmd_list));
+			build_cmd_argv(shell.cmd_list);
+      shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
+      //debug_build_cmd_argv(shell.cmd_list);
+      execution_entry(&shell);
+			free_tokens(shell.token_list);     // this
+			free_command_list(shell.cmd_list); // and this
+			shell.token_list = NULL;           // this too
+			shell.token_list = init_list();    // dont forget this
+			shell.cmd_list = init_cmd_list();  // and lastly this,
+												// need to put all that stuff in a seperate function(loop_clean or smth)
 		}
-		if (ret == -1)
-			break;
-    apply_redirs(cmd);
-		i++;
 	}
-	return (ret);
-}
-
-int	redir_in(t_cmd *current_payload, char *file)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->in_fd = fd;
-	return (0);
-}
-
-int redir_out(t_cmd *current_payload, char *file)
-{
-	int	fd;
-
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->out_fd = fd;
-	return (0);
-}
-
-int redir_append(t_cmd *current_payload, char *file)
-{
-	int	fd;
-
-	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->out_fd = fd;
-	return (0);
-}
-
-int redir_heredoc(t_cmd *current_payload, char *file)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->in_fd = fd;
+	// exit_handler
+	free(input);
 	return (0);
 }
