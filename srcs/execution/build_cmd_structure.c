@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_structure.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
 /*   Updated: 2025/04/20 18:17:43 by msalim           ###   ########.fr       */
@@ -28,6 +28,7 @@ int	count_args(t_cmd *payload)
 			count++;
 		i++;
 	}
+	//printf("payload->array in payload count %d\n", count);
 	return (count);
 }
 

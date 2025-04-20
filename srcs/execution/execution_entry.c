@@ -1,42 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   children.c                                         :+:      :+:    :+:   */
+/*   execution_entry.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:00:59 by msalim           ###   ########.fr       */
+/*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/20 18:33:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
-{
-	/* int	pid; */
-	/* int	status; */
-	char	**env;
 
-	env = build_envp(shell);
-	if (pipe)
+int	execution_entry(t_shell *shell)
+{
+	t_cmd	*current_payload;
+	int		pid;
+	int		status;
+
+	current_payload = shell->cmd_list->head;
+	if (shell->cmd_list->payload_count == 1)
 	{
-		printf("this is just to shut up a warning\n");
-		/* handle_pipe(pipe); */
+		if (is_bltn(current_payload->argv))//case1
+			shell->last_status = manage_bltn(shell, current_payload, NULL);
+		else
+		{//a lot of the below can be moved to a function, should do later after finalizing structure
+			pid = fork();
+			if (!pid)
+				manage_child(shell, current_payload,NULL);//no child lives past this function.
+			wait(&status);
+			if (WIFEXITED(status))
+				current_payload->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				current_payload->exit_status = 128 + WTERMSIG(status);
+		}
 	}
-		/* if (locate_heredoc(current_payload)) TBD*/
-			if (parse_redirs(current_payload, current_payload->payload_array))
-			{
-				env = build_envp(shell);
-				if(env)
-          printf("cmd_path %s\n",current_payload->cmd_path);
-					if (execve(current_payload->cmd_path, current_payload->argv, env) == -1)
-					{
-						perror("execve:");
-						exit(1); //exit handler
-					}
-			}
-		//we only get here if shit goes	wrong
-		free(env);
-		exit(1);//exit handler
+	else
+	//case 3
+		return (0);
+	return (-1);
 }
+

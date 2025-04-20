@@ -1,102 +1,78 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redirections.c                               :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:17:18 by msalim           ###   ########.fr       */
+/*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/20 19:14:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-# define HEREDOC_FILE "/tmp/.heredoc_tmp"
 
-int	parse_redirs(t_cmd *cmd,char **payload_array)
+t_token_list	*init_list(void)
 {
-	int	i;
-	int	ret;
+	t_token_list	*token_list;
 
-	ret = 0;
-	i = 0;
-	while(payload_array[i]!= NULL)
-	{
-		if (!ft_strcmp("<", payload_array[i]))
-			ret = redir_in(cmd,payload_array[++i]);
-		if (!ft_strcmp(">", payload_array[i]))
-			ret = redir_out(cmd,payload_array[++i]);
-		if (!ft_strcmp(">>", payload_array[i]))
-			ret = redir_append(cmd,payload_array[++i]);
-		if (!ft_strncmp("<<", payload_array[i], 2))
-		{
-			ret = redir_heredoc(cmd, HEREDOC_FILE);
-			i+=2;
-		}
-		if (ret == -1)
-			break;
-    apply_redirs(cmd);
-		i++;
-	}
-	return (ret);
+	token_list = malloc(sizeof(t_token_list));
+	if (!token_list)
+		return (NULL);
+	token_list->head = NULL;
+	token_list->size = 0;
+	return (token_list);
 }
 
-int	redir_in(t_cmd *current_payload, char *file)
+t_token	*init_token(void)
 {
-	int	fd;
+	t_token	*token;
 
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->in_fd = fd;
-	return (0);
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = 0;
+	token->heredoc_quoted = 0;
+	token->value = NULL;
+	token->next = NULL;
+	return (token);
 }
 
-int redir_out(t_cmd *current_payload, char *file)
+t_cmd_list	*init_cmd_list(void)
 {
-	int	fd;
+	t_cmd_list	*cmd_list;
 
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->out_fd = fd;
-	return (0);
+	cmd_list = malloc(sizeof(t_cmd_list));
+	if (!cmd_list)
+		return (NULL);
+	cmd_list->count = 0;
+  cmd_list->payload_count = 0;
+	cmd_list->total_heredocs = 0;
+	cmd_list->head = NULL;
+	return (cmd_list);
 }
 
-int redir_append(t_cmd *current_payload, char *file)
+t_cmd	*init_command(void)
 {
-	int	fd;
+	t_cmd	*cmd;
 
-	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->out_fd = fd;
-	return (0);
-}
-
-int redir_heredoc(t_cmd *current_payload, char *file)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_putstr_fd("Error opening file\n", 2);
-		current_payload->exit_status = 1;
-		return (-1);
-	}
-	current_payload->in_fd = fd;
-	return (0);
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->argv = NULL;
+	cmd->type = 0;
+	cmd->payload_array = NULL;
+	cmd->here_doc_counts = 0;
+	cmd->heredoc_buffer = NULL;
+	cmd->has_heredoc = 0;
+	cmd->heredoc_fd = -1;
+	cmd->heredoc_quoted = 0;
+	cmd->heredoc_delimiter = NULL;
+	cmd->in_fd = STDIN_FILENO;
+  cmd->backup_in_fd = dup(STDIN_FILENO);
+	cmd->out_fd = STDOUT_FILENO;
+  cmd->backup_out_fd = dup(STDOUT_FILENO);
+  cmd->exit_status = 0;
+	cmd->next = NULL;
+	return (cmd);
 }

@@ -40,4 +40,3 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
 		free(env);
 		exit(1);//exit handler
 }
-
