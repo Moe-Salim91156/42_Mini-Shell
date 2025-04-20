@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 16:17:57 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 18:17:43 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	count_args(t_cmd *payload)
 			count++;
 		i++;
 	}
-	printf("payload->array in payload count %d\n", count);
+	//printf("payload->array in payload count %d\n", count);
 	return (count);
 }
 
@@ -52,45 +52,35 @@ char	**malloc_cmd_argv(t_cmd *payload)
  *
  *
  */
-
 char	**build_cmd_argv(t_cmd_list *list)
 {
+	t_cmd	*payload;
+	char	*arg;
 	int		i;
 	int		j;
-	t_cmd	*payload;
 
-	j = 0;
-	i = 0;
 	payload = list->head;
 	while (payload)
 	{
+		i = 0;
+		j = 0;
 		payload->argv = malloc_cmd_argv(payload);
 		if (!payload->argv)
 			return (NULL);
-		i = 0;
 		while (payload->payload_array[i])
 		{
-			if (payload->type[i] == COMMAND)
+			if (payload->type[i] == COMMAND || payload->type[i] == ARGS)
 			{
-				payload->argv[0] = ft_strdup(payload->payload_array[i]);
-				break ;
+				arg = ft_strdup(payload->payload_array[i]);
+				if (arg && arg[0] != '\0')
+					payload->argv[j++] = arg;
 			}
 			i++;
 		}
-		i = 0;
-		j = 1;
-		while (payload->payload_array[i])
-		{
-			if (payload->type[i] == ARGS)
-			{
-				payload->argv[j] = ft_strdup(payload->payload_array[i]);
-				j++;
-			}
-			i++;
-		}
+		payload->argv[j] = NULL;
 		payload = payload->next;
 	}
-	return (list->head->argv); // not important
+	return (list->head->argv);
 }
 
 char	**build_payload_argv(t_cmd *payload)
@@ -105,11 +95,11 @@ char	**build_payload_argv(t_cmd *payload)
 		return (NULL);
 	while (payload->payload_array[i])
 	{
-		if (payload->type[i] == COMMAND)
-		{
-			payload->argv[0] = ft_strdup(payload->payload_array[i]);
-			break ;
-		}
+			if (payload->type[i] == COMMAND && ft_strcmp(payload->payload_array[i]," "))
+			{
+				payload->argv[0] = ft_strdup(payload->payload_array[i]);
+				break ;
+			}
 		i++;
 	}
 	while (payload->payload_array[i])
