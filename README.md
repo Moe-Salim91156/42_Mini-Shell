@@ -17,7 +17,7 @@
  *		---> If outfile (>): create/truncate file, redirect stdout to it
  *		---> If append (>>): create/append file, redirect stdout to it
  *		---> If heredoc (<<): redirect stdin to heredoc buffer
- *		---> If any redirection fails (e.g., file not found), terminat exec and init exec_cleanup.
+ *		---> If any redirection fails (e.g., file not found), terminate exec and init exec_cleanup.
  * ---> build cmd argv
  * ---> run cmd
  * ---> Store exit status in last_status
