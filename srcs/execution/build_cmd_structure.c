@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/19 15:02:46 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 18:17:43 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	count_args(t_cmd *payload)
 			count++;
 		i++;
 	}
-	printf("payload->array in payload count %d\n", count);
+	//printf("payload->array in payload count %d\n", count);
 	return (count);
 }
 
@@ -54,16 +54,16 @@ char	**malloc_cmd_argv(t_cmd *payload)
  */
 char	**build_cmd_argv(t_cmd_list *list)
 {
-	int		i;
-	int		j;
 	t_cmd	*payload;
 	char	*arg;
+	int		i;
+	int		j;
 
-	i = 0;
-	j = 0;
 	payload = list->head;
 	while (payload)
 	{
+		i = 0;
+		j = 0;
 		payload->argv = malloc_cmd_argv(payload);
 		if (!payload->argv)
 			return (NULL);
@@ -71,12 +71,9 @@ char	**build_cmd_argv(t_cmd_list *list)
 		{
 			if (payload->type[i] == COMMAND || payload->type[i] == ARGS)
 			{
-        /*handled the stupid case where $U ls , $u is a command which is wrong, just skip it*/
 				arg = ft_strdup(payload->payload_array[i]);
 				if (arg && arg[0] != '\0')
-				{
 					payload->argv[j++] = arg;
-				}
 			}
 			i++;
 		}
@@ -85,8 +82,6 @@ char	**build_cmd_argv(t_cmd_list *list)
 	}
 	return (list->head->argv);
 }
-
-
 
 char	**build_payload_argv(t_cmd *payload)
 {
@@ -100,11 +95,11 @@ char	**build_payload_argv(t_cmd *payload)
 		return (NULL);
 	while (payload->payload_array[i])
 	{
-		if (payload->type[i] == COMMAND)
-		{
-			payload->argv[0] = ft_strdup(payload->payload_array[i]);
-			break ;
-		}
+			if (payload->type[i] == COMMAND && ft_strcmp(payload->payload_array[i]," "))
+			{
+				payload->argv[0] = ft_strdup(payload->payload_array[i]);
+				break ;
+			}
 		i++;
 	}
 	while (payload->payload_array[i])

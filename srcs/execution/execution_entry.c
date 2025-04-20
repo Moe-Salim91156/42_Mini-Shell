@@ -6,58 +6,39 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/18 19:52:56 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 18:33:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//!!!!!!!!!!!!!!!!! if first command $U ls , should work,so locate cmd,
-	should handle that,
-//
-/// in the token list it should be correctly assigned
-// handle heredocs
-// handle redirections
-/*
-int	is_builtin(char *cmd)
-{
 
-	// will check if the command is a builtin inside shell or not
-	// if yes will return (1);
-	// no , maybe external or doesnt exist (
-}*/
-/*
 int	execution_entry(t_shell *shell)
 {
-	t_cmd *payload;
+	t_cmd	*current_payload;
+	int		pid;
+	int		status;
 
-	payload = shell->cmd_list->head;
-	char *cmd_name = shell->cmd_list->head->argv[0];
-	//parse heredoc
-	// parse_redirection
-	//      in_fd ; out_fd;
-	//      in_fd; error out, outfile gonna be created;
-	// locate_cmd : return (cmd_name | assigns payload->cmd_name);
-	// execute_cases:
-	//
-	if (shell->cmd_list->count == 1)
+	current_payload = shell->cmd_list->head;
+	if (shell->cmd_list->payload_count == 1)
 	{
-		if (bltn_execbe(cmd_name,payload->argv, shell) != -1)
-		{
-		printf("execution success\n");
+		if (is_bltn(current_payload->argv))//case1
+			shell->last_status = manage_bltn(shell, current_payload, NULL);
+		else
+		{//a lot of the below can be moved to a function, should do later after finalizing structure
+			pid = fork();
+			if (!pid)
+				manage_child(shell, current_payload,NULL);//no child lives past this function.
+			wait(&status);
+			if (WIFEXITED(status))
+				current_payload->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				current_payload->exit_status = 128 + WTERMSIG(status);
 		}
-	else
-	{
-		//case 2 -> non_builtin one command no pipes
-		//execute_in_child();
-	}
 	}
 	else
-	{
-		//case 3 -> one pipe and more
-		//build_pipeline();//fork for each child
-						//build pipes --> pipe()
-	}
-	return (0);
-	}
-	*/
+	//case 3
+		return (0);
+	return (-1);
+}
+

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/15 15:55:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 18:18:16 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,6 @@ t_cmd	*build_payloads(t_token_list *list, t_cmd_list *cmd_list)
 	cmd->payload_array = allocate_cmd_argv(cmd_list->count);
 	if (!cmd->payload_array)
 		return (NULL);
-	fill_command(cmd, list);
+	fill_command(cmd, list); 
 	return (cmd_list->head);
 }
