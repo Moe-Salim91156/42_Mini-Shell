@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 15:51:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/20 17:41:59 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdio.h>
 
 int	parse_redirs(t_cmd *cmd,char **payload_array)
 {
@@ -21,13 +22,14 @@ int	parse_redirs(t_cmd *cmd,char **payload_array)
 	i = 0;
 	while(payload_array[i]!= NULL && payload_array[i][0] != '|')
 	{
-		if (ft_strcmp("<", payload_array[i]))
+		fprintf(stderr, "%s",payload_array[i]);
+		if (!ft_strcmp("<", payload_array[i]))
 			ret = redir_in(cmd,payload_array[++i]);
-		if (ft_strcmp(">", payload_array[i]))
+		if (!ft_strcmp(">", payload_array[i]))
 			ret = redir_out(cmd,payload_array[++i]);
-		if (ft_strcmp(">>", payload_array[i]))
+		if (!ft_strcmp(">>", payload_array[i]))
 			ret = redir_append(cmd,payload_array[++i]);
-		if (ft_strncmp("<<", payload_array[i], 2))
+		if (!ft_strncmp("<<", payload_array[i], 2))
 		{
 			ret = redir_heredoc(cmd, HEREDOC_PATH);
 			i+=2;

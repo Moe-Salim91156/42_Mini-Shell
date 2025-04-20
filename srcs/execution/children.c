@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 15:44:07 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/20 17:39:07 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
 	/* int	status; */
 	char	**env;
 
+	env = build_envp(shell);
 	if (pipe)
 	{
 		printf("this is just to shut up a warning\n");
