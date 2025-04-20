@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/16 14:27:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 19:12:17 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-
+# include <sys/wait.h>
+# include <fcntl.h>
 /*################# structs ############################*/
 typedef enum e_token_type
 {
@@ -65,13 +66,17 @@ typedef struct s_cmd
 	char			*heredoc_delimiter;
 	int heredoc_quoted; // for expansion or not
 	int				here_doc_counts;
+	int				exit_status;
 	int				in_fd;
+  int       backup_in_fd;
+  int       backup_out_fd;
 	int				out_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_cmd_list
 {
+  int payload_count;
 	int				count;
 	int				total_heredocs;
 	t_cmd			*head;
@@ -142,17 +147,31 @@ int					bltn_unset(char **argv, t_envp *list);
 int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
-/*################# execution #################*/
-char				*search_command_in_path(char *cmd, char **envp,
-						t_cmd *payload);
-int					see_heredoc_if_quoted(t_shell *shell);
+/****************************************/
 char				**build_cmd_argv(t_cmd_list *payload);
+					/*	BUILT-INS		*/
+int					bltn_execbe(char **argv, t_shell *shell);
+int					is_bltn(char **argv);
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int pipe[]);
+					/*	FORK OPERATIONS	*/
+int					manage_child(t_shell *shell, t_cmd *current_payload, int pipe[]);
+					/*	REDIRECTIONS	*/
+int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
+void				restore_io(t_cmd *current_payload);
+int					redir_in(t_cmd *current_payload, char *file);
+int					redir_out(t_cmd *current_payload, char *file);
+int					redir_append(t_cmd *current_payload, char *file);
+int					redir_heredoc(t_cmd *current_payload, char *file);
+void				apply_redirs(t_cmd *current_payload);
+char				*search_command_in_path(char *cmd, char **envp,
+    t_cmd *payload);
+int					see_heredoc_if_quoted(t_shell *shell);
 int					execution_entry(t_shell *shell);
-int					bltn_execbe(char *cmdname, char **argv, char **envp,
-						t_shell *shell);
 int					locate_heredoc(t_cmd_list *cmd_list, t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
 t_envp				*find_by_key(t_envp *list, char *key);
+/*################# execution #################*/
+
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);

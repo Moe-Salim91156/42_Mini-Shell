@@ -6,13 +6,13 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/16 14:26:57 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/20 18:04:22 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#define HEREDOC_FILE "/tmp/.heredoc_tmp"
 
+# define HEREDOC_FILE "/tmp/.heredoc_tmp"
 /*
  * lookup payloads array of args for (<<)
  * if found execute the heredoc function
