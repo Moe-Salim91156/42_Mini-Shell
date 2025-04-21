@@ -6,12 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:17:18 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:32:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-# define HEREDOC_FILE "/tmp/.heredoc_tmp"
 
 int	parse_redirs(t_cmd *cmd,char **payload_array)
 {
@@ -35,7 +34,7 @@ int	parse_redirs(t_cmd *cmd,char **payload_array)
 		}
 		if (ret == -1)
 			break;
-    apply_redirs(cmd);
+	apply_redirs(cmd);
 		i++;
 	}
 	return (ret);
