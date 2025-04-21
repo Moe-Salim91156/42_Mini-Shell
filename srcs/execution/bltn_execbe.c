@@ -52,13 +52,13 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else if (!ft_strcmp("echo", argv[0]))
 		return (bltn_echo(argv));
 	/* else if (ft_strcmp("exit", argv[0])) */
-		/* return (bltn_exit(argv, shell)); */
+	/* return (bltn_exit(argv, shell)); */
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
+int	manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
 {
-	int		err;
+	int	err;
 
 	if (pipe)
 	{
@@ -66,12 +66,13 @@ int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
 		/* handle_pipe(pipe); */
 	}
 	err = 0;
-  //locate_heredoc(shell->cmd_list, shell);
-  err = parse_redirs(current_payload,current_payload->payload_array);
-		if(!err)
-			current_payload->exit_status = bltn_execbe(current_payload->argv, shell);
-		else
-			current_payload->exit_status = 1;
+	// locate_heredoc(shell->cmd_list, shell);
+	err = parse_redirs(current_payload, current_payload->payload_array);
+	if (!err)
+		current_payload->exit_status = bltn_execbe(current_payload->argv,
+				shell);
+	else
+		current_payload->exit_status = 1;
 	restore_io(current_payload);
 	// delete heredoc tmp file
 	return (current_payload->exit_status);

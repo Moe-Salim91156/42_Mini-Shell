@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 15:51:06 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:37:47 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ int	locate_heredoc(t_cmd *payload, t_shell *shell)
 	envp = build_envp(shell);
 	if (search_in_args(payload, envp) == -1)
 		return (-1); // error if we wanna return or exit handler
-	printf("payload has heredoc ? %d\n", payload->has_heredoc);
+	/*printf("payload has heredoc ? %d\n", payload->has_heredoc);
 	printf("payload heredoc file fd %d\n", payload->heredoc_fd);
-	printf("payload heredoc delim is quoted ? %d\n", payload->heredoc_quoted);
+	printf("payload heredoc delim is quoted ? %d\n", payload->heredoc_quoted);*/
 	return (payload->has_heredoc); // will be 0 or 1 for heredoc detection;
 }
 

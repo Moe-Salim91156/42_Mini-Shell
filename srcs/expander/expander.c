@@ -24,7 +24,8 @@ int	has_env_var(char *value, t_token *current)
 			if (value[i + 1] == '\0')
 				return (-1);
 			// Check for $? as a special case
-			if (value[i + 1] == '?' || ft_isalnum(value[i + 1]) || value[i + 1] == '_')
+			if (value[i + 1] == '?' || ft_isalnum(value[i + 1]) || value[i
+				+ 1] == '_')
 				return (i);
 			return (-1);
 		}
@@ -37,7 +38,7 @@ char	*extract_env_value_from_name(char *value, t_shell *shell)
 {
 	char	*result;
 	char	*exit_status_str;
-	t_envp *node;
+	t_envp	*node;
 
 	if (ft_strcmp(value, "?") == 0)
 	{
@@ -46,13 +47,13 @@ char	*extract_env_value_from_name(char *value, t_shell *shell)
 			return (ft_strdup(""));
 		return (exit_status_str);
 	}
-	node = ft_getenv(shell->envp_list,value);
-  if (!node)
-    return (ft_strdup(""));
+	node = ft_getenv(shell->envp_list, value);
+	if (!node)
+		return (ft_strdup(""));
 	result = ft_strdup(node->value);
-  if (!result)
-    return (NULL);
-  return (result);
+	if (!result)
+		return (NULL);
+	return (result);
 }
 
 char	*get_before_str(char *value, int *before)
@@ -75,13 +76,11 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	char	*env_name;
 
 	*env_len = 0;
-
 	if (value[*env_index + 1] == '?')
 	{
 		*env_len = 1;
 		return (ft_strdup("?"));
 	}
-
 	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
 		return (ft_strdup(""));
 	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1

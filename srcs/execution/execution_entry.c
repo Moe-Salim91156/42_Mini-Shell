@@ -6,13 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 15:42:27 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:43:38 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-
 
 int	execution_entry(t_shell *shell)
 {
@@ -23,13 +21,14 @@ int	execution_entry(t_shell *shell)
 	current_payload = shell->cmd_list->head;
 	if (shell->cmd_list->payload_count == 1)
 	{
-		if (is_bltn(current_payload->argv))//case1
+		if (is_bltn(current_payload->argv)) // case1
 			shell->last_status = manage_bltn(shell, current_payload, NULL);
 		else
-		{//a lot of the below can be moved to a function, should do later after finalizing structure
+		{
 			pid = fork();
 			if (!pid)
-				manage_child(shell, current_payload,NULL);//no child lives past this function.
+				manage_child(shell, current_payload, NULL);
+					// no child lives past this function.
 			wait(&status);
 			if (WIFEXITED(status))
 				current_payload->exit_status = WEXITSTATUS(status);
@@ -38,8 +37,7 @@ int	execution_entry(t_shell *shell)
 		}
 	}
 	else
-	//case 3
+		// case 3
 		return (0);
 	return (-1);
 }
-

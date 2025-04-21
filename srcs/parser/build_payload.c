@@ -125,6 +125,6 @@ t_cmd	*build_payloads(t_token_list *list, t_cmd_list *cmd_list)
 	cmd->payload_array = allocate_cmd_argv(cmd_list->count);
 	if (!cmd->payload_array)
 		return (NULL);
-	fill_command(cmd, list); 
+	fill_command(cmd, list);
 	return (cmd_list->head);
 }

@@ -14,17 +14,16 @@
 # define MINISHELL_H
 # include "../libft/libft.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
 # include <sys/wait.h>
-# include <fcntl.h>
+# include <unistd.h>
 # ifndef HEREDOC_FILE
 #  define HEREDOC_FILE "/tmp/.heredoc_tmp"
 # endif
-
 
 /*################# structs ############################*/
 typedef enum e_token_type
@@ -73,15 +72,15 @@ typedef struct s_cmd
 	int				here_doc_counts;
 	int				exit_status;
 	int				in_fd;
-  int       backup_in_fd;
-  int       backup_out_fd;
+	int				backup_in_fd;
+	int				backup_out_fd;
 	int				out_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_cmd_list
 {
-  int payload_count;
+	int				payload_count;
 	int				count;
 	int				total_heredocs;
 	t_cmd			*head;
@@ -99,7 +98,7 @@ typedef struct s_shell
 	t_token_list	*token_list;
 	t_cmd_list		*cmd_list;
 	t_envp			*envp_list;
-	int	last_status;
+	int				last_status;
 }					t_shell;
 
 /*################# init(🇬🇧) (and exit) #################*/
@@ -132,7 +131,7 @@ void				add_token(t_token_list *list, char *value);
 /*################# expander ###########################*/
 int					check_for_quotes_in_tokens(t_token_list *list);
 char				*expander_main(t_shell *shell);
-//char				*handle_quotes_mode(t_token *current);
+// char				*handle_quotes_mode(t_token *current);
 /*################# enviroment #################*/
 int					envp_count(t_envp *list);
 int					mod_val(t_envp *node, char *new_value);
@@ -154,14 +153,16 @@ int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 int					execution_entry(t_shell *shell);
-					/*	BUILT-INS		*/
+/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
-int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int pipe[]);
-					/*	FORK OPERATIONS	*/
-int					manage_child(t_shell *shell, t_cmd *current_payload, int pipe[]);
-					/*	REDIRECTIONS	*/
-int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
+int					manage_bltn(t_shell *shell, t_cmd *current_paylaod,
+						int pipe[]);
+/*	FORK OPERATIONS	*/
+int					manage_child(t_shell *shell, t_cmd *current_payload,
+						int pipe[]);
+/*	REDIRECTIONS	*/
+int					parse_redirs(t_cmd *current_paylaod, char **payload_array);
 void				restore_io(t_cmd *current_payload);
 int					redir_in(t_cmd *current_payload, char *file);
 int					redir_out(t_cmd *current_payload, char *file);
@@ -171,10 +172,10 @@ void				apply_redirs(t_cmd *current_payload);
 int					see_heredoc_if_quoted(t_shell *shell);
 int					locate_heredoc(t_cmd *current_payload, t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
-					/* PATH STUFF */
+/* PATH STUFF */
 char				**build_cmd_argv(t_cmd_list *payload);
 char				*search_command_in_path(char *cmd, char **envp,
-    t_cmd *payload);
+						t_cmd *payload);
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);

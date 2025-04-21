@@ -28,7 +28,7 @@ int	count_args(t_cmd *payload)
 			count++;
 		i++;
 	}
-	//printf("payload->array in payload count %d\n", count);
+	// printf("payload->array in payload count %d\n", count);
 	return (count);
 }
 
@@ -95,11 +95,12 @@ char	**build_payload_argv(t_cmd *payload)
 		return (NULL);
 	while (payload->payload_array[i])
 	{
-			if (payload->type[i] == COMMAND && ft_strcmp(payload->payload_array[i]," "))
-			{
-				payload->argv[0] = ft_strdup(payload->payload_array[i]);
-				break ;
-			}
+		if (payload->type[i] == COMMAND && ft_strcmp(payload->payload_array[i],
+				" "))
+		{
+			payload->argv[0] = ft_strdup(payload->payload_array[i]);
+			break ;
+		}
 		i++;
 	}
 	while (payload->payload_array[i])

@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
 
-int count_payloads(t_cmd_list *list)
+int	count_payloads(t_cmd_list *list)
 {
-	t_cmd *pay;
+	t_cmd	*pay;
 
 	pay = list->head;
 	while (pay && pay->argv[0])
@@ -32,7 +31,6 @@ int	main(void)
 
 	t_shell shell; // please add this
 	shell_init(&shell, __environ);
-
 	while (1)
 	{
 		input = readline("rbsh$ ");
@@ -48,12 +46,12 @@ int	main(void)
 			build_payloads(shell.token_list, shell.cmd_list);
 			see_heredoc_if_quoted(&shell);
 			lexer_cmd_list(shell.cmd_list);
-	//		print_tokens(shell.token_list);
-		//	print_command((shell.cmd_list));
+			//		print_tokens(shell.token_list);
+			//	print_command((shell.cmd_list));
 			build_cmd_argv(shell.cmd_list);
-      shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
-      //debug_build_cmd_argv(shell.cmd_list);
-      execution_entry(&shell);
+			shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
+			// debug_build_cmd_argv(shell.cmd_list);
+			execution_entry(&shell);
 			free_tokens(shell.token_list);     // this
 			free_command_list(shell.cmd_list); // and this
 			shell.token_list = NULL;           // this too
