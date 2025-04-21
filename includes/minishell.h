@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 16:18:06 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:48:33 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
 int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int pipe[]);
 					/*	FORK OPERATIONS	*/
+void				fork_child(t_shell *shell, t_cmd *current_payload, int *status, int *pipe);
 int					manage_child(t_shell *shell, t_cmd *current_payload, int pipe[]);
 					/*	REDIRECTIONS	*/
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);

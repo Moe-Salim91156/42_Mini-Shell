@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 18:31:37 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:47:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,6 @@
 
 
 
-static void fork_child(t_shell *shell, t_cmd *current_payload, int *status,int *pipe)
-{
-	int		pid;
-
-	pid = fork();
-	if (!pid)
-		manage_child(shell, current_payload,pipe);//no child lives past this function.
-	wait(status);
-	if (WIFEXITED(*status))
-		current_payload->exit_status = WEXITSTATUS(*status);
-	else if (WIFSIGNALED(*status))
-		current_payload->exit_status = 128 + WTERMSIG(*status);
-}
 
 int	execution_entry(t_shell *shell)
 {

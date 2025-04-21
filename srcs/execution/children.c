@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 18:32:00 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:50:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,25 @@
 	either death by execve
 	or by ft_exit.
 */
+
+void fork_child(t_shell *shell, t_cmd *current_payload, int *status, int *pipe)
+{
+	int		pid;
+
+	pid = fork();
+	if (!pid)
+		manage_child(shell, current_payload,pipe);//no child lives past this function.
+	wait(status);
+	if (WIFEXITED(*status))
+		current_payload->exit_status = WEXITSTATUS(*status);
+	else if (WIFSIGNALED(*status))
+		current_payload->exit_status = 128 + WTERMSIG(*status);
+}
+
 int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
 {
 	char	**env;
-	
+
 	env = build_envp(shell);
 	if (pipe)
 	{
@@ -39,8 +54,8 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
 					exit(1); //exit handler
 				}
 		}
-	ft_putendl_fd("rbsh: command not found.", 2);
 	//we only get here if shit goes	wrong
+	ft_putendl_fd("rbsh: command not found.", 2);
 	free(env);
-	exit(1);//exit handler
+	exit(127);//exit handler
 }
