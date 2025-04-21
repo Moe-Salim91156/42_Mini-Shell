@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 19:06:34 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:30:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_
 			if(env && current_payload->cmd_path)
 				if (execve(current_payload->cmd_path, current_payload->argv, env) == -1)
 				{
-					perror("execve:");
-					exit(1); //exit handler
+					perror("execve");
+					exit(126); //exit handler
 				}
 		}
 	//we only get here if shit goes	wrong

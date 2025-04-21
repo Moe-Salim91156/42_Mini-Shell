@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 19:05:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:28:46 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,9 +157,11 @@ int					execution_entry(t_shell *shell);
 					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
-int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int pipe[],int paylod_loc);
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod,
+	int pipe[], int paylod_loc);
 					/*	FORK OPERATIONS	*/
-int					manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int paylod_loc);
+int					manage_child(t_shell *shell, t_cmd *current_payload,
+	int pipe[], int paylod_loc);
 					/*	REDIRECTIONS	*/
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
@@ -174,7 +176,7 @@ char				*expand_heredoc_line(char *line, char **envp);
 					/* PATH STUFF */
 char				**build_cmd_argv(t_cmd_list *payload);
 char				*search_command_in_path(char *cmd, char **envp,
-    t_cmd *payload);
+	t_cmd *payload);
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);

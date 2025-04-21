@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 19:06:22 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:35:21 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	bltn_execbe(char **argv, t_shell *shell)
 }
 int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_loc)
 {
-	int		err;
+	int		err;//use errno?
 
 	if (pipe)
 		(void)pipe,(void) payload_loc;//tbd
@@ -69,7 +69,7 @@ int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_l
 		if(!err)
 			current_payload->exit_status = bltn_execbe(current_payload->argv, shell);
 		else
-			current_payload->exit_status = 1;
+			current_payload->exit_status = 126;
 	restore_io(current_payload);
 	// delete heredoc tmp file
 	return (current_payload->exit_status);
