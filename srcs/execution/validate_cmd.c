@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:47 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 19:02:28 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:05:19 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static char	*get_path_from_env(char **envp)
 	}
 	return (NULL);
 }
-
+/*
+	RETURNS CMD ON MATCH
+	NULL ELSE
+ */
 char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload)
 {
 	char	*path;
@@ -78,6 +81,5 @@ char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload)
 		return (NULL);
 	}
 	free_split(dir);
-	printf("result %s\n", result);
 	return (result);
 }
