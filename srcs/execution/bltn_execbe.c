@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 17:50:01 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:06:22 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,13 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
+int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_loc)
 {
 	int		err;
 
 	if (pipe)
-	{
-		printf("this is just to shut up a warning\n");
+		(void)pipe,(void) payload_loc;//tbd
 		/* handle_pipe(pipe); */
-	}
 	err = 0;
 	locate_heredoc(current_payload, shell);
 	err = parse_redirs(current_payload,current_payload->payload_array);

@@ -6,42 +6,25 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 18:50:27 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:06:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+
 /*
 	no child lives past this.
-	either death by execve
-	or by ft_exit.
+	death by ft_exit or execve.
 */
-
-void fork_child(t_shell *shell, t_cmd *current_payload, int *status, int *pipe)
-{
-	int		pid;
-
-	pid = fork();
-	if (!pid)
-		manage_child(shell, current_payload,pipe);//no child lives past this function.
-	wait(status);
-	if (WIFEXITED(*status))
-		current_payload->exit_status = WEXITSTATUS(*status);
-	else if (WIFSIGNALED(*status))
-		current_payload->exit_status = 128 + WTERMSIG(*status);
-}
-
-int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
+int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_loc)
 {
 	char	**env;
 
 	env = build_envp(shell);
 	if (pipe)
-	{
-		printf("this is just to shut up a warning\n");
-		/* handle_pipe(pipe); */
-	}
+		(void)pipe,(void)payload_loc;
+		//handle_pipe(pipe); //this should handle redirections
 	if (locate_heredoc(current_payload,shell) != -1)
 		if (parse_redirs(current_payload, current_payload->payload_array) !=-1)
 		{
