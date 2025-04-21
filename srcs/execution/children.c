@@ -6,15 +6,21 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 17:50:38 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:32:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+	no child lives past this.
+	either death by execve
+	or by ft_exit.
+*/
 int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
 {
 	char	**env;
+	
 	env = build_envp(shell);
 	if (pipe)
 	{
