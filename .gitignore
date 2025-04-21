@@ -3,3 +3,7 @@ minishell
 .gitignore
 *.a
 objs/*
+outfile
+infile
+in
+out
