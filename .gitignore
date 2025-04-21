@@ -1,0 +1,5 @@
+minishell
+*/*.o
+.gitignore
+*.a
+objs/*
