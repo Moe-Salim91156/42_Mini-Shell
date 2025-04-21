@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 20:55:14 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:57:41 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ char	*extract_env_value_from_name(char *value, t_shell *shell)
 {
 	char	*result;
 	char	*exit_status_str;
+  t_envp *node;
 
-	// Handle $? - special case for last exit status
 	if (ft_strcmp(value, "?") == 0)
 	{
 		exit_status_str = ft_itoa(shell->last_status);
@@ -46,12 +46,13 @@ char	*extract_env_value_from_name(char *value, t_shell *shell)
 			return (ft_strdup(""));
 		return (exit_status_str);
 	}
-	
-	result = getenv(value);
-	if (result == NULL)
-		return (ft_strdup(""));
-	else
-		return (ft_strdup(result));
+	node = ft_getenv(shell->envp_list,value);
+  if (!node)
+    return (ft_strdup(""));
+	result = ft_strdup(node->value);
+  if (!result)
+    return (NULL);
+  return (result);
 }
 
 char	*get_before_str(char *value, int *before)
@@ -75,7 +76,6 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 
 	*env_len = 0;
 	
-	// Handle $? as a special case
 	if (value[*env_index + 1] == '?')
 	{
 		*env_len = 1;
@@ -84,7 +84,6 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	
 	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
 		return (ft_strdup(""));
-	// return empty string so it won't be re-expanded
 	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1
 		+ *env_len] == '_')
 		(*env_len)++;
