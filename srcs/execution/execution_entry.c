@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 15:42:27 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:58:33 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	execution_entry(t_shell *shell)
 				current_payload->exit_status = 128 + WTERMSIG(status);
 		}
 	}
-	else
+	// else
 	//case 3
+	shell->last_status = current_payload->exit_status;
 		return (0);
 	return (-1);
 }

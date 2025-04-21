@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/05 19:14:56 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:44:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,20 @@ static unsigned long	ft_atoul(char *str)
 int	bltn_exit(char **argv, t_shell *shell)
 {
 	if (!argv[1])
-		ft_exit(shell, shell->last_status);
+		exit(shell->last_status);
+		// ft_exit(shell, shell->last_status);
 	if (!is_numeric(argv[1]))
 	{
 		ft_putendl_fd("rbsh: exit: numeric argument required.", 2);
-		ft_exit(shell, 2);
+		// ft_exit(shell, 2);
+		exit(2);
 	}
 	if (argv[1] && argv[2])
 	{
 		ft_putendl_fd("rbsh: exit: too many arguments.", 2);
 		return (1);
 	}
-	ft_exit(shell, ft_atoul(argv[1]) % 256);
+	// ft_exit(shell, ft_atoul(argv[1]) % 256);
+	exit(ft_atoul(argv[1])% 256);
 	return (1);
 }

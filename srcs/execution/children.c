@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 16:05:13 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:50:38 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[])
 		if (parse_redirs(current_payload, current_payload->payload_array) !=-1)
 		{
 			current_payload->cmd_path = search_command_in_path(current_payload->argv[0]
-				, env, current_payload);
+				,env, current_payload);
 			if(env && current_payload->cmd_path)
 				if (execve(current_payload->cmd_path, current_payload->argv, env) == -1)
 				{
