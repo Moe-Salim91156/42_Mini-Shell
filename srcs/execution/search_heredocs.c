@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   search_heredocs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 18:04:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/21 15:51:06 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-# define HEREDOC_FILE "/tmp/.heredoc_tmp"
 /*
  * lookup payloads array of args for (<<)
  * if found execute the heredoc function
@@ -96,13 +95,11 @@ int	search_in_args(t_cmd *payload, char **envp)
 	return (payload->has_heredoc);
 }
 
-int	locate_heredoc(t_cmd_list *cmd_list, t_shell *shell)
+int	locate_heredoc(t_cmd *payload, t_shell *shell)
 {
-	t_cmd	*payload;
 	char	**envp;
 
 	envp = build_envp(shell);
-	payload = cmd_list->head;
 	if (search_in_args(payload, envp) == -1)
 		return (-1); // error if we wanna return or exit handler
 	printf("payload has heredoc ? %d\n", payload->has_heredoc);

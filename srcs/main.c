@@ -6,23 +6,24 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 20:56:43 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:41:35 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../includes/minishell.h"
 
+
+#include "../includes/minishell.h"
 
 int count_payloads(t_cmd_list *list)
 {
-  t_cmd *pay;
+	t_cmd *pay;
 
-  pay = list->head;
-  while (pay && pay->argv[0])
-  {
-    list->payload_count++;
-    pay = pay->next;
-  }
-  return (list->payload_count);
+	pay = list->head;
+	while (pay && pay->argv[0])
+	{
+		list->payload_count++;
+		pay = pay->next;
+	}
+	return (list->payload_count);
 }
 
 int	main(void)
@@ -31,8 +32,7 @@ int	main(void)
 
 	t_shell shell; // please add this
 	shell_init(&shell, __environ);
-	shell.token_list = init_list();
-	shell.cmd_list = init_cmd_list();
+
 	while (1)
 	{
 		input = readline("rbsh$ ");

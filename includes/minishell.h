@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 20:56:15 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:18:06 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# ifndef HEREDOC_FILE
+#  define HEREDOC_FILE "/tmp/.heredoc_tmp"
+# endif
+
+
 /*################# structs ############################*/
 typedef enum e_token_type
 {
@@ -94,7 +99,7 @@ typedef struct s_shell
 	t_token_list	*token_list;
 	t_cmd_list		*cmd_list;
 	t_envp			*envp_list;
-	unsigned long	last_status;
+	int	last_status;
 }					t_shell;
 
 /*################# init(🇬🇧) (and exit) #################*/
@@ -147,8 +152,8 @@ int					bltn_unset(char **argv, t_envp *list);
 int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
-/****************************************/
-char				**build_cmd_argv(t_cmd_list *payload);
+/*################# execution #################*/
+int					execution_entry(t_shell *shell);
 					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
@@ -163,15 +168,13 @@ int					redir_out(t_cmd *current_payload, char *file);
 int					redir_append(t_cmd *current_payload, char *file);
 int					redir_heredoc(t_cmd *current_payload, char *file);
 void				apply_redirs(t_cmd *current_payload);
+int					see_heredoc_if_quoted(t_shell *shell);
+int					locate_heredoc(t_cmd *current_payload, t_shell *shell);
+char				*expand_heredoc_line(char *line, char **envp);
+					/* PATH STUFF */
+char				**build_cmd_argv(t_cmd_list *payload);
 char				*search_command_in_path(char *cmd, char **envp,
     t_cmd *payload);
-int					see_heredoc_if_quoted(t_shell *shell);
-int					execution_entry(t_shell *shell);
-int					locate_heredoc(t_cmd_list *cmd_list, t_shell *shell);
-char				*expand_heredoc_line(char *line, char **envp);
-t_envp				*find_by_key(t_envp *list, char *key);
-/*################# execution #################*/
-
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 14:57:41 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:26:22 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*extract_env_value_from_name(char *value, t_shell *shell)
 {
 	char	*result;
 	char	*exit_status_str;
-  t_envp *node;
+	t_envp *node;
 
 	if (ft_strcmp(value, "?") == 0)
 	{
@@ -75,13 +75,13 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	char	*env_name;
 
 	*env_len = 0;
-	
+
 	if (value[*env_index + 1] == '?')
 	{
 		*env_len = 1;
 		return (ft_strdup("?"));
 	}
-	
+
 	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
 		return (ft_strdup(""));
 	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1
