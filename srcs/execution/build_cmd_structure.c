@@ -6,15 +6,12 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 18:17:43 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:56:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// takes the payload
-// extracts the cmd and its args
-// put it into payload->argv
 int	count_args(t_cmd *payload)
 {
 	int	i;
@@ -28,7 +25,6 @@ int	count_args(t_cmd *payload)
 			count++;
 		i++;
 	}
-	// printf("payload->array in payload count %d\n", count);
 	return (count);
 }
 
