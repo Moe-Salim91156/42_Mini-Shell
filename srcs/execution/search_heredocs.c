@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 18:29:04 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:18:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,11 @@ int	locate_heredoc(t_cmd *payload, t_shell *shell)
 
 	envp = build_envp(shell);
 	if (search_in_args(payload, envp) == -1)
+	{
+		free(envp);
 		return (-1); // error if we wanna return or exit handler
+	}
+	free(envp);
 	return (payload->has_heredoc); // will be 0 or 1 for heredoc detection;
 }
 

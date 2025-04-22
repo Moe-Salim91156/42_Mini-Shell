@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 10:28:35 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 14:48:38 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:59:03 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static t_envp	**create_env_array(t_envp *list, int size)
 	return (arr);
 }
 /* counts all keys, regardless of values. */
-static int	envp_count_all(t_envp *list)
+int	envp_count_all(t_envp *list)
 {
 	int		count;
 	t_envp	*traverse;
