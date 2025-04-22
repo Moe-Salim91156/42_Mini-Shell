@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/26 18:12:05 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:22:54 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ t_envp	*init_envp(char **envp)
 	return (list);
 }
 
-/*returns an execve compatible 2d array of envp*/
+/*
+	returns an execve compatible 2d array of envp
+	i.e key=value
+*/
 char	**build_envp(t_shell *shell)
 {
 	t_envp	*traverse;
@@ -55,16 +58,18 @@ char	**build_envp(t_shell *shell)
 	int		i;
 
 	i = 0;
-	envp = malloc(sizeof(char *) * (envp_count(shell->envp_list) + 1));
+	envp = malloc(sizeof(char *) * (envp_count_all(shell->envp_list) + 1));
 	if (!envp)
-		return (free_env(shell->envp_list));
+		return (NULL);
 	traverse = shell->envp_list;
 	while (traverse)
 	{
 		if (traverse->value)
 			envp[i] = ft_strjoin(traverse->key, traverse->value);
+		else
+			envp[i] = ft_strdup(traverse->key);
 		if (!envp[i])
-			return (NULL);
+			return (NULL);//exit handler
 		traverse = traverse->next;
 		i++;
 	}

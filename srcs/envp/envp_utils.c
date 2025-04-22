@@ -6,10 +6,10 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/24 10:45:14 by yokitane         ###   ########.fr       */
-/*   Updated: 2025/03/06 03:21:29 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:58:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -85,7 +85,7 @@ int	del_env_node(t_envp *node)
 	return (1);
 }
 /*
-	FINDS NODE WHE NU PASS KEY=VALUE
+	FINDS NODE WHEN U PASS KEY=VALUE
 */
 t_envp	*find_str(t_envp *list, char *str)
 {
