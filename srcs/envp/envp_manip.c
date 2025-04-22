@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 20:22:54 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:55:38 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ t_envp	*init_envp(char **envp)
 	int		i;
 	t_envp	*list;
 
+	if (!envp || !envp[0])
+	{
+		list = build_env_node("foolmeonce=shameonyou");
+		return (list);
+	}
 	list = NULL;
 	i = 1;
 	list = build_env_node(envp[0]);

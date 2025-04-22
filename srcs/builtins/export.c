@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/05 17:26:20 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:55:32 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 		return value:
 			The return status is zero unless an invalid @arg is supplied.
 		########### TBD ###########
-		nothing inshallah (= unless future edge cases resurface)
+		empty env handle...
 */
 
 static int	invalid_arg(char *str, int *ret)
