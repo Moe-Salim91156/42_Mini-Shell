@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 13:34:50 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 14:50:41 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 20:30:09 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,16 @@ static int	unset_arg(char *arg, t_envp *list)
 	t_envp	*prev;
 
 	current = find_str(list, arg);
+	if (!current)
+		return (0);
+	if (current == list)
+	{
+		list = current->next;
+		del_env_node(current);
+		return (0);
+	}
 	prev = list;
-	while (prev->next != current)
+	while (prev && prev->next != current)
 		prev = prev->next;
 	prev->next = current->next;
 	del_env_node(current);

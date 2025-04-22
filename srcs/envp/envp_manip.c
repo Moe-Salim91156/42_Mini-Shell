@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 18:58:54 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:22:54 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**build_envp(t_shell *shell)
 	i = 0;
 	envp = malloc(sizeof(char *) * (envp_count_all(shell->envp_list) + 1));
 	if (!envp)
-		return (free_env(shell->envp_list));
+		return (NULL);
 	traverse = shell->envp_list;
 	while (traverse)
 	{
@@ -69,7 +69,7 @@ char	**build_envp(t_shell *shell)
 		else
 			envp[i] = ft_strdup(traverse->key);
 		if (!envp[i])
-			return (NULL);
+			return (NULL);//exit handler
 		traverse = traverse->next;
 		i++;
 	}
