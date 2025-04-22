@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 13:34:50 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 21:08:52 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 22:06:44 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static int	unset_arg(char *arg, t_envp **list_ptr)
 	t_envp	*prev;
 	t_envp	*list;
 
+	if (envp_count_all(*list_ptr) == 1)
+		return (printf("cant unset...are you root?\n"));
 	list = *list_ptr;
 	current = ft_getenv(list, arg);
 	if (!current)
