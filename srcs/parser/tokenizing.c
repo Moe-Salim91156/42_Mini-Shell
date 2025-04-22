@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 15:53:54 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 16:30:44 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,29 +66,11 @@ int	handle_quotes(char *input, int *i)
 	return (1);
 }
 
-int	handle_redirect_or_quote(char *input, int *i, int *start,
-		t_token_list *tokens)
-{
-	int	result;
-
-	if (is_redirect(input[*i]))
-	{
-		result = handle_redirect(input, i, start, tokens);
-		if (result == 1)
-			return (0);
-	}
-	else if (is_quotes(input[*i]))
-	{
-		if (!handle_quotes(input, i))
-			return (0);
-	}
-	return (1);
-}
-
 int	tokenizer(char *input, t_token_list *tokens)
 {
 	int	i;
 	int	start;
+	int	result;
 
 	i = 0;
 	start = 0;
@@ -97,9 +79,15 @@ int	tokenizer(char *input, t_token_list *tokens)
 	{
 		if (is_seperator_token(input[i]))
 			handle_separator(input, &i, &start, tokens);
-		else if (!handle_redirect_or_quote(input, &i, &start, tokens))
+		else if (is_redirect(input[i]))
+		{
+			result = handle_redirect(input, &i, &start, tokens);
+			if (result == 1)
+				return (0);
+		}
+		else if (is_quotes(input[i]) && !handle_quotes(input, &i))
 			return (0);
-		else
+		else if (!is_quotes(input[i]))
 			i++;
 	}
 	add_last_token(input, start, i, tokens);

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:17:18 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 16:20:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	parse_redirs(t_cmd *cmd, char **payload_array)
 		if (!ft_strncmp("<<", payload_array[i], 2))
 		{
 			ret = redir_heredoc(cmd, HEREDOC_FILE);
-			i += 2;
+			i += 1;
 		}
 		if (ret == -1)
 			break ;
