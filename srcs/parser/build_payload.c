@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 18:18:16 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:17:58 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_cmd	*handle_seperator(t_cmd *cmd, t_token_list *list)
 	if (!cmd->next)
 	{
 		ft_putstr_fd("erorr init-ing new command\n", 2);
-		/* free */
 		exit(1);
 	}
 	cmd = cmd->next;
@@ -70,7 +69,6 @@ t_cmd	*handle_seperator(t_cmd *cmd, t_token_list *list)
 	if (!cmd->payload_array)
 	{
 		ft_putstr_fd("error mallocating a new argv\n", 2);
-		// free
 		exit(1);
 	}
 	return (cmd);

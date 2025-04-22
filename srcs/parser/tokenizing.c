@@ -6,29 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 14:33:50 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:41:11 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	substr_and_add(char *input, int start, int i, t_token_list *tokens)
-{
-	char	*result;
-
-	if (i > start)
-	{
-		result = ft_substr(input, start, i - start);
-		add_token(tokens, result);
-		free(result);
-	}
-}
-
-void	skip_beginning_spaces(char *str)
-{
-	while (*str == ' ')
-		str++;
-}
 
 void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
 {
@@ -37,17 +19,6 @@ void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
 		add_token(tokens, "|");
 	(*i)++;
 	*start = *i;
-}
-
-int	is_invalid_redirection(char *input, int i)
-{
-	if ((input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '>')
-		|| (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '<'))
-	{
-		printf("syntax error\n");
-		return (1); // Invalid redirection pattern
-	}
-	return (0);
 }
 
 int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
@@ -95,11 +66,28 @@ int	handle_quotes(char *input, int *i)
 	return (1);
 }
 
+int	handle_redirect_or_quote(char *input, int *i, int *start)
+{
+	int	result;
+
+	if (is_redirect(input[*i]))
+	{
+		result = handle_redirect(input, i, start, NULL);
+		if (result == 1)
+			return (0);
+	}
+	else if (is_quotes(input[*i]))
+	{
+		if (!handle_quotes(input, i))
+			return (0);
+	}
+	return (1);
+}
+
 int	tokenizer(char *input, t_token_list *tokens)
 {
 	int	i;
 	int	start;
-	int	result;
 
 	i = 0;
 	start = 0;
@@ -108,17 +96,8 @@ int	tokenizer(char *input, t_token_list *tokens)
 	{
 		if (is_seperator_token(input[i]))
 			handle_separator(input, &i, &start, tokens);
-		else if (is_redirect(input[i]))
-		{
-			result = handle_redirect(input, &i, &start, tokens);
-			if (result == 1)
-				return (0);
-		}
-		else if (is_quotes(input[i]))
-		{
-			if (!handle_quotes(input, &i))
-				return (0);
-		}
+		else if (!handle_redirect_or_quote(input, &i, &start))
+			return (0);
 		else
 			i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/21 16:18:06 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:41:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,37 @@ typedef struct s_token_list
 	t_token			*head;
 }					t_token_list;
 
+typedef struct s_double_quote_context
+{
+	int				start;
+	int				len;
+	int				env_index;
+	char			*temp;
+	char			*last_result;
+	char			*expanded_result;
+}					t_double_quote_context;
+
+typedef struct s_normal_mode_context
+{
+	int				start;
+	int				len;
+	int				env_index;
+	char			*temp;
+	char			*new_expanded;
+}					t_normal_mode_context;
+
+typedef struct s_expand_env_context
+{
+	int				before;
+	int				env_len;
+	int				next_index;
+	char			*before_str;
+	char			*env_name;
+	char			*env_value;
+	char			*result;
+	char			*final_result;
+}					t_expand_env_context;
+
 typedef struct s_cmd
 {
 	char			**payload_array;
@@ -100,7 +131,6 @@ typedef struct s_shell
 	t_envp			*envp_list;
 	int				last_status;
 }					t_shell;
-
 /*################# init(🇬🇧) (and exit) #################*/
 int					shell_init(t_shell *shell, char **envp);
 t_token				*init_token(void);
@@ -114,6 +144,10 @@ void				free_tokens(t_token_list *list);
 // ft_exit is the ultimate exit handler. termination is always done through it.
 void				ft_exit(t_shell *shell, unsigned long status);
 /*################# tokenization #################*/
+int	is_invalid_redirection(char *input, int i);
+int					is_redirect_1(char *str);
+void				substr_and_add(char *input, int start, int i,
+						t_token_list *tokens);
 void				lexer_cmd_list(t_cmd_list *list);
 void				lexing(t_token_list *list);
 char				**allocate_cmd_argv(int count);
@@ -129,6 +163,14 @@ void				skip_beginning_spaces(char *str);
 void				lexemes(t_token *token);
 void				add_token(t_token_list *list, char *value);
 /*################# expander ###########################*/
+char				*append_mode_result(char *result, char *mode_result);
+void				ozha_function(t_normal_mode_context *context,
+						t_shell *shell);
+void				gezha_function(t_double_quote_context *context,
+						t_shell *shell);
+int					has_env_var(char *value, t_token *current);
+char				*expand_env_var(char *value, int *env_index,
+						t_shell *shell);
 int					check_for_quotes_in_tokens(t_token_list *list);
 char				*expander_main(t_shell *shell);
 // char				*handle_quotes_mode(t_token *current);

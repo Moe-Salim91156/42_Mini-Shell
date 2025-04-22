@@ -28,7 +28,7 @@ int	execution_entry(t_shell *shell)
 			pid = fork();
 			if (!pid)
 				manage_child(shell, current_payload, NULL);
-					// no child lives past this function.
+			// no child lives past this function.
 			wait(&status);
 			if (WIFEXITED(status))
 				current_payload->exit_status = WEXITSTATUS(status);

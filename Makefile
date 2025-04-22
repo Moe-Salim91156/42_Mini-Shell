@@ -11,8 +11,8 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 INCLUDE = includes
 
 INIT = init/init.c init/uninit.c
-PRSR = parser/build_payload.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_payload_utils.c parser/payload_lexing.c
-XPNDR = expander/expander.c
+PRSR = parser/build_payload.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_payload_utils.c parser/payload_lexing.c parser/payload_lexing_utils.c parser/token_utils_2.c
+XPNDR = expander/expander.c expander/expand_env_vars.c expander/expander_general_utils.c
 
 EXEC = execution/search_heredocs.c execution/build_cmd_structure.c execution/children.c execution/bltn_execbe.c execution/parse_redirections.c execution/parse_redirection_utils.c execution/execution_entry.c execution/validate_cmd.c execution/expand_heredoc.c
 

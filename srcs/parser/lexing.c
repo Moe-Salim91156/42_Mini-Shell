@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:05:32 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/09 16:57:06 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:19:06 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 /*lexer protal , give each token in the list a type using lexemes func*/
 /*and then does the logic of identifying argv*/
-static int	is_separator(t_token *token)
-{
-	return (token->type == PIPE);
-}
 
 static int	is_redirection(t_token *token)
 {
@@ -52,7 +48,7 @@ void	assign_command_and_argv(t_token_list *list)
 	just_saw_redirect = 0;
 	while (current)
 	{
-		if (is_separator(current))
+		if (current->type == PIPE)
 		{
 			next_is_command = 1;
 			just_saw_redirect = 0;
