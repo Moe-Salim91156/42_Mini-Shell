@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 19:35:21 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:36:57 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else if (!ft_strcmp("export", argv[0]))
 		return (bltn_export(argv, shell->envp_list));
 	else if (!ft_strcmp("unset", argv[0]))
-		return (bltn_unset(argv, shell->envp_list));
+		return (bltn_unset(argv, &shell->envp_list));
 	else if (!ft_strcmp("cd", argv[0]))
 		return (bltn_cd(argv, shell->envp_list));
 	else if (!ft_strcmp("echo", argv[0]))

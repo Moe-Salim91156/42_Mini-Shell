@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 18:59:26 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:36:20 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ t_envp				*build_env_node(char *str);
 int					bltn_env(t_shell *shell);
 int					bltn_pwd(void);
 int					bltn_export(char **argv, t_envp *list);
-int					bltn_unset(char **argv, t_envp *list);
+int					bltn_unset(char **argv, t_envp **list);
 int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);

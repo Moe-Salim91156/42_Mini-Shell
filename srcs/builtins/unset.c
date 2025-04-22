@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 13:34:50 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 20:30:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:08:52 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,19 @@ t_envp	*ft_getenv(t_envp *list, char *str)
 	return (ret);
 }
 
-static int	unset_arg(char *arg, t_envp *list)
+static int	unset_arg(char *arg, t_envp **list_ptr)
 {
 	t_envp	*current;
 	t_envp	*prev;
+	t_envp	*list;
 
-	current = find_str(list, arg);
+	list = *list_ptr;
+	current = ft_getenv(list, arg);
 	if (!current)
 		return (0);
 	if (current == list)
 	{
-		list = current->next;
+		*list_ptr = current->next;
 		del_env_node(current);
 		return (0);
 	}
@@ -66,7 +68,7 @@ static int	unset_arg(char *arg, t_envp *list)
 	return (0);
 }
 
-int	bltn_unset(char **argv, t_envp *list)
+int	bltn_unset(char **argv, t_envp **list)
 {
 	int	ret;
 	int	i;
@@ -75,7 +77,7 @@ int	bltn_unset(char **argv, t_envp *list)
 	i = 0;
 	while (argv[++i])
 	{
-		if (!ft_getenv(list, argv[i]))
+		if (!ft_getenv(*list, argv[i]))
 			continue ;
 		if (unset_arg(argv[i], list))
 			ret = 1;
