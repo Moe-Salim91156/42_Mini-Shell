@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 17:47:29 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:18:39 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_
 	env = build_envp(shell);
 	if (pipe)
 		(void)pipe,(void)payload_loc;
-		//handle_pipe(pipe); //this should handle redirections
+		//handle_pipe(pipe,payload_loc,payload_count); //this should handle pipe redirections
 	if (locate_heredoc(current_payload,shell) != -1)
 		if (parse_redirs(current_payload, current_payload->payload_array) !=-1)
 		{

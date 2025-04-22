@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 20:36:57 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:16:31 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_l
 		if(!err)
 			current_payload->exit_status = bltn_execbe(current_payload->argv, shell);
 		else
-			current_payload->exit_status = 126;
+			current_payload->exit_status = 1;
 	restore_io(current_payload);
 	// delete heredoc tmp file
 	return (current_payload->exit_status);
