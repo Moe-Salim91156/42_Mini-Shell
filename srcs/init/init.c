@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/03 19:43:49 by yokitane         ###   ########.fr       */
+/*   Created: 2025/04/10 14:23:21 by yokitane          #+#    #+#             */
+/*   Updated: 2025/04/21 16:12:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	bltn_env(t_shell *shell)
+int	shell_init(t_shell *shell, char **envp)
 {
-	t_envp	*visit;
-
-	if (!shell->envp_list)
-		return (1);
-	visit = shell->envp_list;
-	while (visit)
-	{
-		if (visit->key && visit->value)
-			if (printf("%s%s\n", visit->key, visit->value) == -1)
-				return (1);
-		visit = visit->next;
-	}
+	// shell = malloc(sizeof(t_shell));
+	shell->token_list = init_list();
+	shell->cmd_list = init_cmd_list();
+	shell->envp_list = init_envp(envp);
+	shell->last_status = 0;
+	if (!shell->token_list || !shell->cmd_list || !shell->envp_list)
+		return (-1);
 	return (0);
 }
