@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:05:32 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 15:19:06 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/23 16:04:58 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,27 @@ void	assign_command_and_argv(t_token_list *list)
 	}
 }
 
-void	lexing(t_token_list *list)
+int	lexing(t_shell *shell, t_token_list *list)
 {
 	t_token	*current;
 
 	current = list->head;
 	while (current)
 	{
-		lexemes(current);
+		if (!lexemes(current))
+		{
+			printf("syntax error near \"<<\" token\n");
+			shell->last_status = 127;
+			return (0);
+		}
 		current = current->next;
 	}
 	assign_command_and_argv(list);
+	return (1);
 }
 
 /*responsible for lexing each node*/
-void	lexemes(t_token *token)
+int	lexemes(t_token *token)
 {
 	if (!ft_strcmp(token->value, "|"))
 		token->type = PIPE;
@@ -88,8 +94,18 @@ void	lexemes(t_token *token)
 	else if (!ft_strcmp(token->value, "<<"))
 	{
 		token->type = HEREDOC;
+		if (!token->next || !token->next->value || !*token->next->value
+			|| !ft_strcmp(token->next->value, "<<"))
+			return (0);
+		else
+			token->next->type = HEREDOC_DELIMITER;
+	}
+	else if (!ft_strcmp(token->value, "<<"))
+	{
+		token->type = HEREDOC;
 		token->next->type = HEREDOC_DELIMITER;
 	}
 	else if (ft_strchr(token->value, '-'))
 		token->type = ARGS;
+	return (1);
 }
