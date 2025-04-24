@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/24 15:31:08 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/24 16:38:35 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,10 @@ int	handle_quotes(char *input, int *i, t_shell *shell)
 	(*i)++;
 	return (1);
 }
-
 int	tokenizer(char *input, t_token_list *tokens, t_shell *shell)
 {
 	int	i;
 	int	start;
-	int	result;
 
 	i = 0;
 	start = 0;
@@ -81,13 +79,15 @@ int	tokenizer(char *input, t_token_list *tokens, t_shell *shell)
 			handle_separator(input, &i, &start, tokens);
 		else if (is_redirect(input[i]))
 		{
-			result = handle_redirect(input, &i, &start, tokens);
-			if (result == 1)
+			if (handle_redirect(input, &i, &start, tokens))
 				return (0);
 		}
-		else if (is_quotes(input[i]) && !handle_quotes(input, &i, shell))
-			return (0);
-		else if (!is_quotes(input[i]))
+		else if (is_quotes(input[i]))
+		{
+			if (!handle_quotes(input, &i,shell))
+				return (0);
+		}
+		else
 			i++;
 	}
 	add_last_token(input, start, i, tokens);
