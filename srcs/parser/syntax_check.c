@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:37:12 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/24 14:34:27 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/24 14:46:22 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	invalid_operator_sequence(t_token *curr)
 			|| curr->type == HEREDOC) && (curr->next->type == PIPE
 			|| curr->next->type == REDIRECT_OUT
 			|| curr->next->type == REDIRECT_IN || curr->next->type == APPEND
-			|| curr->next->type == HEREDOC || curr->next->type == PIPE))
+			|| curr->next->type == HEREDOC))
 	{
 		ft_putstr_fd("rbsh: syntax error near unexpected token `", 2);
 		ft_putstr_fd(curr->next->value, 2);
@@ -84,16 +84,18 @@ int	check_unexpected_token(t_shell *shell, t_token_list *list)
 	current = list->head;
 	while (current)
 	{
-		if (!valid_redirection(current) || !valid_heredoc(current) || invalid_operator_sequence(current))
-		{
-			shell->last_status = 127;
-			return (0);
-		}
-		if (current->type == PIPE && !current->next)
+    if ((current->type == PIPE && !current->next )|| list->head->type == PIPE)
 		{
 			ft_putendl_fd("rbsh: syntax error near unexpected token `newline`",
 				2);
-			shell->last_status = 258;
+			shell->last_status = 127;
+			return (0);
+		}
+    if (!valid_redirection(current)
+			|| !valid_heredoc(current)
+			|| invalid_operator_sequence(current))
+		{
+			shell->last_status = 127;
 			return (0);
 		}
 		current = current->next;

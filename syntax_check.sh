@@ -9,7 +9,7 @@ TMP_INPUT="tmp_input.txt"
 # List of test cases with expected error keyword
 
 declare -a tests=(
-  "| ls:|"
+  "| ls:syntax error"
   "ls |:newline"
   "cat << EOF << EOF <<:<<"
   "cat << EOF <:newline"

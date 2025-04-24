@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 14:10:26 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/24 15:48:01 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,12 @@ char	*single_quote_mode(t_token *current, int *index)
 	temp = malloc(len + 1);
 	if (!temp)
 		return (NULL);
-	ft_strncpy(temp, current->value + start, len);
-	temp[len] = '\0';
+   if (len == 0) {
+        temp[0] = '\0';  // Empty string between single quotes
+    } else {
+        ft_strncpy(temp, current->value + start, len);
+        temp[len] = '\0';
+    }
 	*index = start + len + 1;
 	return (temp);
 }
@@ -101,6 +105,8 @@ char	*handle_quotes_mode(t_token *current, t_shell *shell)
 		else
 			temp = normal_mode(current, &i, shell);
 		result = append_mode_result(result, temp);
+    if (current->value[i] == ' ' || current->value[i] == '\t')
+      i++;
 	}
 	return (result);
 }

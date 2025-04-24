@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 15:56:30 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/24 15:07:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**build_cmd_argv(t_cmd_list *list)
 			if (payload->type[i] == COMMAND || payload->type[i] == ARGS)
 			{
 				arg = ft_strdup(payload->payload_array[i]);
-				if (arg && arg[0] != '\0')
+				if (arg)// removed arg[0] != '\0' for the ls "" case,;
 					payload->argv[j++] = arg;
 			}
 			i++;
