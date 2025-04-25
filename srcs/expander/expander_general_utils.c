@@ -56,7 +56,7 @@ int	has_env_var(char *value, t_token *current)
 			if (value[i + 1] == '\0')
 				return (-1);
 			if (value[i + 1] == '?' || ft_isalnum(value[i + 1]) || value[i
-				+ 1] == '_')
+					+ 1] == '_')
 				return (i);
 			return (-1);
 		}

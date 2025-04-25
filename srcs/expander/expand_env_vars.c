@@ -62,7 +62,7 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
 		return (ft_strdup(""));
 	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1
-		+ *env_len] == '_')
+			+ *env_len] == '_')
 		(*env_len)++;
 	env_name = malloc(*env_len + 1);
 	if (!env_name)
