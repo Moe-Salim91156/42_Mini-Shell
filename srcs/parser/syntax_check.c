@@ -84,15 +84,15 @@ int	check_unexpected_token(t_shell *shell, t_token_list *list)
 	current = list->head;
 	while (current)
 	{
-    if ((current->type == PIPE && !current->next )|| list->head->type == PIPE)
+		if ((current->type == PIPE && !current->next)
+			|| list->head->type == PIPE)
 		{
 			ft_putendl_fd("rbsh: syntax error near unexpected token `newline`",
 				2);
 			shell->last_status = 127;
 			return (0);
 		}
-    if (!valid_redirection(current)
-			|| !valid_heredoc(current)
+		if (!valid_redirection(current) || !valid_heredoc(current)
 			|| invalid_operator_sequence(current))
 		{
 			shell->last_status = 127;

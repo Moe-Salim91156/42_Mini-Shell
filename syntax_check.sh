@@ -9,6 +9,8 @@ TMP_INPUT="tmp_input.txt"
 # List of test cases with expected error keyword
 declare -a valid_tests=(
   "'c'lear"
+  "'e'cho"
+  "\"e\"cho"
   "ls"
   "                                         ls''                                "
   "ls'' "
@@ -49,6 +51,7 @@ declare -a tests=(
   "cat << EOF <:newline"
   "ls |       | asdf:|"
   "<>:<"
+  ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>:syntax error"
   "ls || ls:|"
   "ls |||| cat:|"
   "|:|"
