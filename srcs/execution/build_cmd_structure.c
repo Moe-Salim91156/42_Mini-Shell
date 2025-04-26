@@ -6,15 +6,12 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 18:17:43 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/24 15:07:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// takes the payload
-// extracts the cmd and its args
-// put it into payload->argv
 int	count_args(t_cmd *payload)
 {
 	int	i;
@@ -28,7 +25,6 @@ int	count_args(t_cmd *payload)
 			count++;
 		i++;
 	}
-	//printf("payload->array in payload count %d\n", count);
 	return (count);
 }
 
@@ -72,7 +68,7 @@ char	**build_cmd_argv(t_cmd_list *list)
 			if (payload->type[i] == COMMAND || payload->type[i] == ARGS)
 			{
 				arg = ft_strdup(payload->payload_array[i]);
-				if (arg && arg[0] != '\0')
+				if (arg)// removed arg[0] != '\0' for the ls "" case,;
 					payload->argv[j++] = arg;
 			}
 			i++;
@@ -95,11 +91,12 @@ char	**build_payload_argv(t_cmd *payload)
 		return (NULL);
 	while (payload->payload_array[i])
 	{
-			if (payload->type[i] == COMMAND && ft_strcmp(payload->payload_array[i]," "))
-			{
-				payload->argv[0] = ft_strdup(payload->payload_array[i]);
-				break ;
-			}
+		if (payload->type[i] == COMMAND && ft_strcmp(payload->payload_array[i],
+				" "))
+		{
+			payload->argv[0] = ft_strdup(payload->payload_array[i]);
+			break ;
+		}
 		i++;
 	}
 	while (payload->payload_array[i])

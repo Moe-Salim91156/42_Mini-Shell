@@ -6,12 +6,11 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:38:09 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/16 14:25:20 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 16:00:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 char	*get_env_value_from_envp(char *key, char **envp)
 {
 	int		i;

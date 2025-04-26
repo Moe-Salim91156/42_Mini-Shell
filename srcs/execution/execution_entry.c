@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 20:16:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +24,6 @@ static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 	else if (WIFSIGNALED(*status))
 		current_payload->exit_status = 128 + WTERMSIG(*status);
 }
-
 int	execution_entry(t_shell *shell)
 {
 	t_cmd	*current_payload;
@@ -46,4 +44,3 @@ int	execution_entry(t_shell *shell)
 		//case 3
 	return (0);
 }
-

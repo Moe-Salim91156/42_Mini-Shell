@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 16:18:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +83,7 @@ int	search_in_args(t_cmd *payload, char **envp)
 			run_heredoc(payload, payload->heredoc_delimiter, envp);
 			if (payload->heredoc_fd < 0)
 			{
-				// error
-				// exit;
-				// or return (-1 for error);
-				// 0 if no heredoc and 1 if there is heredoc
+        return (-1);
 			}
 		}
 		i++;
