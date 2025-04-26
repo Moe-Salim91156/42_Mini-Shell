@@ -1,21 +1,8 @@
--> expander:  
-  : norminette;
-
-  -> payload_lexing:  
-    : "|" is an arg not a pipe, token_list_lexing working but payload_lexing no
--> tokenizer:
-  -norminette;
-
 -> execution: 
   : case 1 done;
   : case 2 in-progress
 
   -> heredoc
       : norminette;
-
-  ->  
-
 general edge cases : 
-  : protections if user didnt enter delimiter, if user wrote << without anything , if and if and if u know the drill 
-    : general syntax error;
     : general exit handler;

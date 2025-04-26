@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/23 16:09:39 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:30:01 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,28 @@ int	count_payloads(t_cmd_list *list)
 	return (list->payload_count);
 }
 
+void	free_env_list(t_envp *env_list)
+{
+	t_envp *tmp;
+
+	while (env_list)
+	{
+		tmp = env_list;
+		env_list = env_list->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
 void  free_and_loop(t_shell *shell, char *input)
 {
       free(input);
-      free_tokens(shell->token_list);     // this
-			free_command_list(shell->cmd_list); // and this
-			shell->token_list = NULL;           // this too
-			shell->token_list = init_list();    // dont forget this
-			shell->cmd_list = init_cmd_list();  // and lastly this,
-
+      free_tokens(shell->token_list);
+			free_command_list(shell->cmd_list);
+			shell->token_list = NULL;
+			shell->token_list = init_list();
+			shell->cmd_list = init_cmd_list();
 }
 
 int happy_parser_path(char *input, t_shell *shell)
@@ -58,10 +71,10 @@ int	main(void)
 	shell_init(&shell, __environ);
 	while (1)
 	{
+    setup_signals_main();
 		input = readline("rbsh$ ");
 		if (!input)
 			break ;
-
 		if (happy_parser_path(input, &shell))
 		{
 			expander_main(&shell);
@@ -74,7 +87,7 @@ int	main(void)
 		}
 		free_and_loop(&shell, input);
 	}
-	printf("exit\n");
+  // eit_handler
 	return (0);
 }
 

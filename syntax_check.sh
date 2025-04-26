@@ -7,14 +7,51 @@ MINISHELL="./minishell"
 TMP_INPUT="tmp_input.txt"
 
 # List of test cases with expected error keyword
+declare -a valid_tests=(
+  "'c'lear"
+  "'e'cho"
+  "\"e\"cho"
+  "ls"
+  "                                         ls''                                "
+  "ls'' "
+  "ls"" "
+  "echo hello"
+  "cat << EOF\nhello\nEOF"
+  "ls | grep txt"
+  "cat file.txt | sort > sorted.txt"
+  "echo hi > file && cat < file"
+  "cat << EOF | grep hi\nhi\nEOF"
+)
+
+echo -e "\n✅ Running minishell valid syntax tests:\n"
+
+j=1
+for valid_input in "${valid_tests[@]}"; do
+  # If input contains newlines, use printf to preserve them
+  output=$(printf "%b\n" "$valid_input" | $MINISHELL 2>&1)
+  
+  # Expecting no syntax error
+  if echo "$output" | grep -qi "syntax error"; then
+    echo "❌ Valid Test $j Failed: '$valid_input'"
+    echo "   ➤ Unexpected syntax error in output:"
+    echo "$output"
+  else
+    echo "✅ Valid Test $j Passed: '$valid_input'"
+  fi
+  ((j++))
+done
 
 declare -a tests=(
-  "| ls:|"
-  "ls |:newline"
+  "| ls:syntax error"
+  "ls \"\":No such file or directory"
+  "ls '':No such file or directory"
+  "ls \"\"\"\":No such file or directory"
+  "ls |:syntax error"
   "cat << EOF << EOF <<:<<"
   "cat << EOF <:newline"
   "ls |       | asdf:|"
   "<>:<"
+  ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>:syntax error"
   "ls || ls:|"
   "ls |||| cat:|"
   "|:|"
