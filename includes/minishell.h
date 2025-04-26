@@ -6,9 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/26 16:07:36 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/26 23:19:31 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
@@ -144,7 +146,7 @@ void				free_tokens(t_token_list *list);
 // ft_exit is the ultimate exit handler. termination is always done through it.
 void				ft_exit(t_shell *shell, unsigned long status);
 /*################## Signals #####################*/
-void    setup_signals_main(void);
+void				setup_signals_main(void);
 /*################# tokenization #################*/
 int check_unexpected_token(t_shell *shell, t_token_list *list);
 int	is_invalid_redirection(char *input, int i);
@@ -219,9 +221,12 @@ void				apply_redirs(t_cmd *current_payload);
 int					see_heredoc_if_quoted(t_shell *shell);
 int					locate_heredoc(t_cmd *current_payload, t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
+					/*	PIPELINE	*/
+void				manage_pipeline(t_shell *shell, t_cmd *list_head, int *status);
+void				close_pipes(int **pipes, int cmd_count);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
-            /* PATH STUFF */
+					/* PATH STUFF */
 char				**build_cmd_argv(t_cmd_list *payload);
 char				*search_command_in_path(char *cmd, char **envp,
 						t_cmd *payload);

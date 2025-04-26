@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/23 16:09:24 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/26 23:46:20 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ int set_exit_status(char *cmd_path)
 	}
 	return (0);
 }
+
+/*
+	child process command entry point, structured to ensure termination at end of function.
+	- configs pipes
+	- handles redirections
+	- sets argv[0] (cmd_path)
+	- sets exit status
+	- executes command
+	- cleanup in errnous behaviour
+*/
 int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_loc)
 {
 	char	**env;
@@ -65,6 +75,7 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_
 		child_perror(current_payload->exit_status);//
 		exit(current_payload->exit_status); //exit handler
 	}
+	apply_redirs(current_payload);
 	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
 	if(!current_payload->exit_status)

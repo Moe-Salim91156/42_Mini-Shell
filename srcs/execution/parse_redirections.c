@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
+/*   Updated: 2025/04/26 23:41:06 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +34,7 @@ int	parse_redirs(t_cmd *cmd, char **payload_array)
 		}
 		if (ret == -1)
 			break ;
-		apply_redirs(cmd);
+		/* apply_redirs(cmd); //THIS NEEDS TO BE IN CHILD */
 		i++;
 	}
 	return (ret);

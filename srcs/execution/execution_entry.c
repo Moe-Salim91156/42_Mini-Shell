@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/26 23:10:55 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +28,9 @@ static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 int	execution_entry(t_shell *shell)
 {
 	t_cmd	*current_payload;
-	int		status;
+	int		*status;
 
-	status = 0;
+	status = &shell->last_status;
 	current_payload = shell->cmd_list->head;
 	if (shell->cmd_list->payload_count == 1)
 	{
@@ -37,10 +38,11 @@ int	execution_entry(t_shell *shell)
 			shell->last_status = manage_bltn(shell, current_payload,
 							NULL,0);
 		else
-			fork_single_child(shell, current_payload, &status);
+			fork_single_child(shell, current_payload, status);
 		shell->last_status = current_payload->exit_status;
 	}
-	// else
-		//case 3
-	return (0);
+	else
+		manage_pipeline(shell, shell->cmd_list->head, status);
+	/* await_all_children(shell); */
+	return (shell->last_status);
 }
