@@ -6,25 +6,24 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 23:18:22 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:07:36 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
 # include <sys/wait.h>
-# include <fcntl.h>
+# include <unistd.h>
+# include <signal.h>
 # ifndef HEREDOC_FILE
 #  define HEREDOC_FILE "/tmp/.heredoc_tmp"
 # endif
-
 
 /*################# structs ############################*/
 typedef enum e_token_type
@@ -58,6 +57,37 @@ typedef struct s_token_list
 	t_token			*head;
 }					t_token_list;
 
+typedef struct s_double_quote_context
+{
+	int				start;
+	int				len;
+	int				env_index;
+	char			*temp;
+	char			*last_result;
+	char			*expanded_result;
+}					t_double_quote_context;
+
+typedef struct s_normal_mode_context
+{
+	int				start;
+	int				len;
+	int				env_index;
+	char			*temp;
+	char			*new_expanded;
+}					t_normal_mode_context;
+
+typedef struct s_expand_env_context
+{
+	int				before;
+	int				env_len;
+	int				next_index;
+	char			*before_str;
+	char			*env_name;
+	char			*env_value;
+	char			*result;
+	char			*final_result;
+}					t_expand_env_context;
+
 typedef struct s_cmd
 {
 	char			**payload_array;
@@ -73,15 +103,15 @@ typedef struct s_cmd
 	int				here_doc_counts;
 	int				exit_status;
 	int				in_fd;
-  int       backup_in_fd;
-  int       backup_out_fd;
+	int				backup_in_fd;
+	int				backup_out_fd;
 	int				out_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_cmd_list
 {
-  int payload_count;
+	int				payload_count;
 	int				count;
 	int				total_heredocs;
 	t_cmd			*head;
@@ -99,9 +129,8 @@ typedef struct s_shell
 	t_token_list	*token_list;
 	t_cmd_list		*cmd_list;
 	t_envp			*envp_list;
-	int	last_status;
+	int				last_status;
 }					t_shell;
-
 /*################# init(🇬🇧) (and exit) #################*/
 int					shell_init(t_shell *shell, char **envp);
 t_token				*init_token(void);
@@ -114,9 +143,16 @@ void				free_command_list(t_cmd_list *cmd_list);
 void				free_tokens(t_token_list *list);
 // ft_exit is the ultimate exit handler. termination is always done through it.
 void				ft_exit(t_shell *shell, unsigned long status);
+/*################## Signals #####################*/
+void    setup_signals_main(void);
 /*################# tokenization #################*/
+int check_unexpected_token(t_shell *shell, t_token_list *list);
+int	is_invalid_redirection(char *input, int i);
+int					is_redirect_1(char *str);
+void				substr_and_add(char *input, int start, int i,
+						t_token_list *tokens);
 void				lexer_cmd_list(t_cmd_list *list);
-void				lexing(t_token_list *list);
+int				lexing(t_shell *shell, t_token_list *list);
 char				**allocate_cmd_argv(int count);
 int					is_seperator(int type);
 int					is_seperator_token(char c);
@@ -124,15 +160,23 @@ int					is_quotes(char c);
 int					is_redirect(char c);
 void				add_last_token(char *input, int start, int i,
 						t_token_list *tokens);
-int					tokenizer(char *input, t_token_list *tokens);
+int					tokenizer(char *input, t_token_list *tokens, t_shell *shell);
 t_cmd				*build_payloads(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);
-void				lexemes(t_token *token);
+int				lexemes(t_token *token);
 void				add_token(t_token_list *list, char *value);
 /*################# expander ###########################*/
+char				*append_mode_result(char *result, char *mode_result);
+void				ozha_function(t_normal_mode_context *context,
+						t_shell *shell);
+void				gezha_function(t_double_quote_context *context,
+						t_shell *shell);
+int					has_env_var(char *value, t_token *current);
+char				*expand_env_var(char *value, int *env_index,
+						t_shell *shell);
 int					check_for_quotes_in_tokens(t_token_list *list);
 char				*expander_main(t_shell *shell);
-//char				*handle_quotes_mode(t_token *current);
+// char				*handle_quotes_mode(t_token *current);
 /*################# enviroment #################*/
 int					envp_count(t_envp *list);
 int					mod_val(t_envp *node, char *new_value);
@@ -155,9 +199,10 @@ int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 int					execution_entry(t_shell *shell);
-					/*	BUILT-INS		*/
+/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
+
 int					manage_bltn(t_shell *shell,t_cmd *current_paylaod,
 	int pipe[], int paylod_loc);
 					/*	FORK OPERATIONS	*/
@@ -174,12 +219,12 @@ void				apply_redirs(t_cmd *current_payload);
 int					see_heredoc_if_quoted(t_shell *shell);
 int					locate_heredoc(t_cmd *current_payload, t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
-					/* PATH STUFF		*/
-char				**build_cmd_argv(t_cmd_list *payload);
-char				*search_command_in_path(char *cmd, char **envp,
-	t_cmd *payload);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
+            /* PATH STUFF */
+char				**build_cmd_argv(t_cmd_list *payload);
+char				*search_command_in_path(char *cmd, char **envp,
+						t_cmd *payload);
 /*################# general utils #################*/
 void				free_split(char **e);
 void				print_command(t_cmd_list *cmd_list);

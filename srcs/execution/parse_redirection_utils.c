@@ -13,7 +13,7 @@
 #include "../../includes/minishell.h"
 
 // look for redirections
-void restore_io(t_cmd *cmd)
+void	restore_io(t_cmd *cmd)
 {
 	if (cmd->backup_in_fd != -1)
 	{
@@ -30,7 +30,6 @@ void restore_io(t_cmd *cmd)
 	cmd->in_fd = STDIN_FILENO;
 	cmd->out_fd = STDOUT_FILENO;
 }
-
 
 void	apply_redirs(t_cmd *current_payload)
 {
