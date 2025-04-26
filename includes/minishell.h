@@ -9,7 +9,6 @@
 /*   Updated: 2025/04/26 16:07:36 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
@@ -184,6 +183,7 @@ int					mod_val(t_envp *node, char *new_value);
 int					append_env_node(t_envp *list, char *str);
 int					del_env_node(t_envp *node);
 int					print_env_sorted(t_envp *list);
+int					envp_count_all(t_envp *list);
 char				**build_envp(t_shell *shell);
 t_envp				*ft_getenv(t_envp *list, char *str);
 t_envp				*find_by_key(t_envp *list, char *key);
@@ -193,7 +193,7 @@ t_envp				*build_env_node(char *str);
 int					bltn_env(t_shell *shell);
 int					bltn_pwd(void);
 int					bltn_export(char **argv, t_envp *list);
-int					bltn_unset(char **argv, t_envp *list);
+int					bltn_unset(char **argv, t_envp **list);
 int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
@@ -202,13 +202,14 @@ int					execution_entry(t_shell *shell);
 /*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
-int					manage_bltn(t_shell *shell, t_cmd *current_paylaod,
-						int pipe[]);
-/*	FORK OPERATIONS	*/
+
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod,
+	int pipe[], int paylod_loc);
+					/*	FORK OPERATIONS	*/
 int					manage_child(t_shell *shell, t_cmd *current_payload,
-						int pipe[]);
-/*	REDIRECTIONS	*/
-int					parse_redirs(t_cmd *current_paylaod, char **payload_array);
+	int pipe[], int paylod_loc);
+					/*	REDIRECTIONS	*/
+int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
 int					redir_in(t_cmd *current_payload, char *file);
 int					redir_out(t_cmd *current_payload, char *file);
@@ -218,7 +219,9 @@ void				apply_redirs(t_cmd *current_payload);
 int					see_heredoc_if_quoted(t_shell *shell);
 int					locate_heredoc(t_cmd *current_payload, t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
-/* PATH STUFF */
+					/* EXIT STATUS		*/
+int					set_exit_status(char *cmd_path);
+            /* PATH STUFF */
 char				**build_cmd_argv(t_cmd_list *payload);
 char				*search_command_in_path(char *cmd, char **envp,
 						t_cmd *payload);

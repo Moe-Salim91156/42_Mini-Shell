@@ -6,12 +6,10 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 16:20:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#define HEREDOC_FILE "/tmp/.heredoc_tmp"
 
 int	parse_redirs(t_cmd *cmd, char **payload_array)
 {
@@ -50,7 +48,7 @@ int	redir_in(t_cmd *current_payload, char *file)
 	{
 		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
-		return (-1);
+		return (1);
 	}
 	current_payload->in_fd = fd;
 	return (0);
@@ -65,7 +63,7 @@ int	redir_out(t_cmd *current_payload, char *file)
 	{
 		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
-		return (-1);
+		return (1);
 	}
 	current_payload->out_fd = fd;
 	return (0);
@@ -80,7 +78,7 @@ int	redir_append(t_cmd *current_payload, char *file)
 	{
 		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
-		return (-1);
+		return (1);
 	}
 	current_payload->out_fd = fd;
 	return (0);
@@ -95,7 +93,7 @@ int	redir_heredoc(t_cmd *current_payload, char *file)
 	{
 		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
-		return (-1);
+		return (1);
 	}
 	current_payload->in_fd = fd;
 	return (0);
