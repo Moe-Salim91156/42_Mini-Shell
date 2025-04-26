@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/23 16:06:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:07:36 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 # ifndef HEREDOC_FILE
 #  define HEREDOC_FILE "/tmp/.heredoc_tmp"
 # endif
@@ -143,6 +144,8 @@ void				free_command_list(t_cmd_list *cmd_list);
 void				free_tokens(t_token_list *list);
 // ft_exit is the ultimate exit handler. termination is always done through it.
 void				ft_exit(t_shell *shell, unsigned long status);
+/*################## Signals #####################*/
+void    setup_signals_main(void);
 /*################# tokenization #################*/
 int check_unexpected_token(t_shell *shell, t_token_list *list);
 int	is_invalid_redirection(char *input, int i);
