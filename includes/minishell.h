@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/26 23:19:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:14:50 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,15 +201,13 @@ int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 int					execution_entry(t_shell *shell);
-/*	BUILT-INS		*/
+					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
-
-int					manage_bltn(t_shell *shell,t_cmd *current_paylaod,
-	int pipe[], int paylod_loc);
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
 					/*	FORK OPERATIONS	*/
-int					manage_child(t_shell *shell, t_cmd *current_payload,
-	int pipe[], int paylod_loc);
+void				manage_child(t_shell *shell, t_cmd *current_payload);
+void				wait_for_children(t_shell *shell, int cmd_count);
 					/*	REDIRECTIONS	*/
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
@@ -222,7 +220,7 @@ int					see_heredoc_if_quoted(t_shell *shell);
 int					locate_heredoc(t_cmd *current_payload, t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
 					/*	PIPELINE	*/
-void				manage_pipeline(t_shell *shell, t_cmd *list_head, int *status);
+void				manage_pipeline(t_shell *shell, t_cmd *list_head);
 void				close_pipes(int **pipes, int cmd_count);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);

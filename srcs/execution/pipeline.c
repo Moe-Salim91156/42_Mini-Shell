@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/26 23:52:33 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:22:41 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	safe closure of pipes.
 	*pass num of cmds not num of pipes.!!
 */
-void close_pipes(int **pipes, int cmd_count)
+void	close_pipes(int **pipes, int cmd_count)
 {
 	int	i;
 
@@ -42,8 +42,8 @@ int	**lay_pipeline(int cmd_count)
 	int	i;
 
 	i = 0;
-	pipes = ft_calloc(sizeof(int *) , (cmd_count - 1));//not sure about calloc, need to checl
-	if (!pipes)														//but could help in a cleaner exit(null ended array)
+	pipes = ft_calloc(sizeof(int *) , (cmd_count - 1));
+	if (!pipes)
 		return (NULL);
 	while (i < cmd_count - 1)
 	{
@@ -57,7 +57,7 @@ int	**lay_pipeline(int cmd_count)
 		pipes[i][1] = -1;
 		if (pipe(pipes[i]) == -1)
 		{
-			close_pipes( pipes, i);
+			close_pipes(pipes, i);
 			return (NULL);
 		}
 		i++;
@@ -65,44 +65,74 @@ int	**lay_pipeline(int cmd_count)
 	return (pipes);
 }
 
-//mess of a function.. I need sleep and this needs a big refactor.
-void	manage_pipeline(t_shell *shell, t_cmd *list_head, int *status)
+/*
+ * Configures the command input/output file descriptors for piping
+ */
+static void	config_pipe_fds(t_cmd *cmd, int **pipes, int pipe_index, int cmd_count)
+{
+	if (pipe_index > 0)
+		cmd->in_fd = pipes[pipe_index - 1][0];
+	if (pipe_index < cmd_count - 1)
+		cmd->out_fd = pipes[pipe_index][1];
+}
+
+/*
+ * Closes file descriptors that aren't needed by the current command
+ */
+static void	close_unused_pipes(int **pipes, int pipe_index, int cmd_count)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmd_count - 1)
+	{
+		if (i != pipe_index - 1)
+			if (pipes[i][0] != -1)
+				close(pipes[i][0]);
+		if (i != pipe_index)
+			if (pipes[i][1] != -1)
+				close(pipes[i][1]);
+		i++;
+	}
+}
+
+//this is just so I can lay out the logic, defentily needs a refactor and rework later.
+void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 {
 	int		**pipes;
 	int		pipe_index;
-	int		pid;
-	t_cmd	*visit;
+	pid_t	pid;
+	t_cmd	*current;
+	int		cmd_count;
 
-	pipes = lay_pipeline(shell->cmd_list->payload_count);
+	cmd_count = shell->cmd_list->payload_count;
+	pipes = lay_pipeline(cmd_count);
 	if (!pipes)
-		exit(1);
-	visit = list_head;
+		return ;
+	current = list_head;
 	pipe_index = 0;
-	while (list_head)
+	while (current && pipe_index < cmd_count)
 	{
-		if (list_head->next)
-		{
-			list_head->out_fd = pipes[pipe_index][1];
-			list_head->in_fd = pipes[pipe_index - 1][0];
-		}
-		locate_heredoc(visit, shell);
-		*status = parse_redirs(visit, visit->argv);
+		config_pipe_fds(current, pipes, pipe_index, cmd_count);
 		pid = fork();
 		if (pid == -1)
 		{
-			close_pipes(pipes, shell->cmd_list->payload_count);
+			close_pipes(pipes, cmd_count);
 			perror("fork");
-			exit(1);// merge into exit handler later 😴
+			exit(1);//exit handler
 		}
 		if (!pid)
 		{
-			if (is_bltn(list_head->argv))
-				shell->last_status = manage_bltn(shell, list_head, pipes[pipe_index], pipe_index);
+			close_unused_pipes(pipes, pipe_index, cmd_count);
+			if (is_bltn(current->argv))
+				shell->last_status = manage_bltn(shell, current);
 			else
-				manage_child(shell, list_head, pipes[pipe_index], pipe_index);
+				manage_child(shell, current);
+			close_pipes(pipes, cmd_count);
+			exit(shell->last_status);
 		}
-
-		list_head = list_head->next;
+		current = current->next;
 		pipe_index++;
 	}
+	close_pipes(pipes, cmd_count);
 }

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/26 23:46:20 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:18:14 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@
 	no child lives past this.
 	death by ft_exit or execve.
 */
-static void child_perror(int exit_status)
+static void child_perror(int exit_status, char **env)
 {
+	if (env)
+		free_split(env);
 	if (exit_status == 127)
 		ft_putendl_fd("rbsh: command not found.", 2);
 	else if (exit_status == 126)
 		ft_putendl_fd("rbsh: permission denied.", 2);
-	else if (exit_status == 1)
+	else if (exit_status == 1)//will become redundant after refactoring
 		ft_putendl_fd("rbsh: invalid redirection.", 2);
 	else
 		perror("execve");
@@ -55,7 +57,7 @@ int set_exit_status(char *cmd_path)
 	- executes command
 	- cleanup in errnous behaviour
 */
-int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_loc)
+void	manage_child(t_shell *shell, t_cmd *current_payload)
 {
 	char	**env;
 
@@ -65,14 +67,11 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_
 		perror("envp");
 		exit(1);
 	}
-	if (pipe)
-		(void)pipe,(void)payload_loc;//handle_pipe(pipe,payload_loc,payload_count);
-	locate_heredoc(current_payload,shell);
-	current_payload->exit_status = parse_redirs(current_payload,current_payload->payload_array);
+	locate_heredoc(current_payload,shell);//needs to be moved to pipeline
+	current_payload->exit_status = parse_redirs(current_payload,current_payload->payload_array);//
 	if (current_payload->exit_status)
 	{
-		free(env);
-		child_perror(current_payload->exit_status);//
+		child_perror(current_payload->exit_status,env);
 		exit(current_payload->exit_status); //exit handler
 	}
 	apply_redirs(current_payload);
@@ -80,7 +79,25 @@ int	manage_child(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
 	if(!current_payload->exit_status)
 		execve(current_payload->cmd_path, current_payload->argv, env);
-	child_perror(current_payload->exit_status);
-	free(env);
+	child_perror(current_payload->exit_status,env);
 	exit(current_payload->exit_status);//exit handler
+}
+void	wait_for_children(t_shell *shell, int cmd_count)
+{
+	int	status;
+	int	i;
+
+	i = 0;
+	while (i < cmd_count)
+	{
+		wait(&status);
+		if (i == cmd_count - 1)
+		{
+			if (WIFEXITED(status))
+				shell->last_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				shell->last_status = WTERMSIG(status) + 128;
+		}
+		i++;
+	}
 }

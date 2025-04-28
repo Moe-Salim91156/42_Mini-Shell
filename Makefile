@@ -15,7 +15,7 @@ PRSR = parser/build_payload.c parser/token_utils.c parser/lexing.c parser/init.c
 			 parser/signals.c
 XPNDR = expander/expander.c expander/expand_env_vars.c expander/expander_general_utils.c
 
-EXEC = execution/search_heredocs.c execution/build_cmd_structure.c execution/children.c execution/bltn_execbe.c execution/parse_redirections.c execution/parse_redirection_utils.c execution/execution_entry.c execution/validate_cmd.c execution/expand_heredoc.c
+EXEC = execution/search_heredocs.c execution/build_cmd_structure.c execution/children.c execution/bltn_execbe.c execution/parse_redirections.c execution/parse_redirection_utils.c execution/execution_entry.c execution/validate_cmd.c execution/expand_heredoc.c execution/pipeline.c
 
 BLTNS = builtins/echo.c builtins/cd.c builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c builtins/bltn_exit.c
 ENVP = envp/envp_manip.c envp/envp_utils.c
