@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/28 23:35:40 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:25:25 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void				restore_io(t_cmd *current_payload);
 int					redir_in(t_cmd *current_payload, char *file);
 int					redir_out(t_cmd *current_payload, char *file);
 int					redir_append(t_cmd *current_payload, char *file);
-int					redir_heredoc(t_cmd *current_payload, char *file);
+int					redir_heredoc(t_cmd *current_payload);
 void				apply_redirs(t_cmd *current_payload);
 int					see_heredoc_if_quoted(t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);

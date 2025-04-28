@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/28 23:46:02 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:31:03 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	parse_redirs(t_cmd *cmd, char **payload_array)
 		if (!ft_strcmp(">>", payload_array[i]))
 			ret = redir_append(cmd, payload_array[++i]);
 		if (!ft_strcmp("<<", payload_array[i]))
-			ret = redir_heredoc(cmd, payload_array[++i]);
+		{
+			i++;
+			ret = redir_heredoc(cmd);
+		}
 		if (ret == 1)
 			break ;
 		i++;
@@ -88,17 +91,27 @@ int	redir_append(t_cmd *current_payload, char *file)
 	return (0);
 }
 
-int	redir_heredoc(t_cmd *current_payload, char *file)
+int	redir_heredoc(t_cmd *current_payload)
 {
-	(void)file;//to be removed?
-	if (current_payload->in_fd != STDIN_FILENO)
+
+		if (current_payload->in_fd != STDIN_FILENO)
 		close(current_payload->in_fd);
+
+	/* Check if we have a valid heredoc file descriptor */
 	if (current_payload->has_heredoc && current_payload->heredoc_fd > 0)
 	{
 		current_payload->in_fd = current_payload->heredoc_fd;
 		return (0);
 	}
-	ft_putstr_fd("Heredoc error: pipe not available\n", 2);
-	current_payload->exit_status = 1;
-	return (1);
+
+	/* No heredoc available but marked as having one - this is an error */
+	if (current_payload->has_heredoc)
+	{
+		ft_putstr_fd("Heredoc error: pipe not available\n", 2);
+		current_payload->exit_status = 1;
+		return (1);
+	}
+
+	/* No heredoc requested for this command */
+	return (0);
 }

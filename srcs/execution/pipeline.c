@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 00:21:07 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:32:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,20 @@ int	**lay_pipeline(int cmd_count)
  */
 static void	config_pipe_fds(t_cmd *cmd, int **pipes, int pipe_index, int cmd_count)
 {
-	if (cmd->has_heredoc && cmd->heredoc_fd > 0)
+
+	if (pipe_index > 0)
 	{
-		if (pipe_index == 0)
-			cmd->in_fd = cmd->heredoc_fd;
-		else
-		{
-			close(cmd->heredoc_fd);
-			cmd->heredoc_fd = -1;
-			cmd->in_fd = pipes[pipe_index - 1][0];
-		}
-	}
-	else if (pipe_index > 0)
 		cmd->in_fd = pipes[pipe_index - 1][0];
+	}
+	else if (cmd->has_heredoc && cmd->heredoc_fd > 0)
+	{
+		/* For first command with heredoc */
+		cmd->in_fd = cmd->heredoc_fd;
+	}
 	if (pipe_index < cmd_count - 1)
+	{
 		cmd->out_fd = pipes[pipe_index][1];
+	}
 }
 
 /*
@@ -117,7 +116,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 	int		cmd_count;
 
 	cmd_count = shell->cmd_list->payload_count;
-	pipes = lay_pipeline(cmd_count);
+		pipes = lay_pipeline(cmd_count);
 	if (!pipes)
 		return ;
 	current = list_head;
@@ -142,11 +141,28 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 			exit(shell->last_status);
 		}
 		if (pipe_index > 0 && pipes[pipe_index - 1][0] != -1)
+		{
 			close(pipes[pipe_index - 1][0]);
+			pipes[pipe_index - 1][0] = -1;
+		}
 		if (pipe_index < cmd_count - 1 && pipes[pipe_index][1] != -1)
+		{
 			close(pipes[pipe_index][1]);
+			pipes[pipe_index][1] = -1;
+		}
 		current = current->next;
 		pipe_index++;
 	}
-	wait_for_children(shell, shell->cmd_list->payload_count, pids);
+	wait_for_children(shell, cmd_count, pids);
+	/* Free the remaining pipe resources */
+	if (pipes)
+	{
+		int i = 0;
+		while (i < cmd_count - 1 && pipes[i])
+		{
+			free(pipes[i]);
+			i++;
+		}
+		free(pipes);
+	}
 }
