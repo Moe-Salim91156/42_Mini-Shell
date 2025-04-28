@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/28 23:52:02 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:21:07 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,16 @@ int	**lay_pipeline(int cmd_count)
 static void	config_pipe_fds(t_cmd *cmd, int **pipes, int pipe_index, int cmd_count)
 {
 	if (cmd->has_heredoc && cmd->heredoc_fd > 0)
-		cmd->in_fd = cmd->heredoc_fd;
+	{
+		if (pipe_index == 0)
+			cmd->in_fd = cmd->heredoc_fd;
+		else
+		{
+			close(cmd->heredoc_fd);
+			cmd->heredoc_fd = -1;
+			cmd->in_fd = pipes[pipe_index - 1][0];
+		}
+	}
 	else if (pipe_index > 0)
 		cmd->in_fd = pipes[pipe_index - 1][0];
 	if (pipe_index < cmd_count - 1)
