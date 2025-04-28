@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/28 11:50:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:21:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ int manage_bltn(t_shell *shell, t_cmd *current_payload)
 	int		err;//use errno?
 
 	err = 0;
-	locate_heredoc(current_payload, shell);
+	// locate_heredoc(current_payload, shell);
 	err = parse_redirs(current_payload, current_payload->payload_array);
 	if (!err)
 	{
 		apply_redirs(current_payload);
 		current_payload->exit_status = bltn_execbe(current_payload->argv,
 				shell);
-		}
+	}
 	else
 		current_payload->exit_status = 1;
 	restore_io(current_payload);

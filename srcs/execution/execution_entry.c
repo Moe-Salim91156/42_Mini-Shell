@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/28 12:21:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:26:58 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	execution_entry(t_shell *shell)
 	else
 	{
 		manage_pipeline(shell, shell->cmd_list->head);
-		wait_for_children(shell, shell->cmd_list->payload_count);
+
 	}
 	return (shell->last_status);
 }

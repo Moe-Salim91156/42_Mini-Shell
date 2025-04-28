@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/26 23:41:06 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:17:35 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 int	parse_redirs(t_cmd *cmd, char **payload_array)
 {
@@ -32,7 +33,7 @@ int	parse_redirs(t_cmd *cmd, char **payload_array)
 			ret = redir_heredoc(cmd, HEREDOC_FILE);
 			i += 1;
 		}
-		if (ret == -1)
+		if (ret == 1)
 			break ;
 		/* apply_redirs(cmd); //THIS NEEDS TO BE IN CHILD */
 		i++;
@@ -44,6 +45,8 @@ int	redir_in(t_cmd *current_payload, char *file)
 {
 	int	fd;
 
+	if (current_payload->in_fd != STDIN_FILENO)
+		close(current_payload->in_fd);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
@@ -59,6 +62,8 @@ int	redir_out(t_cmd *current_payload, char *file)
 {
 	int	fd;
 
+	if (current_payload->out_fd != STDOUT_FILENO)
+		close(current_payload->out_fd);
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -74,6 +79,8 @@ int	redir_append(t_cmd *current_payload, char *file)
 {
 	int	fd;
 
+	if (current_payload->out_fd != STDOUT_FILENO)
+		close(current_payload->out_fd);
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
@@ -89,6 +96,8 @@ int	redir_heredoc(t_cmd *current_payload, char *file)
 {
 	int	fd;
 
+	if (current_payload->in_fd != STDIN_FILENO)
+		close(current_payload->in_fd);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{

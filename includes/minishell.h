@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/28 12:14:50 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 19:32:51 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ void				ft_exit(t_shell *shell, unsigned long status);
 /*################## Signals #####################*/
 void				setup_signals_main(void);
 /*################# tokenization #################*/
-int check_unexpected_token(t_shell *shell, t_token_list *list);
-int	is_invalid_redirection(char *input, int i);
+int					check_unexpected_token(t_shell *shell, t_token_list *list);
+int					is_invalid_redirection(char *input, int i);
 int					is_redirect_1(char *str);
 void				substr_and_add(char *input, int start, int i,
 						t_token_list *tokens);

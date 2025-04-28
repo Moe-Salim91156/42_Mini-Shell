@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/28 12:18:14 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:32:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 		perror("envp");
 		exit(1);
 	}
-	locate_heredoc(current_payload,shell);//needs to be moved to pipeline
+	// locate_heredoc(current_payload,shell);//needs to be moved to pipeline
 	current_payload->exit_status = parse_redirs(current_payload,current_payload->payload_array);//
 	if (current_payload->exit_status)
 	{
@@ -78,7 +78,7 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
 	if(!current_payload->exit_status)
-		execve(current_payload->cmd_path, current_payload->argv, env);
+		execve( current_payload->cmd_path, current_payload->argv, env);
 	child_perror(current_payload->exit_status,env);
 	exit(current_payload->exit_status);//exit handler
 }

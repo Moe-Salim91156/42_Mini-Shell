@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/28 12:22:41 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:29:47 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,16 @@ static void	close_unused_pipes(int **pipes, int pipe_index, int cmd_count)
 	{
 		if (i != pipe_index - 1)
 			if (pipes[i][0] != -1)
+			{
+				printf("%d\n", pipes[i][0]);
 				close(pipes[i][0]);
+			}
 		if (i != pipe_index)
 			if (pipes[i][1] != -1)
+			{
+				printf("%d\n", pipes[i][1]);
 				close(pipes[i][1]);
+			}
 		i++;
 	}
 }
@@ -128,11 +134,11 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 				shell->last_status = manage_bltn(shell, current);
 			else
 				manage_child(shell, current);
-			close_pipes(pipes, cmd_count);
 			exit(shell->last_status);
 		}
 		current = current->next;
 		pipe_index++;
 	}
+	wait_for_children(shell, shell->cmd_list->payload_count);
 	close_pipes(pipes, cmd_count);
 }
