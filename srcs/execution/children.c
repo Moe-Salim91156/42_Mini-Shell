@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/28 20:32:08 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:39:45 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void child_perror(int exit_status, char **env)
 		ft_putendl_fd("rbsh: command not found.", 2);
 	else if (exit_status == 126)
 		ft_putendl_fd("rbsh: permission denied.", 2);
-	else if (exit_status == 1)//will become redundant after refactoring
+	else if (exit_status == 1)
 		ft_putendl_fd("rbsh: invalid redirection.", 2);
 	else
 		perror("execve");
@@ -67,8 +67,8 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 		perror("envp");
 		exit(1);
 	}
-	// locate_heredoc(current_payload,shell);//needs to be moved to pipeline
-	current_payload->exit_status = parse_redirs(current_payload,current_payload->payload_array);//
+	current_payload->exit_status = parse_redirs(current_payload,
+		current_payload->payload_array);
 	if (current_payload->exit_status)
 	{
 		child_perror(current_payload->exit_status,env);
@@ -82,22 +82,24 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	child_perror(current_payload->exit_status,env);
 	exit(current_payload->exit_status);//exit handler
 }
-void	wait_for_children(t_shell *shell, int cmd_count)
+void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)
 {
-	int	status;
-	int	i;
+	int		i;
+	pid_t	wpid;
+	int		last_status;
 
 	i = 0;
+	last_status = 0;
 	while (i < cmd_count)
 	{
-		wait(&status);
-		if (i == cmd_count - 1)
-		{
-			if (WIFEXITED(status))
-				shell->last_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				shell->last_status = WTERMSIG(status) + 128;
-		}
+		wpid = waitpid(pids[i], &last_status, 0);
+		if (wpid == -1)
+			break;
+		if (WIFEXITED(last_status))
+			last_status = WEXITSTATUS(last_status);
+		else if (WIFSIGNALED(last_status))
+			last_status = WTERMSIG(last_status) + 128;
 		i++;
 	}
+	shell->last_status = last_status;
 }

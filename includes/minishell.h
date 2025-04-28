@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/28 19:32:51 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:35:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <signal.h>
-# ifndef HEREDOC_FILE
-#  define HEREDOC_FILE "/tmp/.heredoc_tmp"
-# endif
 
 /*################# structs ############################*/
 typedef enum e_token_type
@@ -201,13 +198,19 @@ int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
 /*################# execution #################*/
 int					execution_entry(t_shell *shell);
+					/* HEREDOC HANDLING */
+int					process_heredocs(t_cmd *cmd, t_shell *shell);
+int					process_all_heredocs(t_shell *shell);
+char				*expand_heredoc_line(char *line, char **envp);
+void				cleanup_heredoc(t_cmd *cmd);
+void				cleanup_all_heredocs(t_shell *shell);
 					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
 int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
 					/*	FORK OPERATIONS	*/
 void				manage_child(t_shell *shell, t_cmd *current_payload);
-void				wait_for_children(t_shell *shell, int cmd_count);
+void				wait_for_children(t_shell *shell, int cmd_count, pid_t *pids);
 					/*	REDIRECTIONS	*/
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
@@ -217,7 +220,6 @@ int					redir_append(t_cmd *current_payload, char *file);
 int					redir_heredoc(t_cmd *current_payload, char *file);
 void				apply_redirs(t_cmd *current_payload);
 int					see_heredoc_if_quoted(t_shell *shell);
-int					locate_heredoc(t_cmd *current_payload, t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
 					/*	PIPELINE	*/
 void				manage_pipeline(t_shell *shell, t_cmd *list_head);

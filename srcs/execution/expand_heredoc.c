@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:38:09 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 16:00:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/28 21:45:58 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 char	*get_env_value_from_envp(char *key, char **envp)
 {
 	int		i;

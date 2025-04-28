@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/28 20:29:47 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:52:02 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ int	**lay_pipeline(int cmd_count)
  */
 static void	config_pipe_fds(t_cmd *cmd, int **pipes, int pipe_index, int cmd_count)
 {
-	if (pipe_index > 0)
+	if (cmd->has_heredoc && cmd->heredoc_fd > 0)
+		cmd->in_fd = cmd->heredoc_fd;
+	else if (pipe_index > 0)
 		cmd->in_fd = pipes[pipe_index - 1][0];
 	if (pipe_index < cmd_count - 1)
 		cmd->out_fd = pipes[pipe_index][1];
@@ -88,16 +90,10 @@ static void	close_unused_pipes(int **pipes, int pipe_index, int cmd_count)
 	{
 		if (i != pipe_index - 1)
 			if (pipes[i][0] != -1)
-			{
-				printf("%d\n", pipes[i][0]);
 				close(pipes[i][0]);
-			}
 		if (i != pipe_index)
 			if (pipes[i][1] != -1)
-			{
-				printf("%d\n", pipes[i][1]);
 				close(pipes[i][1]);
-			}
 		i++;
 	}
 }
@@ -107,7 +103,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 {
 	int		**pipes;
 	int		pipe_index;
-	pid_t	pid;
+	pid_t	pids[2046];
 	t_cmd	*current;
 	int		cmd_count;
 
@@ -120,14 +116,14 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 	while (current && pipe_index < cmd_count)
 	{
 		config_pipe_fds(current, pipes, pipe_index, cmd_count);
-		pid = fork();
-		if (pid == -1)
+		pids[pipe_index] = fork();
+		if (pids[pipe_index] == -1)
 		{
 			close_pipes(pipes, cmd_count);
 			perror("fork");
-			exit(1);//exit handler
+			exit(1);
 		}
-		if (!pid)
+		if (!pids[pipe_index])
 		{
 			close_unused_pipes(pipes, pipe_index, cmd_count);
 			if (is_bltn(current->argv))
@@ -136,9 +132,12 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 				manage_child(shell, current);
 			exit(shell->last_status);
 		}
+		if (pipe_index > 0 && pipes[pipe_index - 1][0] != -1)
+			close(pipes[pipe_index - 1][0]);
+		if (pipe_index < cmd_count - 1 && pipes[pipe_index][1] != -1)
+			close(pipes[pipe_index][1]);
 		current = current->next;
 		pipe_index++;
 	}
-	wait_for_children(shell, shell->cmd_list->payload_count);
-	close_pipes(pipes, cmd_count);
+	wait_for_children(shell, shell->cmd_list->payload_count, pids);
 }
