@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 00:32:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:35:11 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,31 +82,24 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	child_perror(current_payload->exit_status,env);
 	exit(current_payload->exit_status);//exit handler
 }
-void	wait_for_children(t_shell *shell, int cmd_count, pid_t *pids)
+void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)
 {
-	int		status;
+	int		i;
 	pid_t	wpid;
 	int		last_status;
-	int		remaining;
 
-	(void)pids; /* We'll wait for any child, not specific ones */
-	remaining = cmd_count;
+	i = 0;
 	last_status = 0;
-
-	while (remaining > 0)
+	while (i < cmd_count)
 	{
-		wpid = waitpid(-1, &status, 0);
+		wpid = waitpid(pids[i], &last_status, 0);
 		if (wpid == -1)
-			break; /* No more children */
-
-		remaining--;
-
-		/* Always save the status - last command's status will be saved last */
-		if (WIFEXITED(status))
-			last_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			last_status = WTERMSIG(status) + 128;
+			break;
+		if (WIFEXITED(last_status))
+			last_status = WEXITSTATUS(last_status);
+		else if (WIFSIGNALED(last_status))
+			last_status = WTERMSIG(last_status) + 128;
+		i++;
 	}
-
 	shell->last_status = last_status;
 }
