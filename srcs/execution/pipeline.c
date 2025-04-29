@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 00:48:13 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 20:12:43 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	**lay_pipeline(int cmd_count)
 	int	i;
 
 	i = 0;
-	pipes = ft_calloc(sizeof(int *) , (cmd_count - 1));
+	pipes = malloc(sizeof(int *) * (cmd_count - 1));
 	if (!pipes)
 		return (NULL);
 	while (i < cmd_count - 1)
@@ -76,10 +76,7 @@ static void	config_pipe_fds(t_cmd *cmd, int **pipes, int pipe_index, int cmd_cou
 		cmd->in_fd = pipes[pipe_index - 1][0];
 	}
 	else if (cmd->has_heredoc && cmd->heredoc_fd > 0)
-	{
-		/* For first command with heredoc */
-		cmd->in_fd = cmd->heredoc_fd;
-	}
+		cmd->in_fd = cmd->heredoc_fd;// heredoc first cmd case
 	if (pipe_index < cmd_count - 1)
 	{
 		cmd->out_fd = pipes[pipe_index][1];
@@ -123,7 +120,6 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 	pipe_index = 0;
 	while (current && pipe_index < cmd_count)
 	{
-		config_pipe_fds(current, pipes, pipe_index, cmd_count);
 		pids[pipe_index] = fork();
 		if (pids[pipe_index] == -1)
 		{
@@ -133,6 +129,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 		}
 		if (!pids[pipe_index])
 		{
+			config_pipe_fds(current, pipes, pipe_index, cmd_count);
 			close_unused_pipes(pipes, pipe_index, cmd_count);
 			if (is_bltn(current->argv))
 				shell->last_status = manage_bltn(shell, current);
@@ -140,12 +137,12 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 				manage_child(shell, current);
 			exit(shell->last_status);
 		}
-		if (pipe_index > 0 && pipes[pipe_index - 1][0] != -1)
+		if (pipe_index > 0 )
 		{
 			close(pipes[pipe_index - 1][0]);
 			pipes[pipe_index - 1][0] = -1;
 		}
-		if (pipe_index < cmd_count - 1 && pipes[pipe_index][1] != -1)
+		if (pipe_index < cmd_count - 1)
 		{
 			close(pipes[pipe_index][1]);
 			pipes[pipe_index][1] = -1;

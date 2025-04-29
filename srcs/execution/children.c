@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 15:36:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 20:01:03 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)
 	last_status = 0;
 	while (i < cmd_count)
 	{
-		wpid = waitpid(pids[i], &last_status, 0);
+		wpid = waitpid(-1, &last_status, 0);
 		if (wpid == -1)
 			break;
 		if (WIFEXITED(last_status))
@@ -101,7 +101,8 @@ void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)
 			last_status = WTERMSIG(last_status) + 128;
 		if (last_status)
 			child_perror(last_status);
+		if (wpid == pids[i])
+			shell->last_status = last_status;
 		i++;
 	}
-	shell->last_status = last_status;
 }
