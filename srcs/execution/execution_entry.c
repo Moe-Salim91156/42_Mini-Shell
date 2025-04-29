@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/28 23:09:17 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:39:32 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 	if (pid < 0)
 	{
 		perror("fork");
-		shell->last_status = 1;
+		shell->last_status = -1;
 		return;
 	}
 	if (!pid)
@@ -30,6 +30,8 @@ static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 		current_payload->exit_status = WEXITSTATUS(*status);
 	else if (WIFSIGNALED(*status))
 		current_payload->exit_status = 128 + WTERMSIG(*status);
+	if (current_payload->exit_status)
+		child_perror(current_payload->exit_status);
 }
 
 int	execution_entry(t_shell *shell)
@@ -55,9 +57,7 @@ int	execution_entry(t_shell *shell)
 		shell->last_status = current_payload->exit_status;
 	}
 	else
-	{
 		manage_pipeline(shell, shell->cmd_list->head);
-	}
 	cleanup_all_heredocs(shell);
 	return (shell->last_status);
 }

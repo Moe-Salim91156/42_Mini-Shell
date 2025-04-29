@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 00:32:08 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:48:13 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 	int		cmd_count;
 
 	cmd_count = shell->cmd_list->payload_count;
-		pipes = lay_pipeline(cmd_count);
+	pipes = lay_pipeline(cmd_count);
 	if (!pipes)
 		return ;
 	current = list_head;
@@ -154,15 +154,4 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head)
 		pipe_index++;
 	}
 	wait_for_children(shell, cmd_count, pids);
-	/* Free the remaining pipe resources */
-	if (pipes)
-	{
-		int i = 0;
-		while (i < cmd_count - 1 && pipes[i])
-		{
-			free(pipes[i]);
-			i++;
-		}
-		free(pipes);
-	}
 }
