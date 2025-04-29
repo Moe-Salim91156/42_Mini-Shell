@@ -6,10 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/28 22:38:28 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 /*
  * lookup payloads array of args for (<<)
@@ -40,7 +42,7 @@ int	see_heredoc_if_quoted(t_shell *shell)
 	return (payload->heredoc_quoted);
 }
 
-void	run_heredoc(t_cmd *payload, char *delimiter, char **envp)
+/* void	run_heredoc(t_cmd *payload, char *delimiter, char **envp)
 {
 	char	*input;
 
@@ -66,9 +68,9 @@ void	run_heredoc(t_cmd *payload, char *delimiter, char **envp)
 		free(input);
 	}
 	close(payload->heredoc_fd);
-}
+}  */
 
-int	search_in_args(t_cmd *payload, char **envp)
+/* int	search_in_args(t_cmd *payload, char **envp)
 {
 	int	i;
 
@@ -89,9 +91,9 @@ int	search_in_args(t_cmd *payload, char **envp)
 		i++;
 	}
 	return (payload->has_heredoc);
-}
+} */
 
-int	locate_heredoc(t_cmd *payload, t_shell *shell)
+ /* int	locate_heredoc(t_cmd *payload, t_shell *shell)
 {
 	char	**envp;
 
@@ -103,7 +105,7 @@ int	locate_heredoc(t_cmd *payload, t_shell *shell)
 	}
 	free(envp);
 	return (payload->has_heredoc); // will be 0 or 1 for heredoc detection;
-}
+} */
 
 /*
  * filling the heredoc in each payload last one wins
