@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   search_heredocs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:29:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 18:04:22 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-# define HEREDOC_FILE "/tmp/.heredoc_tmp"
 /*
  * lookup payloads array of args for (<<)
  * if found execute the heredoc function
@@ -85,10 +83,7 @@ int	search_in_args(t_cmd *payload, char **envp)
 			run_heredoc(payload, payload->heredoc_delimiter, envp);
 			if (payload->heredoc_fd < 0)
 			{
-				// error
-				// exit;
-				// or return (-1 for error);
-				// 0 if no heredoc and 1 if there is heredoc
+        return (-1);
 			}
 		}
 		i++;
@@ -96,18 +91,17 @@ int	search_in_args(t_cmd *payload, char **envp)
 	return (payload->has_heredoc);
 }
 
-int	locate_heredoc(t_cmd_list *cmd_list, t_shell *shell)
+int	locate_heredoc(t_cmd *payload, t_shell *shell)
 {
-	t_cmd	*payload;
 	char	**envp;
 
 	envp = build_envp(shell);
-	payload = cmd_list->head;
 	if (search_in_args(payload, envp) == -1)
+	{
+		free(envp);
 		return (-1); // error if we wanna return or exit handler
-	printf("payload has heredoc ? %d\n", payload->has_heredoc);
-	printf("payload heredoc file fd %d\n", payload->heredoc_fd);
-	printf("payload heredoc delim is quoted ? %d\n", payload->heredoc_quoted);
+	}
+	free(envp);
 	return (payload->has_heredoc); // will be 0 or 1 for heredoc detection;
 }
 

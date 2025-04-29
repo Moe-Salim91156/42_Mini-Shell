@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:18:10 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static int	take_me_home(t_envp *list, char *oldpwd)
 	{
 		ft_putstr_fd("cd: ", 2);
 		perror(ft_getenv(list, "HOME")->value);
-		ft_putstr_fd(": ", 2);
 		return (1);
 	}
 	return (0);
@@ -90,7 +89,6 @@ int	bltn_cd(char **argv, t_envp *list)
 	{
 		ft_putstr_fd("cd: ", 2);
 		perror(argv[1]);
-		ft_putstr_fd(": ", 2);
 		return (1);
 	}
 	return (0);

@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   payload_lexing_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 14:23:21 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 16:12:00 by yokitane         ###   ########.fr       */
+/*   Created: 2025/04/22 15:20:46 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/22 15:34:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	shell_init(t_shell *shell, char **envp)
+int	is_redirect_1(char *str)
 {
-	// shell = malloc(sizeof(t_shell));
-	shell->token_list = init_list();
-	shell->cmd_list = init_cmd_list();
-	shell->envp_list = init_envp(envp);
-	shell->last_status = 0;
-	if (!shell->token_list || !shell->cmd_list || !shell->envp_list)
-		return (-1);
+	if (!ft_strcmp(str, ">"))
+		return (1);
+	if (!ft_strcmp(str, ">>"))
+		return (1);
+	if (!ft_strcmp(str, "<"))
+		return (1);
 	return (0);
 }

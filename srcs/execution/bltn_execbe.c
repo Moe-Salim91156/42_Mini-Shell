@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:06:08 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +45,31 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else if (!ft_strcmp("export", argv[0]))
 		return (bltn_export(argv, shell->envp_list));
 	else if (!ft_strcmp("unset", argv[0]))
-		return (bltn_unset(argv, shell->envp_list));
+		return (bltn_unset(argv, &shell->envp_list));
 	else if (!ft_strcmp("cd", argv[0]))
 		return (bltn_cd(argv, shell->envp_list));
 	else if (!ft_strcmp("echo", argv[0]))
 		return (bltn_echo(argv));
-	/* else if (ft_strcmp("exit", argv[0])) */
-		/* return (bltn_exit(argv, shell)); */
+	else if (!ft_strcmp("exit", argv[0]))
+		return (bltn_exit(argv, shell));
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
+int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_loc)
 {
-	int		err;
+	int		err;//use errno?
 
 	if (pipe)
-	{
-		printf("this is just to shut up a warning\n");
+		(void)pipe,(void) payload_loc;//tbd
 		/* handle_pipe(pipe); */
-	}
 	err = 0;
-  //locate_heredoc(shell->cmd_list, shell);
-  err = parse_redirs(current_payload,current_payload->payload_array);
-		if(!err)
-			current_payload->exit_status = bltn_execbe(current_payload->argv, shell);
-		else
-			current_payload->exit_status = 1;
+	locate_heredoc(current_payload, shell);
+	err = parse_redirs(current_payload, current_payload->payload_array);
+	if (!err)
+		current_payload->exit_status = bltn_execbe(current_payload->argv,
+				shell);
+	else
+		current_payload->exit_status = 1;
 	restore_io(current_payload);
 	// delete heredoc tmp file
 	return (current_payload->exit_status);

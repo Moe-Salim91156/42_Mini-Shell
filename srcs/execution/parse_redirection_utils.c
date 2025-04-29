@@ -6,32 +6,30 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:36:24 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 19:16:28 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 16:19:57 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <unistd.h>
 
 // look for redirections
-void restore_io(t_cmd *cmd)
+void	restore_io(t_cmd *cmd)
 {
 	if (cmd->backup_in_fd != -1)
 	{
-		dup2(cmd->backup_in_fd, STDIN_FILENO); // restore stdin
+		dup2(cmd->backup_in_fd, STDIN_FILENO);
 		close(cmd->backup_in_fd);
 		cmd->backup_in_fd = -1;
 	}
 	if (cmd->backup_out_fd != -1)
 	{
-		dup2(cmd->backup_out_fd, STDOUT_FILENO); // restore stdout
+		dup2(cmd->backup_out_fd, STDOUT_FILENO);
 		close(cmd->backup_out_fd);
 		cmd->backup_out_fd = -1;
 	}
 	cmd->in_fd = STDIN_FILENO;
 	cmd->out_fd = STDOUT_FILENO;
 }
-
 
 void	apply_redirs(t_cmd *current_payload)
 {

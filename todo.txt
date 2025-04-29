@@ -1,32 +1,8 @@
--> expander:  
-  : replace get_env with kittaneh's search_list;
-  : norminette;
-
-  -> payload_lexing:  
-    : "|" is an arg not a pipe, token_list_lexing working but payload_lexing no
--> tokenizer:
-  -norminette;
-
-
 -> execution: 
-  : README
+  : case 1 done;
+  : case 2 in-progress
 
   -> heredoc
-    : prototype is ready, 
       : norminette;
-      : left is a while loop for execution entry for each payload, and then execute our design on each payload, firt the heredoc
-  -> buld_cmd_strcuture:  
-      $U ls , should work , argv["", ls, -la , etc] , locate_cmd should handle it
-  -> builtins:
-    : for args we should not forget that if -na not correct
-      : it will be considered an arg not an option
-
-  ->  
-  : what has been done: 
-    : << 1 << 2 first thing gets segfault handled ;
-    : heredoc expansion;
-
-
-
 general edge cases : 
-  : protections if user didnt enter delimiter, if user wrote << without anything , if and if and if u know the drill 
+    : general exit handler;
