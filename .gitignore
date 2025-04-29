@@ -1,0 +1,9 @@
+minishell
+*/*.o
+.gitignore
+*.a
+objs/*
+outfile
+infile
+in
+out

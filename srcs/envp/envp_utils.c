@@ -6,9 +6,10 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/04 02:56:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:58:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -58,7 +59,10 @@ int	mod_val(t_envp *node, char *new_value)
 		free(node->value);
 	node->value = ft_strdup(new_value);
 	if (!node->value)
+	{
+		ft_putstr_fd("mod_val: strdup: fail", 2);
 		return (1);
+	}
 	return (0);
 }
 
@@ -80,8 +84,10 @@ int	del_env_node(t_envp *node)
 	}
 	return (1);
 }
-
-t_envp	*find_str(t_envp *list,char *str)
+/*
+	FINDS NODE WHEN U PASS KEY=VALUE
+*/
+t_envp	*find_str(t_envp *list, char *str)
 {
 	char	*key;
 	t_envp	*find;
@@ -91,6 +97,6 @@ t_envp	*find_str(t_envp *list,char *str)
 	if (!key)
 		return (NULL);
 	find = find_by_key(list, key);
-	free (key);
-	return(find);
+	free(key);
+	return (find);
 }

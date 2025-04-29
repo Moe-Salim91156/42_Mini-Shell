@@ -6,100 +6,87 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/03/02 14:49:50 by msalim           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-/*   Updated: 2025/02/15 16:18:03 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	skip_beginning_spaces(char *str)
+int	count_payloads(t_cmd_list *list)
 {
-	while (*str == ' ')
-		str++;
+	t_cmd	*pay;
+
+	pay = list->head;
+	while (pay && pay->argv[0])
+	{
+		list->payload_count++;
+		pay = pay->next;
+	}
+	return (list->payload_count);
 }
 
-void	free_tokens(t_token_list *list)
+void	free_env_list(t_envp *env_list)
 {
-	t_token	*current;
-	t_token	*temp;
+	t_envp *tmp;
 
-	current = list->head;
-	while (current)
+	while (env_list)
 	{
-		temp = current->next;
-		if (current->value)
-			free(current->value);
-		free(current);
-		current = temp;
+		tmp = env_list;
+		env_list = env_list->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
 	}
-	free(list);
 }
 
-void	free_command_list(t_cmd_list *cmd_list)
+void  free_and_loop(t_shell *shell, char *input)
 {
-	t_cmd	*current;
-	t_cmd	*temp;
-	int		i;
+      free(input);
+      free_tokens(shell->token_list);
+			free_command_list(shell->cmd_list);
+			shell->token_list = NULL;
+			shell->token_list = init_list();
+			shell->cmd_list = init_cmd_list();
+}
 
-	current = cmd_list->head;
-	while (current)
-	{
-		temp = current->next;
-		if (current->args)
-		{
-			i = 0;
-			while (current->args[i])
-				free(current->args[i++]);
-			free(current->args);
-		}
-		free(current);
-		current = temp;
-	}
-	free(cmd_list);
+int happy_parser_path(char *input, t_shell *shell)
+{
+	if (!input)
+		return (0);
+	add_history(input);
+	if (!tokenizer(input, shell->token_list, shell))
+		return (0);
+	if (!lexing(shell, shell->token_list))
+		return (0);
+	if (!check_unexpected_token(shell, shell->token_list))
+		return (0);
+	return (1); // success
 }
 
 int	main(void)
 {
-	t_token_list	*tokens;
-  t_cmd_list *cmd_list;
-	char			*input;
+	t_shell shell;
+	char	*input;
 
-	tokens = init_list();
-  cmd_list = init_cmd_list();
+	shell_init(&shell, __environ);
 	while (1)
 	{
-		input = readline(COLOR_MAGENTA "rbsh$ " COLOR_RESET);
+    setup_signals_main();
+		input = readline("rbsh$ ");
 		if (!input)
 			break ;
-		if (input)
+		if (happy_parser_path(input, &shell))
 		{
-			if (!strcmp(input, "exit"))
-			{
-				free_tokens(tokens);
-				free(input);
-				exit(1);
-			}	
-			if (!strcmp(input, "pwd"))
-			{
-				bltn_pwd();
-				//exit(1);
-			}
-			add_history(input);
-			if (!tokenizer(input, tokens))
-				return (0);
-			lexing(tokens);
-			print_tokens(tokens);
-			expander_main(tokens);
-      build_cmd(tokens,cmd_list);
-      print_command(cmd_list);
-			free_tokens(tokens);
-			tokens = NULL;
-			tokens = init_list();
+			expander_main(&shell);
+			build_payloads(shell.token_list, shell.cmd_list);
+			see_heredoc_if_quoted(&shell);
+			lexer_cmd_list(shell.cmd_list);
+			build_cmd_argv(shell.cmd_list);
+			shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
+			execution_entry(&shell);
 		}
+		free_and_loop(&shell, input);
 	}
-	free(input);
+  // eit_handler
 	return (0);
 }
+

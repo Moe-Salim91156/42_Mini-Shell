@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 10:28:35 by yokitane          #+#    #+#             */
-/*   Updated: 2025/03/05 17:55:58 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:59:03 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	print_sorted_array(t_envp **arr, int size)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (i < size)
@@ -28,13 +28,13 @@ static void	print_sorted_array(t_envp **arr, int size)
 			j++;
 		}
 		if (arr[i]->value)
-		{//can use a single print statment,was causing me problems, need to test on cluster device.
-			ft_putchar_fd('=',STDOUT_FILENO);
-			ft_putchar_fd('\"',STDOUT_FILENO);
+		{
+			ft_putchar_fd('=', STDOUT_FILENO);
+			ft_putchar_fd('\"', STDOUT_FILENO);
 			ft_putstr_fd(arr[i]->value, STDOUT_FILENO);
-			ft_putchar_fd('\"',STDOUT_FILENO);
+			ft_putchar_fd('\"', STDOUT_FILENO);
 		}
-		ft_putchar_fd('\n',STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		i++;
 	}
 }
@@ -83,7 +83,7 @@ static t_envp	**create_env_array(t_envp *list, int size)
 	return (arr);
 }
 /* counts all keys, regardless of values. */
-static int	envp_count_all(t_envp *list)
+int	envp_count_all(t_envp *list)
 {
 	int		count;
 	t_envp	*traverse;

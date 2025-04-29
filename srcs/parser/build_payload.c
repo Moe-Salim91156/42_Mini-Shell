@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_cmd.c                                        :+:      :+:    :+:   */
+/*   build_payload.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:21:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/02/20 20:03:33 by msalim           ###   ########.fr       */
-/*   Updated: 2025/02/15 16:23:27 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:17:58 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +29,7 @@ int	count_cmd_tokens(t_token_list *list)
 }
 
 /*
- * this func simply adds payload args in the cmd->args array;
+ * this func simply adds payload argv in the cmd->argv array;
  * example :
  * [ls],[-l],[NULL]
  */
@@ -42,10 +41,10 @@ int	add_argument(t_cmd *cmd, t_token *current, int i)
 		ft_putstr_fd("Error: Value NULL\n", 2);
 		return (0);
 	}
-	cmd->args[i] = malloc(ft_strlen(current->value) + 1);
-	if (!cmd->args[i])
+	cmd->payload_array[i] = malloc(ft_strlen(current->value) + 1);
+	if (!cmd->payload_array[i])
 		return (0);
-	ft_strcpy(cmd->args[i], current->value);
+	ft_strcpy(cmd->payload_array[i], current->value);
 	return (i + 1);
 }
 
@@ -63,15 +62,13 @@ t_cmd	*handle_seperator(t_cmd *cmd, t_token_list *list)
 	if (!cmd->next)
 	{
 		ft_putstr_fd("erorr init-ing new command\n", 2);
-		/* free */
 		exit(1);
 	}
 	cmd = cmd->next;
-	cmd->args = allocate_cmd_args(count_cmd_tokens(list));
-	if (!cmd->args)
+	cmd->payload_array = allocate_cmd_argv(count_cmd_tokens(list));
+	if (!cmd->payload_array)
 	{
-		ft_putstr_fd("error mallocating a new args\n", 2);
-		// free
+		ft_putstr_fd("error mallocating a new argv\n", 2);
 		exit(1);
 	}
 	return (cmd);
@@ -98,7 +95,7 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 	{
 		if (is_seperator(current->type))
 		{
-			cmd->args[i] = NULL;
+			cmd->payload_array[i] = NULL;
 			cmd = handle_seperator(cmd, list);
 			i = 0;
 		}
@@ -108,10 +105,10 @@ void	fill_command(t_cmd *cmd, t_token_list *list)
 		}
 		current = current->next;
 	}
-	cmd->args[i] = NULL;
+	cmd->payload_array[i] = NULL;
 }
 
-t_cmd	*build_cmd(t_token_list *list, t_cmd_list *cmd_list)
+t_cmd	*build_payloads(t_token_list *list, t_cmd_list *cmd_list)
 {
 	t_cmd	*cmd;
 
@@ -123,8 +120,8 @@ t_cmd	*build_cmd(t_token_list *list, t_cmd_list *cmd_list)
 		return (NULL);
 	}
 	cmd = cmd_list->head;
-	cmd->args = allocate_cmd_args(cmd_list->count);
-	if (!cmd->args)
+	cmd->payload_array = allocate_cmd_argv(cmd_list->count);
+	if (!cmd->payload_array)
 		return (NULL);
 	fill_command(cmd, list);
 	return (cmd_list->head);

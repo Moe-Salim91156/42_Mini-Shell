@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 16:25:05 by yokitane          #+#    #+#             */
-/*   Updated: 2025/02/16 17:33:44 by msalim           ###   ########.fr       */
+/*   Created: 2025/04/10 14:23:21 by yokitane          #+#    #+#             */
+/*   Updated: 2025/04/21 16:12:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef BUILTINS_H
-# define BUILTINS_H
-# include "minishell.h"
 
-int	bltn_pwd(void);
-int	bltn_cd(char *dst);
-int	bltn_echo(char **args);
-int	bltn_export(char **args);
-int	bltn_unset(char **args);
-int	bltn_env(void);
-int	bltn_exit(int status);
-#endif
+#include "../../includes/minishell.h"
+
+int	shell_init(t_shell *shell, char **envp)
+{
+	// shell = malloc(sizeof(t_shell));
+	shell->token_list = init_list();
+	shell->cmd_list = init_cmd_list();
+	shell->envp_list = init_envp(envp);
+	shell->last_status = 0;
+	if (!shell->token_list || !shell->cmd_list || !shell->envp_list)
+		return (-1);
+	return (0);
+}
