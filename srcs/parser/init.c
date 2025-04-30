@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 19:14:49 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/29 16:23:21 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_cmd	*init_command(void)
 	cmd->type = 0;
 	cmd->payload_array = NULL;
 	cmd->here_doc_counts = 0;
-	cmd->heredoc_buffer = NULL;
 	cmd->has_heredoc = 0;
 	cmd->heredoc_fd = -1;
 	cmd->heredoc_quoted = 0;

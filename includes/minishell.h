@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/29 00:25:25 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:42:54 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct s_cmd
 	t_token_type	*type;
 	char **argv; // execve compaitable array
 	char			*cmd_path;
-	char			*heredoc_buffer;
 	int				heredoc_fd;
 	// a way to communicate or call it when parsing redirection in;
 	int has_heredoc; // flag
@@ -102,9 +101,9 @@ typedef struct s_cmd
 	int				here_doc_counts;
 	int				exit_status;
 	int				in_fd;
+	int				out_fd;
 	int				backup_in_fd;
 	int				backup_out_fd;
-	int				out_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -226,6 +225,7 @@ void				manage_pipeline(t_shell *shell, t_cmd *list_head);
 void				close_pipes(int **pipes, int cmd_count);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
+void				child_perror(int exit_status);
 					/* PATH STUFF */
 char				**build_cmd_argv(t_cmd_list *payload);
 char				*search_command_in_path(char *cmd, char **envp,

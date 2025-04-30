@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 00:31:03 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:19:09 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	redir_in(t_cmd *current_payload, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
 		return (1);
 	}
@@ -66,7 +65,6 @@ int	redir_out(t_cmd *current_payload, char *file)
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
 		return (1);
 	}
@@ -83,7 +81,6 @@ int	redir_append(t_cmd *current_payload, char *file)
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		ft_putstr_fd("Error opening file\n", 2);
 		current_payload->exit_status = 1;
 		return (1);
 	}
@@ -93,25 +90,17 @@ int	redir_append(t_cmd *current_payload, char *file)
 
 int	redir_heredoc(t_cmd *current_payload)
 {
-
-		if (current_payload->in_fd != STDIN_FILENO)
+	if (current_payload->in_fd != STDIN_FILENO)
 		close(current_payload->in_fd);
-
-	/* Check if we have a valid heredoc file descriptor */
 	if (current_payload->has_heredoc && current_payload->heredoc_fd > 0)
 	{
 		current_payload->in_fd = current_payload->heredoc_fd;
 		return (0);
 	}
-
-	/* No heredoc available but marked as having one - this is an error */
 	if (current_payload->has_heredoc)
 	{
-		ft_putstr_fd("Heredoc error: pipe not available\n", 2);
 		current_payload->exit_status = 1;
 		return (1);
 	}
-
-	/* No heredoc requested for this command */
 	return (0);
 }
