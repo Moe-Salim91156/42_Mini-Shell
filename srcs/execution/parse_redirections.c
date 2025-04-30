@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 15:19:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:09:45 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	redir_append(t_cmd *current_payload, char *file)
 
 int	redir_heredoc(t_cmd *current_payload)
 {
+
 	if (current_payload->in_fd != STDIN_FILENO)
 		close(current_payload->in_fd);
 	if (current_payload->has_heredoc && current_payload->heredoc_fd > 0)

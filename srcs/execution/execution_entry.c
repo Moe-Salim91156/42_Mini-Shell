@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/29 15:39:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:34:57 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 	if (pid < 0)
 	{
 		perror("fork");
-		shell->last_status = -1;
+		shell->last_status = 1;
 		return;
 	}
 	if (!pid)
@@ -30,17 +30,13 @@ static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 		current_payload->exit_status = WEXITSTATUS(*status);
 	else if (WIFSIGNALED(*status))
 		current_payload->exit_status = 128 + WTERMSIG(*status);
-	if (current_payload->exit_status)
-		child_perror(current_payload->exit_status);
 }
 
 int	execution_entry(t_shell *shell)
 {
 	t_cmd	*current_payload;
-	int		*status;
 	int		heredoc_result;
 
-	status = &shell->last_status;
 	current_payload = shell->cmd_list->head;
 	heredoc_result = process_all_heredocs(shell);
 	if (heredoc_result == -1)
@@ -53,11 +49,14 @@ int	execution_entry(t_shell *shell)
 		if (is_bltn(current_payload->argv))
 			shell->last_status = manage_bltn(shell, current_payload);
 		else
-			fork_single_child(shell, current_payload, status);
+			fork_single_child(shell, current_payload, &shell->last_status);
 		shell->last_status = current_payload->exit_status;
+		if (shell->last_status)
+			child_perror(shell->last_status, NULL);
 	}
 	else
-		manage_pipeline(shell, shell->cmd_list->head);
+		manage_pipeline(shell, shell->cmd_list->head,
+	shell->cmd_list->payload_count);
 	cleanup_all_heredocs(shell);
 	return (shell->last_status);
 }

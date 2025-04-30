@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/29 15:42:54 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:32:58 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <stdio.h>
+#	 include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -93,6 +93,7 @@ typedef struct s_cmd
 	t_token_type	*type;
 	char **argv; // execve compaitable array
 	char			*cmd_path;
+	char			*heredoc_buffer;
 	int				heredoc_fd;
 	// a way to communicate or call it when parsing redirection in;
 	int has_heredoc; // flag
@@ -101,9 +102,9 @@ typedef struct s_cmd
 	int				here_doc_counts;
 	int				exit_status;
 	int				in_fd;
-	int				out_fd;
 	int				backup_in_fd;
 	int				backup_out_fd;
+	int				out_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -221,11 +222,11 @@ void				apply_redirs(t_cmd *current_payload);
 int					see_heredoc_if_quoted(t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
 					/*	PIPELINE	*/
-void				manage_pipeline(t_shell *shell, t_cmd *list_head);
+void				manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count);
 void				close_pipes(int **pipes, int cmd_count);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
-void				child_perror(int exit_status);
+void				child_perror(int status, char **env);
 					/* PATH STUFF */
 char				**build_cmd_argv(t_cmd_list *payload);
 char				*search_command_in_path(char *cmd, char **envp,
