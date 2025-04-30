@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/30 16:32:58 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:32:52 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
 					/*	FORK OPERATIONS	*/
 void				manage_child(t_shell *shell, t_cmd *current_payload);
 void				wait_for_children(t_shell *shell, int cmd_count, pid_t *pids);
+void				fork_error(int **pipes, int cmd_count);
 					/*	REDIRECTIONS	*/
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
@@ -224,6 +225,8 @@ char				*expand_heredoc_line(char *line, char **envp);
 					/*	PIPELINE	*/
 void				manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count);
 void				close_pipes(int **pipes, int cmd_count);
+int					**lay_pipeline(int cmd_count);
+void				end_pipeline(t_shell *shell, int cmd_count , int *pids, int **pipes);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
 void				child_perror(int status, char **env);

@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 16:35:22 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:30:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdio.h>
 
 
 /*
@@ -27,8 +28,6 @@ void child_perror(int exit_status, char **env)
 		ft_putendl_fd("rbsh: permission denied.", 2);
 	else if (exit_status == 1)
 		ft_putendl_fd("rbsh: invalid redirection.", 2);
-	// else if (exit_status != 0)
-	// 	perror("rbsh");
 }
 
 int set_exit_status(char *cmd_path)

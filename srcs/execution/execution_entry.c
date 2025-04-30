@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/30 16:34:57 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:59:44 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	execution_entry(t_shell *shell)
 		else
 			fork_single_child(shell, current_payload, &shell->last_status);
 		shell->last_status = current_payload->exit_status;
-		if (shell->last_status)
 			child_perror(shell->last_status, NULL);
 	}
 	else
