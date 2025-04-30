@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/30 19:32:52 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:40:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,12 @@ typedef struct s_shell
 	t_envp			*envp_list;
 	int				last_status;
 }					t_shell;
+
+typedef struct s_pipes
+{
+	int				**pipes;
+	int				pipe_index;
+}				t_pipe;
 /*################# init(🇬🇧) (and exit) #################*/
 int					shell_init(t_shell *shell, char **envp);
 t_token				*init_token(void);
