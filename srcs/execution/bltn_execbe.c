@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/29 21:14:21 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:25:14 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ int manage_bltn(t_shell *shell, t_cmd *current_payload)
 		current_payload->exit_status = bltn_execbe(current_payload->argv,
 				shell);
 	}
-	else
-		current_payload->exit_status = 1;
+	current_payload->exit_status = err;
 	restore_io(current_payload);
 	return (current_payload->exit_status);
 }
