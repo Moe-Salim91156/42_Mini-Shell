@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/21 17:44:27 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:24:32 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,20 @@ static int	is_numeric(const char *str)
 	return (1);
 }
 
-static unsigned long	ft_atoul(char *str)
-{
-	unsigned long	ret;
+// static long	ft_atoul(char *str)
+// {
+// 	long	ret;
 
-	ret = 0;
-	if (*str == '+' || *str == '-')
-		str++;
-	while (*str && ft_isdigit(*str))
-	{
-		ret = ret * 10 + (*str - '0');
-		str++;
-	}
-	return (ret);
-}
+// 	ret = 0;
+// 	if (*str == '+' || *str == '-')
+// 		str++;
+// 	while (*str && ft_isdigit(*str))
+// 	{
+// 		ret = ret * 10 + (*str - '0');
+// 		str++;
+// 	}
+// 	return (ret);
+// }
 
 /*
 	exit(unsigned long	status, t_shell shell):
@@ -83,6 +83,6 @@ int	bltn_exit(char **argv, t_shell *shell)
 		return (1);
 	}
 	// ft_exit(shell, ft_atoul(argv[1]) % 256);
-	exit(ft_atoul(argv[1])% 256);
+	exit(ft_atoi(argv[1]) % 256);
 	return (1);
 }

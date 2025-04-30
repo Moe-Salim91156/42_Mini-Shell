@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/28 22:51:31 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +53,8 @@ int happy_parser_path(char *input, t_shell *shell)
 {
 	if (!input)
 		return (0);
-	add_history(input);
+	if (input[0])
+		add_history(input);
 	if (!tokenizer(input, shell->token_list, shell))
 		return (0);
 	if (!lexing(shell, shell->token_list))
@@ -78,7 +80,7 @@ int	main(void)
 		{
 			expander_main(&shell);
 			build_payloads(shell.token_list, shell.cmd_list);
-			see_heredoc_if_quoted(&shell);
+			/* see_heredoc_if_quoted(&shell); */
 			lexer_cmd_list(shell.cmd_list);
 			build_cmd_argv(shell.cmd_list);
 			shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
