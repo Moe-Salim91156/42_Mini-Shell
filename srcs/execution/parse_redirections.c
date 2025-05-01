@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 16:09:45 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:52:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,16 @@ int	parse_redirs(t_cmd *cmd, char **payload_array)
 		if (!ft_strcmp("<<", payload_array[i]))
 		{
 			i++;
-			ret = redir_heredoc(cmd);
 		}
 		if (ret == 1)
 			break ;
 		i++;
+	}
+  if (cmd->has_heredoc && cmd->heredoc_fd > 0)
+	{
+		if (cmd->in_fd != STDIN_FILENO)
+			close(cmd->in_fd);
+		cmd->in_fd = cmd->heredoc_fd;
 	}
 	return (ret);
 }
