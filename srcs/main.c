@@ -6,11 +6,13 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/29 15:55:41 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/03 15:48:12 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+volatile sig_atomic_t g_sig = 0;
 
 int	count_payloads(t_cmd_list *list)
 {
@@ -72,7 +74,7 @@ int	main(void)
 	shell_init(&shell, __environ);
 	while (1)
 	{
-    setup_signals_main();
+    set_signal(0);
 		input = readline("rbsh$ ");
 		if (!input)
 			break ;
