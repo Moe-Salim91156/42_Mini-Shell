@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:37:12 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/24 14:46:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/29 14:01:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,22 @@ int	valid_heredoc(t_token *current)
 
 int	invalid_operator_sequence(t_token *curr)
 {
-	if (!curr->next)
+	if (!curr)
 		return (0);
-	if ((curr->type == PIPE || curr->type == REDIRECT_OUT
-			|| curr->type == REDIRECT_IN || curr->type == APPEND
-			|| curr->type == HEREDOC) && (curr->next->type == PIPE
-			|| curr->next->type == REDIRECT_OUT
-			|| curr->next->type == REDIRECT_IN || curr->next->type == APPEND
-			|| curr->next->type == HEREDOC))
+	if (curr->type == PIPE || curr->type == REDIRECT_OUT
+		|| curr->type == REDIRECT_IN || curr->type == APPEND
+		|| curr->type == HEREDOC)
 	{
-		ft_putstr_fd("rbsh: syntax error near unexpected token `", 2);
-		ft_putstr_fd(curr->next->value, 2);
-		ft_putendl_fd("`", 2);
-		return (1);
+		if (!curr->next || curr->next->type == PIPE)
+		{
+			ft_putstr_fd("rbsh: syntax error near unexpected token `", 2);
+			if (curr->next)
+				ft_putstr_fd(curr->next->value, 2);
+			else
+				ft_putstr_fd("newline", 2);
+			ft_putendl_fd("`", 2);
+			return (1);
+		}
 	}
 	return (0);
 }
