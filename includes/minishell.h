@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/30 19:32:52 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:33:22 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_cmd
 	char			*cmd_path;
 	char			*heredoc_buffer;
 	int				heredoc_fd;
+  char      *heredoc_filename;
 	// a way to communicate or call it when parsing redirection in;
 	int has_heredoc; // flag
 	char			*heredoc_delimiter;

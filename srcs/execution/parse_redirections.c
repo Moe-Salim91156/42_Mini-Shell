@@ -6,37 +6,53 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 16:09:45 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 13:49:31 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <unistd.h>
 
-int	parse_redirs(t_cmd *cmd, char **payload_array)
+static int	process_redir(t_cmd *cmd, char **payload, int *i, int *last)
+{
+	int	ret;
+
+  ret = 0;
+	if (!ft_strcmp(payload[*i], "<") && payload[*i + 1])
+	{
+		ret = redir_in(cmd, payload[++(*i)]);
+		if (ret >= 0)
+			*last = 1; /*infile wins std so far*/
+	}
+	else if (!ft_strcmp(payload[*i], ">") && payload[*i + 1])
+		ret = redir_out(cmd, payload[++(*i)]);
+	else if (!ft_strcmp(payload[*i], ">>") && payload[*i + 1])
+		ret = redir_append(cmd, payload[++(*i)]);
+	else if (!ft_strcmp(payload[*i], "<<") && payload[*i + 1])
+	{
+		(*i)++;
+		*last = 2; /*heredoc wins for now*/
+	}
+	return (ret);
+}
+
+int	parse_redirs(t_cmd *cmd, char **payload)
 {
 	int	i;
 	int	ret;
+	int	last;
 
-	ret = 0;
 	i = 0;
-	while (payload_array[i] != NULL)
+	ret = 0;
+	last = 0; /*new flag for the determining who wins the in_fd (infile or heredoc)*/
+	while (payload[i])
 	{
-		if (!ft_strcmp("<", payload_array[i]))
-			ret = redir_in(cmd, payload_array[++i]);
-		if (!ft_strcmp(">", payload_array[i]))
-			ret = redir_out(cmd, payload_array[++i]);
-		if (!ft_strcmp(">>", payload_array[i]))
-			ret = redir_append(cmd, payload_array[++i]);
-		if (!ft_strcmp("<<", payload_array[i]))
-		{
-			i++;
-			ret = redir_heredoc(cmd);
-		}
-		if (ret == 1)
-			break ;
+		ret = process_redir(cmd, payload, &i, &last);
+		if (ret == -1)
+			return (-1);
 		i++;
 	}
+	if (last == 2 && cmd->heredoc_fd != -1)
+		cmd->in_fd = cmd->heredoc_fd;
 	return (ret);
 }
 
