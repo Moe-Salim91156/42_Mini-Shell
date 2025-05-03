@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/03 19:00:01 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:25:58 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,17 @@ typedef struct s_cmd
 	t_token_type	*type;
 	char **argv; // execve compaitable array
 	char			*cmd_path;
-	char			*heredoc_buffer;
 	int				heredoc_fd;
-  char      *heredoc_filename;
 	// a way to communicate or call it when parsing redirection in;
-	int has_heredoc; // flag
+	int				has_heredoc; // flag
 	char			*heredoc_delimiter;
-	int heredoc_quoted; // for expansion or not
+	int				heredoc_quoted; // for expansion or not
 	int				here_doc_counts;
 	int				exit_status;
-	int				in_fd;
 	int				backup_in_fd;
 	int				backup_out_fd;
 	int				out_fd;
+	int				in_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
