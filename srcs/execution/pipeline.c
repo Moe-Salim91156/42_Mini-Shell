@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 19:27:42 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:49:29 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ static void	close_unused_pipes(int **pipes, int pipe_index, int cmd_count)
 }
 
 
-void manage_fork(t_cmd *current, int **pipes, int pipe_index,int cmd_count,t_shell *shell)
+void manage_fork(t_cmd *current,t_pipe *pipe,int cmd_count,t_shell *shell)
 {
-	config_pipe_fds(current, pipes, pipe_index, cmd_count);
-	close_unused_pipes(pipes, pipe_index, cmd_count);
+	config_pipe_fds(current, pipe->pipes, pipe->pipe_index, cmd_count);
+	close_unused_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
 	if (is_bltn(current->argv))
 		shell->last_status = manage_bltn(shell, current);
 	else
@@ -79,26 +79,28 @@ static void parent_close_pipes(int **pipes, int pipe_index, int cmd_count)
 //this is just so I can lay out the logic, defentily needs a refactor and rework later.
 void	manage_pipeline(t_shell *shell, t_cmd *list_head,int cmd_count)
 {
-	int		**pipes;
-	int		pipe_index;
 	pid_t	pids[2046];
 	t_cmd	*current;
+	t_pipe *pipe;
 
-	pipes = lay_pipeline(cmd_count);
-	if (!pipes)
+	pipe = malloc(sizeof(t_pipe));
+	pipe->pipes = lay_pipeline(cmd_count);
+	if (!pipe->pipes)
 		return ;
 	current = list_head;
-	pipe_index = 0;
-	while (current && pipe_index < cmd_count)
+	pipe->pipe_index = 0;
+	while (current && pipe->pipe_index < cmd_count)
 	{
-		pids[pipe_index] = fork();
-		if (pids[pipe_index] == -1)
-			fork_error(pipes, cmd_count);
-		if (!pids[pipe_index])
-			manage_fork(current, pipes, pipe_index, cmd_count, shell);
-		parent_close_pipes(pipes, pipe_index, cmd_count);
+		pids[pipe->pipe_index] = fork();
+		if (pids[pipe->pipe_index] == -1)
+			fork_error(pipe->pipes, cmd_count);
+		if (!pids[pipe->pipe_index])
+			manage_fork(current, pipe, cmd_count, shell);
+		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
 		current = current->next;
-		pipe_index++;
+		pipe->pipe_index++;
 	}
 	wait_for_children(shell, cmd_count, pids);
+	free(pipe->pipes);
+	free(pipe);
 }

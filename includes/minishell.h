@@ -131,6 +131,12 @@ typedef struct s_shell
 	t_envp			*envp_list;
 	int				last_status;
 }					t_shell;
+
+typedef struct s_pipes
+{
+	int				**pipes;
+	int				pipe_index;
+}				t_pipe;
 /*################# init(🇬🇧) (and exit) #################*/
 int					shell_init(t_shell *shell, char **envp);
 t_token				*init_token(void);
