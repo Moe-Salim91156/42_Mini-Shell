@@ -6,17 +6,14 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/03 14:56:25 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:08:05 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-/*
-	no child lives past this.
-	death by ft_exit or execve.
-*/
+
 void child_perror(int exit_status, char **env)
 {
 	if (env)
@@ -25,8 +22,6 @@ void child_perror(int exit_status, char **env)
 		ft_putendl_fd("rbsh: command not found.", 2);
 	else if (exit_status == 126)
 		ft_putendl_fd("rbsh: permission denied.", 2);
-	else if (exit_status == 1)
-		ft_putendl_fd("rbsh: invalid redirection.", 2);
 }
 
 int set_exit_status(char *cmd_path)
@@ -67,12 +62,16 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	current_payload->exit_status = parse_redirs(current_payload,
 		current_payload->payload_array);
 	if (current_payload->exit_status)
+	{
+		ft_putendl_fd("rbsh: Invalid Redirection!", 2);
 		exit(current_payload->exit_status); //exit handler
+	}
 	apply_redirs(current_payload);
 	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
 	if(!current_payload->exit_status)
 		execve( current_payload->cmd_path, current_payload->argv, env);
+	restore_io(current_payload);
 	exit(current_payload->exit_status);//exit handler
 }
 void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)

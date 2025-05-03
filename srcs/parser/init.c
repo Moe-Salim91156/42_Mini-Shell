@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/29 16:23:21 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:28:22 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ t_cmd	*init_command(void)
 	cmd->heredoc_quoted = 0;
 	cmd->heredoc_delimiter = NULL;
 	cmd->in_fd = STDIN_FILENO;
-	cmd->backup_in_fd = dup(STDIN_FILENO);
+	cmd->backup_in_fd = -1;
 	cmd->out_fd = STDOUT_FILENO;
-	cmd->backup_out_fd = dup(STDOUT_FILENO);
+	cmd->backup_out_fd = -1;
 	cmd->exit_status = 0;
 	cmd->next = NULL;
 	return (cmd);

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/03 15:12:34 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:36:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head,int cmd_count)
 		if (!pids[pipe->pipe_index])
 			manage_fork(current, pipe, cmd_count, shell);
 		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
+		restore_io(current);
 		current = current->next;
 		pipe->pipe_index++;
 	}
