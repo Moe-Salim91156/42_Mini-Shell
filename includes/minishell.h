@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/01 16:33:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/03 15:03:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,8 @@ char				*expand_heredoc_line(char *line, char **envp);
 					/*	PIPELINE	*/
 void				manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count);
 void				close_pipes(int **pipes, int cmd_count);
-int					**lay_pipeline(int cmd_count);
-void				end_pipeline(t_shell *shell, int cmd_count , int *pids, int **pipes);
+t_pipe				*lay_pipeline(int cmd_count, t_pipe *tpipe);
+void				end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
 void				child_perror(int status, char **env);

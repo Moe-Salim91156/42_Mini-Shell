@@ -6,12 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 19:30:00 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 14:56:25 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdio.h>
 
 
 /*

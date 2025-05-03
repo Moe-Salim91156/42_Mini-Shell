@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 19:49:29 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:12:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static void parent_close_pipes(int **pipes, int pipe_index, int cmd_count)
 	}
 }
 
-//this is just so I can lay out the logic, defentily needs a refactor and rework later.
 void	manage_pipeline(t_shell *shell, t_cmd *list_head,int cmd_count)
 {
 	pid_t	pids[2046];
@@ -84,11 +83,11 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head,int cmd_count)
 	t_pipe *pipe;
 
 	pipe = malloc(sizeof(t_pipe));
-	pipe->pipes = lay_pipeline(cmd_count);
-	if (!pipe->pipes)
+	if (!pipe)
 		return ;
+	if(!lay_pipeline(cmd_count,pipe))
+	 	return ;// cleanup
 	current = list_head;
-	pipe->pipe_index = 0;
 	while (current && pipe->pipe_index < cmd_count)
 	{
 		pids[pipe->pipe_index] = fork();
@@ -100,7 +99,5 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head,int cmd_count)
 		current = current->next;
 		pipe->pipe_index++;
 	}
-	wait_for_children(shell, cmd_count, pids);
-	free(pipe->pipes);
-	free(pipe);
+	end_pipeline(shell, cmd_count, pids, pipe);
 }
