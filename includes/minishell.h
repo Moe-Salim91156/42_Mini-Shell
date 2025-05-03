@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/01 16:33:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/03 15:51:04 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <signal.h>
-
+extern volatile sig_atomic_t g_sig;
 /*################# structs ############################*/
 typedef enum e_token_type
 {
@@ -247,4 +247,7 @@ void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);
 void				debug_build_cmd_argv(t_cmd_list *list);
 void				print_argv(t_cmd *payload);
+
+/*################# signal  #################*/
+void set_signal(int mode);
 #endif

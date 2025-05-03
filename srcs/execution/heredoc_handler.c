@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/01 17:33:41 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/03 16:34:59 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 	needs a proper refactor.
 */
 
+
 void heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 {
     char *in;
+    set_signal(2);
     while (1)
     {
         in = readline("> ");
@@ -58,7 +60,6 @@ void process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp)
     if (cmd->heredoc_fd != -1)
         close(cmd->heredoc_fd);
     cmd->heredoc_fd = run_heredoc(cmd, shell, envp);
-    printf("heredoc fd is %d\n",cmd->heredoc_fd);
 }
 
 int process_heredocs(t_cmd *cmd, t_shell *shell)
