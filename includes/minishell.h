@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/03 20:25:58 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:42:47 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_cmd
 	int				backup_out_fd;
 	int				out_fd;
 	int				in_fd;
+	int				is_fork;
 	struct s_cmd	*next;
 }					t_cmd;
 
