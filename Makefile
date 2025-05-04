@@ -10,7 +10,7 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-INIT = init/init.c init/uninit.c
+INIT = init/ft_exit.c init/init.c init/uninit.c
 PRSR = parser/build_payload.c parser/token_utils.c parser/lexing.c parser/init.c parser/tokenizing.c parser/build_payload_utils.c parser/payload_lexing.c parser/payload_lexing_utils.c parser/token_utils_2.c parser/syntax_check.c \
 			 parser/signals.c
 XPNDR = expander/expander.c expander/expand_env_vars.c expander/expander_general_utils.c
