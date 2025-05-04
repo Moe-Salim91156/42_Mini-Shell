@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/03 18:08:05 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:03:41 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
 	if(!current_payload->exit_status)
 		execve( current_payload->cmd_path, current_payload->argv, env);
+	free_split(env);
 	restore_io(current_payload);
-	exit(current_payload->exit_status);//exit handler
+	shell->last_status = current_payload->exit_status;
+	ft_exit(shell);//exit handler
 }
 void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)
 {
