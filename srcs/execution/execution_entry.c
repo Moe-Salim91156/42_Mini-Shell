@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/03 15:53:39 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +50,10 @@ int	execution_entry(t_shell *shell)
 	if (shell->cmd_list->payload_count == 1)
 	{
 		if (is_bltn(current_payload->argv))
+		{
+			current_payload->is_fork = 0;
 			shell->last_status = manage_bltn(shell, current_payload);
+		}
 		else
 			fork_single_child(shell, current_payload, &shell->last_status);
 		shell->last_status = current_payload->exit_status;

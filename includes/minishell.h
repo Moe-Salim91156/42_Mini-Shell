@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/03 15:51:04 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +92,18 @@ typedef struct s_cmd
 	t_token_type	*type;
 	char **argv; // execve compaitable array
 	char			*cmd_path;
-	char			*heredoc_buffer;
 	int				heredoc_fd;
-  char      *heredoc_filename;
 	// a way to communicate or call it when parsing redirection in;
-	int has_heredoc; // flag
+	int				has_heredoc; // flag
 	char			*heredoc_delimiter;
-	int heredoc_quoted; // for expansion or not
+	int				heredoc_quoted; // for expansion or not
 	int				here_doc_counts;
 	int				exit_status;
-	int				in_fd;
 	int				backup_in_fd;
 	int				backup_out_fd;
 	int				out_fd;
+	int				in_fd;
+	int				is_fork;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -148,10 +146,10 @@ void				*free_env(t_envp *list);
 void				free_command_list(t_cmd_list *cmd_list);
 void				free_tokens(t_token_list *list);
 // ft_exit is the ultimate exit handler. termination is always done through it.
-void				ft_exit(t_shell *shell, unsigned long status);
+void				ft_exit(t_shell *shell);
 /*################## Signals #####################*/
 void				setup_signals_main(void);
-/*################# tokenization #################*/
+/*################# Tokenization #################*/
 int					check_unexpected_token(t_shell *shell, t_token_list *list);
 int					is_invalid_redirection(char *input, int i);
 int					is_redirect_1(char *str);
@@ -171,7 +169,7 @@ t_cmd				*build_payloads(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);
 int				lexemes(t_token *token);
 void				add_token(t_token_list *list, char *value);
-/*################# expander ###########################*/
+/*################# Expander ###########################*/
 char				*append_mode_result(char *result, char *mode_result);
 void				ozha_function(t_normal_mode_context *context,
 						t_shell *shell);
@@ -183,7 +181,7 @@ char				*expand_env_var(char *value, int *env_index,
 int					check_for_quotes_in_tokens(t_token_list *list);
 char				*expander_main(t_shell *shell);
 // char				*handle_quotes_mode(t_token *current);
-/*################# enviroment #################*/
+/*################# Enviroment #################*/
 int					envp_count(t_envp *list);
 int					mod_val(t_envp *node, char *new_value);
 int					append_env_node(t_envp *list, char *str);
@@ -195,7 +193,7 @@ t_envp				*ft_getenv(t_envp *list, char *str);
 t_envp				*find_by_key(t_envp *list, char *key);
 t_envp				*find_str(t_envp *list, char *str);
 t_envp				*build_env_node(char *str);
-/*################# built-ins #################*/
+/*################# Built-ins #################*/
 int					bltn_env(t_shell *shell);
 int					bltn_pwd(void);
 int					bltn_export(char **argv, t_envp *list);
@@ -203,7 +201,7 @@ int					bltn_unset(char **argv, t_envp **list);
 int					bltn_cd(char **argv, t_envp *list);
 int					bltn_echo(char **argv);
 int					bltn_exit(char **argv, t_shell *shell);
-/*################# execution #################*/
+/*################# Execution #################*/
 int					execution_entry(t_shell *shell);
 					/* HEREDOC HANDLING */
 int					process_heredocs(t_cmd *cmd, t_shell *shell);
@@ -222,6 +220,7 @@ void				fork_error(int **pipes, int cmd_count);
 					/*	REDIRECTIONS	*/
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
+void				restore_all_io(t_cmd *head);
 int					redir_in(t_cmd *current_payload, char *file);
 int					redir_out(t_cmd *current_payload, char *file);
 int					redir_append(t_cmd *current_payload, char *file);
@@ -232,8 +231,8 @@ char				*expand_heredoc_line(char *line, char **envp);
 					/*	PIPELINE	*/
 void				manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count);
 void				close_pipes(int **pipes, int cmd_count);
-int					**lay_pipeline(int cmd_count);
-void				end_pipeline(t_shell *shell, int cmd_count , int *pids, int **pipes);
+t_pipe				*lay_pipeline(int cmd_count, t_pipe *tpipe);
+void				end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
 void				child_perror(int status, char **env);

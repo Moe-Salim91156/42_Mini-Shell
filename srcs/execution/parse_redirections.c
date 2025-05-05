@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/03 13:49:31 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/03 19:45:14 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	process_redir(t_cmd *cmd, char **payload, int *i, int *last)
 	{
 		ret = redir_in(cmd, payload[++(*i)]);
 		if (ret >= 0)
-			*last = 1; /*infile wins std so far*/
+			*last = 1;
 	}
 	else if (!ft_strcmp(payload[*i], ">") && payload[*i + 1])
 		ret = redir_out(cmd, payload[++(*i)]);
@@ -30,7 +30,7 @@ static int	process_redir(t_cmd *cmd, char **payload, int *i, int *last)
 	else if (!ft_strcmp(payload[*i], "<<") && payload[*i + 1])
 	{
 		(*i)++;
-		*last = 2; /*heredoc wins for now*/
+		*last = 2;
 	}
 	return (ret);
 }
@@ -43,7 +43,7 @@ int	parse_redirs(t_cmd *cmd, char **payload)
 
 	i = 0;
 	ret = 0;
-	last = 0; /*new flag for the determining who wins the in_fd (infile or heredoc)*/
+	last = 0;
 	while (payload[i])
 	{
 		ret = process_redir(cmd, payload, &i, &last);

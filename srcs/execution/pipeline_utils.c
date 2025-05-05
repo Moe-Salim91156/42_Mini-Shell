@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:17:42 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 19:28:24 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:48:01 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	close_pipes(int **pipes, int cmd_count)
 {
 	int	i;
 
-	if (pipes == 0)
+	if (!pipes)
 		return ;
 	i = 0;
 	while (i < cmd_count - 1 && pipes[i])
@@ -29,38 +29,39 @@ void	close_pipes(int **pipes, int cmd_count)
 		if (pipes[i][1] != -1)
 			close(pipes[i][1]);
 		free(pipes[i]);
+		pipes[i] = NULL;
 		i++;
 	}
 	free(pipes);
+	pipes = NULL;
 }
 
-int	**lay_pipeline(int cmd_count)
+t_pipe	*lay_pipeline(int cmd_count, t_pipe *tpipe)
 {
-	int	**pipes;
 	int	i;
 
-	i = 0;
-	pipes = malloc(sizeof(int *) * (cmd_count - 1));
-	if (!pipes)
+	i = -1;
+	tpipe->pipe_index = 0;
+	tpipe->pipes = malloc(sizeof(int *) * (cmd_count - 1));
+	if (!tpipe->pipes)
 		return (NULL);
-	while (i < cmd_count - 1)
+	while (++i < cmd_count - 1)
 	{
-		pipes[i] = malloc(sizeof(int) * 2);
-		if (!pipes[i])
+		tpipe->pipes[i] = malloc(sizeof(int) * 2);
+		if (!tpipe->pipes[i])
 		{
-			close_pipes(pipes, i);
-			return (NULL);
+			close_pipes(tpipe->pipes, i);
+			return (NULL); // cleanup
 		}
-		pipes[i][0] = -1;
-		pipes[i][1] = -1;
-		if (pipe(pipes[i]) == -1)
+		tpipe->pipes[i][0] = -1;
+		tpipe->pipes[i][1] = -1;
+		if (pipe(tpipe->pipes[i]) == -1)
 		{
-			close_pipes(pipes, i);
-			return (NULL);
+			close_pipes(tpipe->pipes, i);
+			return (NULL);// cleanup
 		}
-		i++;
 	}
-	return (pipes);
+	return (tpipe);
 }
 
 void fork_error(int **pipes, int cmd_count)
@@ -70,18 +71,10 @@ void fork_error(int **pipes, int cmd_count)
 	exit(1);
 }
 
-void end_pipeline(t_shell *shell, int cmd_count , int *pids, int **pipes)
+void end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe)
 {
 	wait_for_children(shell, cmd_count, pids);
-	close_pipes(pipes, cmd_count);
-	if (pipes)
-	{
-		int i = 0;
-		while (i < cmd_count - 1 && pipes[i])
-		{
-			free(pipes[i]);
-			i++;
-		}
-		free(pipes);
-	}
+	close_pipes(pipe->pipes, cmd_count);
+	free(pipe);
+	pipe = NULL;
 }

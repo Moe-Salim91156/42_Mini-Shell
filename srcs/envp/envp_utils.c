@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/22 18:58:48 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:36:33 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,15 @@ int	del_env_node(t_envp *node)
 	if (node)
 	{
 		if (node->key)
+		{
 			free(node->key);
+			node->key = NULL;
+		}
 		if (node->value)
+		{
 			free(node->value);
+			node->value = NULL;
+		}
 		free(node);
 		return (0);
 	}
