@@ -6,14 +6,17 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:57:43 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/04 18:04:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 22:44:09 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_exit(t_shell *shell)
+void	ft_exit(t_shell *shell,int status)
 {
+
+	if (status)
+		shell->last_status = status;
 	if (shell->cmd_list)
 	{
 		free_command_list(shell->cmd_list);
@@ -27,8 +30,6 @@ void	ft_exit(t_shell *shell)
 	if (shell->envp_list)
 	{
 		free_env(shell->envp_list);
-		// free(shell->envp_list);
-
 		shell->envp_list = NULL;
 	}
 	exit(shell->last_status);

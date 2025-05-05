@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
+/*   Updated: 2025/05/05 22:36:10 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +37,7 @@ void heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 		write(write_fd, in, ft_strlen(in));
 		write(write_fd, "\n", 1);
 		free(in);
+	}
 }
 
 int run_heredoc(t_cmd *p, t_shell *s, char **envp)
