@@ -6,9 +6,9 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
+/*   Updated: 2025/05/05 22:33:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -216,7 +216,7 @@ int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
 					/*	FORK OPERATIONS	*/
 void				manage_child(t_shell *shell, t_cmd *current_payload);
 void				wait_for_children(t_shell *shell, int cmd_count, pid_t *pids);
-void				fork_error(int **pipes, int cmd_count);
+void				fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell);
 					/*	REDIRECTIONS	*/
 int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
 void				restore_io(t_cmd *current_payload);
@@ -233,6 +233,7 @@ void				manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count);
 void				close_pipes(int **pipes, int cmd_count);
 t_pipe				*lay_pipeline(int cmd_count, t_pipe *tpipe);
 void				end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe);
+void				pipe_error(t_shell *shell, t_pipe *tpipe);
 					/* EXIT STATUS		*/
 int					set_exit_status(char *cmd_path);
 void				child_perror(int status, char **env);

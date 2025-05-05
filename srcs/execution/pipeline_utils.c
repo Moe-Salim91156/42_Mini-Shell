@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:17:42 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/03 15:48:01 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 22:33:27 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,36 @@ t_pipe	*lay_pipeline(int cmd_count, t_pipe *tpipe)
 		if (!tpipe->pipes[i])
 		{
 			close_pipes(tpipe->pipes, i);
-			return (NULL); // cleanup
+			return (NULL);
 		}
 		tpipe->pipes[i][0] = -1;
 		tpipe->pipes[i][1] = -1;
 		if (pipe(tpipe->pipes[i]) == -1)
 		{
 			close_pipes(tpipe->pipes, i);
-			return (NULL);// cleanup
+			return (NULL);
 		}
 	}
 	return (tpipe);
 }
 
-void fork_error(int **pipes, int cmd_count)
+void fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell)
 {
-	close_pipes(pipes, cmd_count);
+	close_pipes(tpipe->pipes, cmd_count);
+	free(tpipe);
+	shell->last_status = -1;
 	perror("fork");
-	exit(1);
+	ft_exit(shell);
 }
-
+void pipe_error(t_shell *shell, t_pipe *tpipe)
+{
+	close_pipes(tpipe->pipes, tpipe->pipe_index);
+	free(tpipe->pipes);
+	tpipe->pipes = NULL;
+	free(tpipe);
+	shell->last_status = -1;
+	ft_exit(shell);
+}
 void end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe)
 {
 	wait_for_children(shell, cmd_count, pids);
