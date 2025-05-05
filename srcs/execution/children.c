@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:40:20 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 23:34:42 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 		current_payload->payload_array);
 	if (current_payload->exit_status)
 	{
-		ft_putendl_fd("rbsh: Invalid Redirection!", 2);
+		ft_putendl_fd("rbsh: Invalid Redirection!", 2);// need to put this in parentZ!
 		exit(current_payload->exit_status); //exit handler
 	}
 	apply_redirs(current_payload);

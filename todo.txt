@@ -1,8 +1,4 @@
--> execution: 
-  : case 1 done;
-  : case 2 in-progress
-
-  -> heredoc
-      : norminette;
-general edge cases : 
-    : general exit handler;
+yousef:
+1- error handling in children.c
+2- ensure redir error messages are written from parent only!
+3- ensure clean error handling in general
