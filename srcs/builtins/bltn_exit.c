@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/30 16:24:32 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 22:09:25 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,6 @@ static int	is_numeric(const char *str)
 	}
 	return (1);
 }
-
-// static long	ft_atoul(char *str)
-// {
-// 	long	ret;
-
-// 	ret = 0;
-// 	if (*str == '+' || *str == '-')
-// 		str++;
-// 	while (*str && ft_isdigit(*str))
-// 	{
-// 		ret = ret * 10 + (*str - '0');
-// 		str++;
-// 	}
-// 	return (ret);
-// }
-
 /*
 	exit(unsigned long	status, t_shell shell):
 	passed an argument, gracefully terminates shell.
@@ -65,24 +49,22 @@ static int	is_numeric(const char *str)
 	-->argv[0] == exit
 	the argv[0] is the name of the command, to conform to execve behaviour.
 */
-
 int	bltn_exit(char **argv, t_shell *shell)
 {
 	if (!argv[1])
-		exit(shell->last_status);
-		// ft_exit(shell, shell->last_status);
+		ft_exit(shell);
 	if (!is_numeric(argv[1]))
 	{
 		ft_putendl_fd("rbsh: exit: numeric argument required.", 2);
-		// ft_exit(shell, 2);
-		exit(2);
+		shell->last_status = 2;
+		ft_exit(shell);
 	}
 	if (argv[1] && argv[2])
 	{
 		ft_putendl_fd("rbsh: exit: too many arguments.", 2);
 		return (1);
 	}
-	// ft_exit(shell, ft_atoul(argv[1]) % 256);
-	exit(ft_atoi(argv[1]) % 256);
+	shell->last_status = ft_atoi(argv[1]) % 256;
+	ft_exit(shell);
 	return (1);
 }
