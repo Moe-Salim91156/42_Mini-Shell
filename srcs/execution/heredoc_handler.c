@@ -36,6 +36,7 @@ void heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 		write(write_fd, in, ft_strlen(in));
 		write(write_fd, "\n", 1);
 		free(in);
+  }
 }
 
 int run_heredoc(t_cmd *p, t_shell *s, char **envp)
@@ -108,4 +109,3 @@ int process_all_heredocs(t_shell *shell)
 	}
 	return total_heredocs;
 }
-
