@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:27 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 23:27:13 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload)
+int manage_bltn(t_shell *shell, t_cmd *current_payload,int fork_flag)
 {
 	int		err;
 
+	current_payload->is_fork = fork_flag;
 	err = 0;
 	err = parse_redirs(current_payload, current_payload->payload_array);
 	if (!err)

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 22:49:17 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 23:27:31 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void				add_last_token(char *input, int start, int i,
 int					tokenizer(char *input, t_token_list *tokens, t_shell *shell);
 t_cmd				*build_payloads(t_token_list *list, t_cmd_list *cmd_list);
 void				skip_beginning_spaces(char *str);
-int				lexemes(t_token *token);
+int					lexemes(t_token *token);
 void				add_token(t_token_list *list, char *value);
 /*################# Expander ###########################*/
 char				*append_mode_result(char *result, char *mode_result);
@@ -212,7 +212,7 @@ void				cleanup_all_heredocs(t_shell *shell);
 					/*	BUILT-INS		*/
 int					bltn_execbe(char **argv, t_shell *shell);
 int					is_bltn(char **argv);
-int					manage_bltn(t_shell *shell,t_cmd *current_paylaod);
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int fork_flag);
 					/*	FORK OPERATIONS	*/
 void				manage_child(t_shell *shell, t_cmd *current_payload);
 void				wait_for_children(t_shell *shell, int cmd_count, pid_t *pids);
