@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:17:42 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:33:27 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 22:35:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell)
 	free(tpipe);
 	shell->last_status = -1;
 	perror("fork");
-	ft_exit(shell);
+	ft_exit(shell,0);
 }
 void pipe_error(t_shell *shell, t_pipe *tpipe)
 {
@@ -79,7 +79,7 @@ void pipe_error(t_shell *shell, t_pipe *tpipe)
 	tpipe->pipes = NULL;
 	free(tpipe);
 	shell->last_status = -1;
-	ft_exit(shell);
+	ft_exit(shell,-1);
 }
 void end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe)
 {

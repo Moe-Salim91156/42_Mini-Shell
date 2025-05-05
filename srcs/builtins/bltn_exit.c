@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:09:25 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 22:39:54 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ static int	is_numeric(const char *str)
 int	bltn_exit(char **argv, t_shell *shell)
 {
 	if (!argv[1])
-		ft_exit(shell);
+		ft_exit(shell,0);
 	if (!is_numeric(argv[1]))
 	{
 		ft_putendl_fd("rbsh: exit: numeric argument required.", 2);
 		shell->last_status = 2;
-		ft_exit(shell);
+		ft_exit(shell,shell->last_status);
 	}
 	if (argv[1] && argv[2])
 	{
@@ -65,6 +65,6 @@ int	bltn_exit(char **argv, t_shell *shell)
 		return (1);
 	}
 	shell->last_status = ft_atoi(argv[1]) % 256;
-	ft_exit(shell);
+	ft_exit(shell,shell->last_status);
 	return (1);
 }

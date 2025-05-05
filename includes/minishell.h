@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 22:33:34 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 22:49:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void				*free_env(t_envp *list);
 void				free_command_list(t_cmd_list *cmd_list);
 void				free_tokens(t_token_list *list);
 // ft_exit is the ultimate exit handler. termination is always done through it.
-void				ft_exit(t_shell *shell);
+void				ft_exit(t_shell *shell, int status);
 /*################## Signals #####################*/
 void				setup_signals_main(void);
 /*################# Tokenization #################*/
@@ -247,7 +247,6 @@ void				print_command(t_cmd_list *cmd_list);
 void				print_tokens(t_token_list *list);
 void				debug_build_cmd_argv(t_cmd_list *list);
 void				print_argv(t_cmd *payload);
-
 /*################# signal  #################*/
 void set_signal(int mode);
 #endif

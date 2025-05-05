@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:33:43 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 22:36:05 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void manage_fork(t_cmd *current,t_pipe *pipe,int cmd_count,t_shell *shell)
 		shell->last_status = manage_bltn(shell, current);
 	else
 		manage_child(shell, current);
-	ft_exit(shell);
+	ft_exit(shell, 0);
 }
 
 static void parent_close_pipes(int **pipes, int pipe_index, int cmd_count)
@@ -86,7 +86,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head,int cmd_count)
 
 	pipe = malloc(sizeof(t_pipe));
 	if (!pipe)
-		ft_exit(shell);
+		ft_exit(shell,-1);
 	if(!lay_pipeline(cmd_count,pipe))
 		pipe_error(shell, pipe);
 	current = list_head;
