@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/03 19:44:48 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +18,7 @@
 --this whole FILE is entierly vibe coded--
 	needs a proper refactor.
 */
+
 
 void heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 {
@@ -36,7 +36,6 @@ void heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 		write(write_fd, in, ft_strlen(in));
 		write(write_fd, "\n", 1);
 		free(in);
-	}
 }
 
 int run_heredoc(t_cmd *p, t_shell *s, char **envp)
@@ -58,7 +57,6 @@ void process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 	if (cmd->heredoc_fd != -1)
 		close(cmd->heredoc_fd);
 	cmd->heredoc_fd = run_heredoc(cmd, shell, envp);
-	printf("heredoc fd is %d\n",cmd->heredoc_fd);
 }
 
 int process_heredocs(t_cmd *cmd, t_shell *shell)

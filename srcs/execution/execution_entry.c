@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/04 17:43:41 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +23,11 @@ static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 		return;
 	}
 	if (!pid)
+  {
+    set_signal(1);
 		manage_child(shell, current_payload);
+  }
+  set_signal(3);
 	waitpid(pid, status, 0);
 	if (WIFEXITED(*status))
 		current_payload->exit_status = WEXITSTATUS(*status);
