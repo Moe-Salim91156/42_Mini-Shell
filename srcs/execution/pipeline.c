@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:36:05 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/05 23:28:09 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void manage_fork(t_cmd *current,t_pipe *pipe,int cmd_count,t_shell *shell)
 	config_pipe_fds(current, pipe->pipes, pipe->pipe_index, cmd_count);
 	close_unused_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
 	if (is_bltn(current->argv))
-		shell->last_status = manage_bltn(shell, current);
+		shell->last_status = manage_bltn(shell, current, 1);
 	else
 		manage_child(shell, current);
 	ft_exit(shell, 0);
