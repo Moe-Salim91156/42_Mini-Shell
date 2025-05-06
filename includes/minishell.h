@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 23:27:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:33:29 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-#	 include <stdio.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <signal.h>
+
 extern volatile sig_atomic_t g_sig;
 /*################# structs ############################*/
 typedef enum e_token_type
