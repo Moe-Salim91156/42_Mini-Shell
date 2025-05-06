@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
+/*   Updated: 2025/05/05 22:18:11 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +25,6 @@ int	count_payloads(t_cmd_list *list)
 		pay = pay->next;
 	}
 	return (list->payload_count);
-}
-
-void	free_env_list(t_envp *env_list)
-{
-	t_envp *tmp;
-
-	while (env_list)
-	{
-		tmp = env_list;
-		env_list = env_list->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-	}
 }
 
 void  free_and_loop(t_shell *shell, char *input)
