@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/06 16:26:57 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/06 16:43:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ int	execution_entry(t_shell *shell)
 		manage_pipeline(shell, shell->cmd_list->head,
 			shell->cmd_list->payload_count);
 	cleanup_all_heredocs(shell);
-  set_signal(0);
+  //set_signal(0);
 	return (shell->last_status);
 }

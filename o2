@@ -1,0 +1,13 @@
+includes
+libft
+Makefile
+minishell
+o2
+objs
+out
+readline_curses.supp
+README.md
+shell_runner.sh
+srcs
+syntax_check.sh
+todo.txt
