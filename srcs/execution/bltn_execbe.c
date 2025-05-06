@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
+/*   Updated: 2025/05/06 15:08:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +56,23 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[],int payload_loc)
-{
-	int		err;//use errno?
 
-	if (pipe)
-		(void)pipe,(void) payload_loc;//tbd
-		/* handle_pipe(pipe); */
+int	manage_bltn(t_shell *shell, t_cmd *current_payload, int fork_flag)
+{
+	int	err;
+
+	current_payload->is_fork = fork_flag;
 	err = 0;
-	locate_heredoc(current_payload, shell);
 	err = parse_redirs(current_payload, current_payload->payload_array);
 	if (!err)
+	{
+		apply_redirs(current_payload);
 		current_payload->exit_status = bltn_execbe(current_payload->argv,
 				shell);
+	}
 	else
-		current_payload->exit_status = 1;
+		ft_putendl_fd("rbsh: Invalid Redirection!", 2);
+	current_payload->exit_status = err;
 	restore_io(current_payload);
-	// delete heredoc tmp file
 	return (current_payload->exit_status);
 }

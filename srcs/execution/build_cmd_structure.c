@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_structure.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/24 15:07:56 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/06 14:49:59 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**build_cmd_argv(t_cmd_list *list)
 			if (payload->type[i] == COMMAND || payload->type[i] == ARGS)
 			{
 				arg = ft_strdup(payload->payload_array[i]);
-				if (arg)// removed arg[0] != '\0' for the ls "" case,;
+				if (arg)
 					payload->argv[j++] = arg;
 			}
 			i++;
