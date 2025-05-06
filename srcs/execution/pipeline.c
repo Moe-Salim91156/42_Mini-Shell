@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 23:28:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:31:47 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count)
 	current = list_head;
 	while (current && pipe->pipe_index < cmd_count)
 	{
+    set_signal(1);
 		pids[pipe->pipe_index] = fork();
 		if (pids[pipe->pipe_index] == -1)
 			fork_error(pipe, cmd_count, shell);
@@ -99,5 +100,6 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count)
 		current = current->next;
 		pipe->pipe_index++;
 	}
+  set_signal(3);
 	end_pipeline(shell, cmd_count, pids, pipe);
 }

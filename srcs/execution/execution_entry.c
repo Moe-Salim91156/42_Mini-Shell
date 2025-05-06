@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 23:26:42 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:26:57 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	fork_single_child(t_shell *shell, t_cmd *current_payload,
 	}
 	if (!pid)
 	{
-		set_signal(1);
+    set_signal(1);
 		manage_child(shell, current_payload);
 	}
 	set_signal(3);
@@ -62,5 +62,6 @@ int	execution_entry(t_shell *shell)
 		manage_pipeline(shell, shell->cmd_list->head,
 			shell->cmd_list->payload_count);
 	cleanup_all_heredocs(shell);
+  set_signal(0);
 	return (shell->last_status);
 }
