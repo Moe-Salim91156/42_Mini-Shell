@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 22:18:11 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:14:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,14 @@ int	main(void)
 	while (1)
 	{
     set_signal(0);
-		input = readline("rbsh$ ");
-		if (!input)
-			break ;
+    input = readline("rbsh$ ");
+    if (!input)
+      break;
+    if (*input == '\0')
+    {
+      free(input);
+      continue;
+    }
 		if (happy_parser_path(input, &shell))
 		{
       //print_tokens(shell.token_list);

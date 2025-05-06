@@ -16,7 +16,7 @@ static int	process_redir(t_cmd *cmd, char **payload, int *i, int *last)
 {
 	int	ret;
 
-  ret = 0;
+	ret = 0;
 	if (!ft_strcmp(payload[*i], "<") && payload[*i + 1])
 	{
 		ret = redir_in(cmd, payload[++(*i)]);
@@ -106,7 +106,6 @@ int	redir_append(t_cmd *current_payload, char *file)
 
 int	redir_heredoc(t_cmd *current_payload)
 {
-
 	if (current_payload->in_fd != STDIN_FILENO)
 		close(current_payload->in_fd);
 	if (current_payload->has_heredoc && current_payload->heredoc_fd > 0)

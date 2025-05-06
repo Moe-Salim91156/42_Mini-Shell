@@ -48,18 +48,22 @@ void	apply_redirs(t_cmd *current_payload)
 {
 	if (current_payload->in_fd != STDIN_FILENO)
 	{
-		if (current_payload->backup_in_fd == -1 && current_payload->is_fork == 0)
+		if (current_payload->backup_in_fd == -1
+			&& current_payload->is_fork == 0)
 			current_payload->backup_in_fd = dup(STDIN_FILENO);
-		if (current_payload->backup_out_fd == -1 && current_payload->is_fork == 0)
+		if (current_payload->backup_out_fd == -1
+			&& current_payload->is_fork == 0)
 			current_payload->backup_out_fd = dup(STDOUT_FILENO);
 		dup2(current_payload->in_fd, STDIN_FILENO);
 		close(current_payload->in_fd);
 	}
 	if (current_payload->out_fd != STDOUT_FILENO)
 	{
-		if (current_payload->backup_out_fd == -1 && current_payload->is_fork == 0)
+		if (current_payload->backup_out_fd == -1
+			&& current_payload->is_fork == 0)
 			current_payload->backup_out_fd = dup(STDOUT_FILENO);
-		if (current_payload->backup_in_fd == -1 && current_payload->is_fork == 0)
+		if (current_payload->backup_in_fd == -1
+			&& current_payload->is_fork == 0)
 			current_payload->backup_in_fd = dup(STDIN_FILENO);
 		dup2(current_payload->out_fd, STDOUT_FILENO);
 		close(current_payload->out_fd);

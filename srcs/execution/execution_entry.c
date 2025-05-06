@@ -12,24 +12,24 @@
 
 #include "../../includes/minishell.h"
 
-
-static void fork_single_child(t_shell *shell, t_cmd *current_payload, int *status)
+static void	fork_single_child(t_shell *shell, t_cmd *current_payload,
+		int *status)
 {
-	int		pid;
+	int	pid;
 
 	pid = fork();
 	if (pid < 0)
 	{
 		perror("fork");
 		shell->last_status = 1;
-		return;
+		return ;
 	}
 	if (!pid)
-  {
-    set_signal(1);
+	{
+		set_signal(1);
 		manage_child(shell, current_payload);
-  }
-  set_signal(3);
+	}
+	set_signal(3);
 	waitpid(pid, status, 0);
 	if (WIFEXITED(*status))
 		current_payload->exit_status = WEXITSTATUS(*status);
@@ -60,7 +60,7 @@ int	execution_entry(t_shell *shell)
 	}
 	else
 		manage_pipeline(shell, shell->cmd_list->head,
-	shell->cmd_list->payload_count);
+			shell->cmd_list->payload_count);
 	cleanup_all_heredocs(shell);
 	return (shell->last_status);
 }

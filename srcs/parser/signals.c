@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:59:26 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/03 16:34:50 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/06 14:50:46 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,6 @@
  *  ctrl d -> exits the shell | handled by default; i think;
  *
  * */
-
-void    sigint_handler_heredoc(int sig)
-{
-  g_sig = sig;
-  write(STDOUT_FILENO, "\n", 1);
-}
-
-void    setup_signals_heredoc(int sig)
-{
-  if (sig == SIGINT)
-  {
-    signal(SIGINT, sigint_handler_heredoc);
-    signal(SIGQUIT, SIG_IGN);
-  }
-}
-
 void    par_sig_handler(int sig)
 {
     if (sig)
@@ -84,7 +68,7 @@ void    set_signal(int mode)
     }
     else if (mode == 2)
     {
-        signal(SIGINT,setup_signals_heredoc);
+        signal(SIGINT,SIG_IGN);
         signal(SIGQUIT, SIG_IGN);
     }
     else if (mode == 3)

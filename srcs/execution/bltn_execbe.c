@@ -6,12 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 23:27:13 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:08:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 /*
  passed cmdname, executes it as a bltn (i.e without forking)
@@ -57,9 +56,10 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload,int fork_flag)
+
+int	manage_bltn(t_shell *shell, t_cmd *current_payload, int fork_flag)
 {
-	int		err;
+	int	err;
 
 	current_payload->is_fork = fork_flag;
 	err = 0;

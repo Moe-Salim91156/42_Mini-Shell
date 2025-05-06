@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
+
 /*
 	safe closure of pipes.
 	*pass num of cmds not num of pipes.!!
@@ -64,24 +65,24 @@ t_pipe	*lay_pipeline(int cmd_count, t_pipe *tpipe)
 	return (tpipe);
 }
 
-void fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell)
+void	fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell)
 {
 	close_pipes(tpipe->pipes, cmd_count);
 	free(tpipe);
 	shell->last_status = -1;
 	perror("fork");
-	ft_exit(shell,0);
+	ft_exit(shell, 0);
 }
-void pipe_error(t_shell *shell, t_pipe *tpipe)
+void	pipe_error(t_shell *shell, t_pipe *tpipe)
 {
 	close_pipes(tpipe->pipes, tpipe->pipe_index);
 	free(tpipe->pipes);
 	tpipe->pipes = NULL;
 	free(tpipe);
 	shell->last_status = -1;
-	ft_exit(shell,-1);
+	ft_exit(shell, -1);
 }
-void end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe)
+void	end_pipeline(t_shell *shell, int cmd_count, int *pids, t_pipe *pipe)
 {
 	wait_for_children(shell, cmd_count, pids);
 	close_pipes(pipe->pipes, cmd_count);
