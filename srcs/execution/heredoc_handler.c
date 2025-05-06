@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/06 14:47:04 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:18:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,14 @@ void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 	cmd->heredoc_fd = run_heredoc(cmd, shell, envp);
 }
 
-int	process_heredocs(t_cmd *cmd, t_shell *shell, char **envp)
+int	process_heredocs(t_cmd *cmd, t_shell *shell)
 {
 	int	i;
 	int	heredoc_count;
-
+	char	**envp;
+	envp = build_envp(shell);
+	if (!envp)
+		return (-1);
 	heredoc_count = 0;
 	i = 0;
 	while (cmd->payload_array[i])
@@ -81,16 +84,13 @@ int	process_all_heredocs(t_shell *shell)
 	t_cmd	*current;
 	int		total_heredocs;
 	int		result;
-	char	**envp;
 
 	total_heredocs = 0;
-	envp = build_envp(shell);
-	if (!envp)
-		return (-1);
+
 	current = shell->cmd_list->head;
 	while (current)
 	{
-		result = process_heredocs(current, shell, envp);
+		result = process_heredocs(current, shell);
 		if (result < 0)
 			return (-1);
 		total_heredocs += result;
