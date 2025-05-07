@@ -49,46 +49,43 @@ char	**malloc_cmd_argv(t_cmd *payload)
  *
  */
 
-static int fill_cmd_argv(t_cmd *cmd)
+static int	fill_cmd_argv(t_cmd *cmd)
 {
-    int i;
-    int j;
-    char *arg;
+	int		i;
+	int		j;
+	char	*arg;
 
-    i = 0;
-    j = 0;
-    while (cmd->payload_array[i])
-    {
-        if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
-        {
-            arg = ft_strdup(cmd->payload_array[i]);
-            if (arg)
-                cmd->argv[j++] = arg;
-        }
-        i++;
-    }
-    cmd->argv[j] = NULL;
-    return (0);
+	i = 0;
+	j = 0;
+	while (cmd->payload_array[i])
+	{
+		if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
+		{
+			arg = ft_strdup(cmd->payload_array[i]);
+			if (arg)
+				cmd->argv[j++] = arg;
+		}
+		i++;
+	}
+	cmd->argv[j] = NULL;
+	return (0);
 }
 
-char **build_cmd_argv(t_cmd_list *list)
+char	**build_cmd_argv(t_cmd_list *list)
 {
-    t_cmd *payload;
+	t_cmd	*payload;
 
-    payload = list->head;
-    while (payload)
-    {
-        payload->argv = malloc_cmd_argv(payload);
-        if (!payload->argv)
-            return (NULL);
-        fill_cmd_argv(payload);
-        payload = payload->next;
-    }
-    return (list->head->argv);
+	payload = list->head;
+	while (payload)
+	{
+		payload->argv = malloc_cmd_argv(payload);
+		if (!payload->argv)
+			return (NULL);
+		fill_cmd_argv(payload);
+		payload = payload->next;
+	}
+	return (list->head->argv);
 }
-
-
-
 
 /*
 char	**build_payload_argv(t_cmd *payload)

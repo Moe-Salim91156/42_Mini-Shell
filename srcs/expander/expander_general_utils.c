@@ -6,11 +6,29 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:32:32 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/24 15:51:54 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:07:28 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	see_heredoc_if_quoted(t_shell *shell)
+{
+	t_token	*current;
+	t_cmd	*payload;
+
+	current = shell->token_list->head;
+	payload = shell->cmd_list->head;
+	while (current)
+	{
+		if (current->type == HEREDOC_DELIMITER)
+		{
+			payload->heredoc_quoted = current->heredoc_quoted;
+		}
+		current = current->next;
+	}
+	return (payload->heredoc_quoted);
+}
 
 void	gezha_function(t_double_quote_context *context, t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/06 15:20:25 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:03:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	process_all_heredocs(t_shell *shell)
 	int		total_heredocs;
 	int		result;
 
+	see_heredoc_if_quoted(shell);
 	total_heredocs = 0;
 	current = shell->cmd_list->head;
 	while (current)

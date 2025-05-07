@@ -103,4 +103,3 @@ int	redir_append(t_cmd *current_payload, char *file)
 	current_payload->out_fd = fd;
 	return (0);
 }
-

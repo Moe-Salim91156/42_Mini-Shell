@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:40:20 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:09:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	shell->last_status = current_payload->exit_status;
 	ft_exit(shell, shell->last_status); // exit handler
 }
+
 void	wait_for_children(t_shell *shell, int cmd_count, pid_t *pids)
 {
 	int		i;
