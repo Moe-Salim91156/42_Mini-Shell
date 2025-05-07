@@ -10,16 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 /*
- * in parent : 
+ * in parent :
  *  : sigint -> display a new prompt;
  *  : sigquit (\) -> ignore;
  *  : ctrl d -> exits the shell; | handled by default
  *
- * in child : 
+ * in child :
  *  : sigint -> exits the child;
  *  : sigquite -> same behavior in child;
  *  : ctrl d -> exits the shell | handled by default;
@@ -31,50 +30,49 @@
  *  ctrl d -> exits the shell | handled by default; i think;
  *
  * */
-void    par_sig_handler(int sig)
+void	par_sig_handler(int sig)
 {
-    if (sig)
-    {
-        write(STDOUT_FILENO, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-        g_sig = sig;
-    }
+	if (sig)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_sig = sig;
+	}
 }
 
-void    child_sig_c(int sig)
+void	child_sig_c(int sig)
 {
-    g_sig = sig;
-    write(STDOUT_FILENO, "\n", 1);
+	g_sig = sig;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
-void    handle_first(int sig)
+void	handle_first(int sig)
 {
-    g_sig = sig;
+	g_sig = sig;
 }
 
-void    set_signal(int mode)
+void	set_signal(int mode)
 {
-    if (mode == 0)
-    {
-        signal(SIGINT, par_sig_handler);
-        signal(SIGQUIT, SIG_IGN);
-    }
-    if (mode == 1)
-    {
-        signal(SIGINT, child_sig_c);
-        signal(SIGQUIT, SIG_DFL);
-    }
-    else if (mode == 2)
-    {
-        signal(SIGINT,SIG_IGN);
-        signal(SIGQUIT, SIG_IGN);
-    }
-    else if (mode == 3)
-    {
-        signal(SIGINT, handle_first);
-        signal(SIGQUIT, SIG_IGN);
-    }
+	if (mode == 0)
+	{
+		signal(SIGINT, par_sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	if (mode == 1)
+	{
+		signal(SIGINT, child_sig_c);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else if (mode == 2)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == 3)
+	{
+		signal(SIGINT, handle_first);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
-
