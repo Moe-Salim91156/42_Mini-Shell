@@ -1,8 +1,3 @@
--> execution: 
-  : case 1 done;
-  : case 2 in-progress
-
-  -> heredoc
-      : norminette;
-general edge cases : 
-    : general exit handler;
+heredoc:
+  signal handler for sigint done -> left is exit status fix on sig int it gives 1 instead of 130
+  expand heredoc is working , left is norminette;

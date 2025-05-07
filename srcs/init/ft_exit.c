@@ -6,15 +6,14 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:57:43 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:44:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:33:40 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_exit(t_shell *shell,int status)
+void	ft_exit(t_shell *shell, int status)
 {
-
 	if (status)
 		shell->last_status = status;
 	if (shell->cmd_list)

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:17:42 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:35:37 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:08:53 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell)
 	perror("fork");
 	ft_exit(shell, 0);
 }
+
 void	pipe_error(t_shell *shell, t_pipe *tpipe)
 {
 	close_pipes(tpipe->pipes, tpipe->pipe_index);
@@ -82,6 +83,7 @@ void	pipe_error(t_shell *shell, t_pipe *tpipe)
 	shell->last_status = -1;
 	ft_exit(shell, -1);
 }
+
 void	end_pipeline(t_shell *shell, int cmd_count, int *pids, t_pipe *pipe)
 {
 	wait_for_children(shell, cmd_count, pids);

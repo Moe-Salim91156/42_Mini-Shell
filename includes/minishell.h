@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/06 15:18:45 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/07 13:57:18 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ typedef struct s_normal_mode_context
 	char			*temp;
 	char			*new_expanded;
 }					t_normal_mode_context;
+
+typedef struct expand_heredoc_context
+{
+  int start;
+  char  *before;
+  char  *env_name;
+  char  *env_value;
+  char  *after;
+  char  *tmp;
+  char  *res;
+} t_heredoc_context;
 
 typedef struct s_expand_env_context
 {
