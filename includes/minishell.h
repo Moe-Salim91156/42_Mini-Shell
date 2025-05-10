@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
 /*   Updated: 2025/05/07 13:57:18 by msalim           ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +18,13 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-#	 include <stdio.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <signal.h>
+
 extern volatile sig_atomic_t g_sig;
 /*################# structs ############################*/
 typedef enum e_token_type
