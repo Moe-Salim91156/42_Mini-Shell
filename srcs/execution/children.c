@@ -6,13 +6,13 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/06 22:43:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:09:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void child_perror(int exit_status, char **env)
+void	child_perror(int exit_status, char **env)
 {
 	if (env)
 		free_split(env);
@@ -22,7 +22,7 @@ void child_perror(int exit_status, char **env)
 		ft_putendl_fd("rbsh: command not executable.", 2);
 }
 
-int set_exit_status(char *cmd_path)
+int	set_exit_status(char *cmd_path)
 {
 	struct stat sb;
 
@@ -41,7 +41,8 @@ int set_exit_status(char *cmd_path)
 }
 
 /*
-	child process command entry point, structured to ensure termination at end of function.
+	child process command entry point,
+		structured to ensure termination at end of function.
 	- handles redirections
 	- sets argv[0] (cmd_path)
 	- sets cmd exit status //only on redir fail
@@ -59,22 +60,24 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 		exit(1);
 	}
 	current_payload->exit_status = parse_redirs(current_payload,
-		current_payload->payload_array);
+			current_payload->payload_array);
 	if (current_payload->exit_status)
 	{
-		ft_putendl_fd("rbsh: Invalid Redirection!", 2);// need to put this in parentZ!
-		exit(current_payload->exit_status); //exit handler
+		ft_putendl_fd("rbsh: Invalid Redirection!", 2);
+		exit(current_payload->exit_status); // exit handler
 	}
 	apply_redirs(current_payload);
-	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],env, current_payload);
+	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],
+			env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
-	if(!current_payload->exit_status)
-		execve( current_payload->cmd_path, current_payload->argv, env);
+	if (!current_payload->exit_status)
+		execve(current_payload->cmd_path, current_payload->argv, env);
 	free_split(env);
 	restore_io(current_payload);
 	shell->last_status = current_payload->exit_status;
 }
-void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)
+
+void	wait_for_children(t_shell *shell, int cmd_count, pid_t *pids)
 {
 	int		i;
 	pid_t	wpid;
@@ -86,7 +89,7 @@ void	wait_for_children(t_shell *shell, int cmd_count,pid_t *pids)
 	{
 		wpid = waitpid(pids[i], &last_status, 0);
 		if (wpid == -1)
-			break;
+			break ;
 		if (WIFEXITED(last_status))
 			last_status = WEXITSTATUS(last_status);
 		else if (WIFSIGNALED(last_status))

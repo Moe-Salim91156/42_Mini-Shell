@@ -6,12 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/04 18:08:21 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:32:53 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdlib.h>
 
 void	free_tokens(t_token_list *list)
 {
@@ -30,19 +29,19 @@ void	free_tokens(t_token_list *list)
 	free(list);
 }
 
-void free_payload_array(char **payload_array)
+void	free_payload_array(char **payload_array)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!payload_array)
-        return;
-    while (payload_array[i])
-    {
-        free(payload_array[i]);
-        i++;
-    }
-    free(payload_array);
+	i = 0;
+	if (!payload_array)
+		return ;
+	while (payload_array[i])
+	{
+		free(payload_array[i]);
+		i++;
+	}
+	free(payload_array);
 }
 
 void	free_split(char **split)

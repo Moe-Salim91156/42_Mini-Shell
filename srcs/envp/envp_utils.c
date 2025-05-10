@@ -6,10 +6,9 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 22:38:32 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:40:41 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:34:40 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -31,6 +30,7 @@ int	envp_count(t_envp *list)
 	}
 	return (count);
 }
+
 /*
 	returns node with @key from @list
 	NULL if no match.
@@ -90,6 +90,7 @@ int	del_env_node(t_envp *node)
 	}
 	return (1);
 }
+
 /*
 	FINDS NODE WHEN U PASS KEY=VALUE
 */

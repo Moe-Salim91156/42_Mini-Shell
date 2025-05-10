@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:24 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:37:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	invalid_arg(char *str, int *ret)
 	}
 	return (0);
 }
+
 /*
 	assigns value of NULL rather than a literal string.
 */

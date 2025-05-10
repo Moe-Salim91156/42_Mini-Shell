@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:38:09 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:43 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:00:50 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,26 @@ char	*get_env_value_from_envp(char *key, char **envp)
 
 char	*expand_env_segment(char *line, int *i, char **envp)
 {
-	int		start;
-	char	*before;
-	char	*env_name;
-	char	*env_value;
-	char	*after;
-	char	*tmp;
-	char	*res;
+	t_heredoc_context	h_ctx;
 
-	before = ft_substr(line, 0, *i);
+	h_ctx.before = ft_substr(line, 0, *i);
 	(*i)++;
-	start = *i;
+	h_ctx.start = *i;
 	while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
 		(*i)++;
-	env_name = ft_substr(line, start, *i - start);
-	env_value = get_env_value_from_envp(env_name, envp);
-	if (!env_value)
-		env_value = ft_strdup("");
-	after = ft_strdup(&line[*i]);
-	tmp = ft_strjoin(before, env_value);
-	res = ft_strjoin(tmp, after);
-	free(before);
-	free(env_name);
-	free(env_value);
-	free(after);
-	free(tmp);
-	return (res);
+	h_ctx.env_name = ft_substr(line, h_ctx.start, *i - h_ctx.start);
+	h_ctx.env_value = get_env_value_from_envp(h_ctx.env_name, envp);
+	if (!h_ctx.env_value)
+		h_ctx.env_value = ft_strdup("");
+	h_ctx.after = ft_strdup(&line[*i]);
+	h_ctx.tmp = ft_strjoin(h_ctx.before, h_ctx.env_value);
+	h_ctx.res = ft_strjoin(h_ctx.tmp, h_ctx.after);
+	free(h_ctx.before);
+	free(h_ctx.env_name);
+	free(h_ctx.env_value);
+	free(h_ctx.after);
+	free(h_ctx.tmp);
+	return (h_ctx.res);
 }
 
 char	*expand_heredoc_line(char *line, char **envp)

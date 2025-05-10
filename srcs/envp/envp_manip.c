@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:40:43 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:34:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,14 @@ char	**build_envp(t_shell *shell)
 		else
 			envp[i] = ft_strdup(traverse->key);
 		if (!envp[i])
-			return (NULL);//exit handler
+			return (NULL); // exit handler
 		traverse = traverse->next;
 		i++;
 	}
 	envp[i] = NULL;
 	return (envp);
 }
+
 /*
 	frees the env list. should always be called at
 	failure/exit to ensure gracefull termination.
@@ -131,6 +132,7 @@ int	append_env_node(t_envp *list, char *str)
 	}
 	return (0);
 }
+
 /*
 	extracts key and value from @str, returns a new node containing them.
 	it works on the assumption that no existing node with matching key
