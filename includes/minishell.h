@@ -218,8 +218,8 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# Execution #################*/
 int					execution_entry(t_shell *shell);
 					/* HEREDOC HANDLING */
-int	run_heredoc(t_cmd *p, t_shell *s, char **envp);
-void heredoc_read_loop(t_cmd *p, char **envp, int write_fd);
+int					run_heredoc(t_cmd *p, t_shell *s, char **envp);
+void				heredoc_read_loop(t_cmd *p, char **envp, int write_fd);
 int					process_heredocs(t_cmd *cmd, t_shell *shell);
 int					process_all_heredocs(t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
