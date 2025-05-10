@@ -6,8 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/07 13:57:18 by msalim           ###   ########.fr       */
-
+/*   Updated: 2025/05/10 17:31:17 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +78,13 @@ typedef struct s_normal_mode_context
 
 typedef struct expand_heredoc_context
 {
-  int start;
-  char  *before;
-  char  *env_name;
-  char  *env_value;
-  char  *after;
-  char  *tmp;
-  char  *res;
+	int		start;
+	char	*before;
+	char	*env_name;
+	char	*env_value;
+	char	*after;
+	char	*tmp;
+	char	*res;
 } t_heredoc_context;
 
 typedef struct s_expand_env_context
@@ -104,13 +103,12 @@ typedef struct s_cmd
 {
 	char			**payload_array;
 	t_token_type	*type;
-	char **argv; // execve compaitable array
+	char			**argv;
 	char			*cmd_path;
 	int				heredoc_fd;
-	// a way to communicate or call it when parsing redirection in;
-	int				has_heredoc; // flag
+	int				has_heredoc;
 	char			*heredoc_delimiter;
-	int				heredoc_quoted; // for expansion or not
+	int				heredoc_quoted;
 	int				here_doc_counts;
 	int				exit_status;
 	int				backup_in_fd;
@@ -264,5 +262,5 @@ void				print_tokens(t_token_list *list);
 void				debug_build_cmd_argv(t_cmd_list *list);
 void				print_argv(t_cmd *payload);
 /*################# signal  #################*/
-void set_signal(int mode);
+void				set_signal(int mode);
 #endif
