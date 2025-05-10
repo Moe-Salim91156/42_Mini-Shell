@@ -6,11 +6,12 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:17:42 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/06 22:44:56 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/10 20:03:15 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdio.h>
 
 /*
 	safe closure of pipes.

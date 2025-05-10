@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/10 17:46:42 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/10 19:49:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 	}
 }
 
-void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp)
+void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cmd *head)
 {
 	cmd->has_heredoc = 1;
 	if (cmd->payload_array[*i + 1] && cmd->type[*i + 1] == HEREDOC_DELIMITER)
 		cmd->heredoc_delimiter = ft_strdup(cmd->payload_array[*i + 1]);
 	if (cmd->heredoc_fd != -1)
 		close(cmd->heredoc_fd);
-	cmd->heredoc_fd = run_heredoc(cmd, shell, envp);
+	cmd->heredoc_fd = run_heredoc(cmd, shell, envp, head);
 }
 
-static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp)
+static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cmd *head)
 {
-	process_heredoc_helper(cmd, shell, i, envp);
+	process_heredoc_helper(cmd, shell, i, envp, head);
 	if (cmd->heredoc_fd < 0)
 	{
 		free_split(envp);
@@ -60,7 +60,7 @@ static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 	return (0);
 }
 
-int	process_heredocs(t_cmd *cmd, t_shell *shell)
+int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
 {
 	int		i;
 	int		heredoc_count;
@@ -75,7 +75,7 @@ int	process_heredocs(t_cmd *cmd, t_shell *shell)
 	{
 		if (!ft_strcmp(cmd->payload_array[i], "<<"))
 		{
-			if (handle_heredoc(cmd, shell, &i, envp) < 0)
+			if (handle_heredoc(cmd, shell, &i, envp, head) < 0)
 				return (-1);
 			heredoc_count++;
 			i += 2;
@@ -98,7 +98,7 @@ int	process_all_heredocs(t_shell *shell)
 	current = shell->cmd_list->head;
 	while (current)
 	{
-		result = process_heredocs(current, shell);
+		result = process_heredocs(current, shell, shell->cmd_list->head);
 		if (result < 0)
 			return (-1);
 		total_heredocs += result;

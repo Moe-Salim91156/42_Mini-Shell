@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:14:53 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/10 18:04:42 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/10 20:00:45 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
 	return (fd[0]);
 }
 
-int	run_heredoc(t_cmd *p, t_shell *s, char **envp)
+int	run_heredoc(t_cmd *p, t_shell *s, char **envp, t_cmd *head)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -58,6 +58,12 @@ int	run_heredoc(t_cmd *p, t_shell *s, char **envp)
 	{
 		handle_child_heredoc(p, s, envp, fd);
 		free(p->heredoc_delimiter);
+		while (head != p)
+		{
+			if (head->heredoc_fd > 0)
+				close(head->heredoc_fd);
+			head = head->next;
+		}
 		ft_exit(s, 130);
 	}
 	else if (pid > 0)

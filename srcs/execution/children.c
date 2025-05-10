@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/10 16:26:59 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/10 20:50:44 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	if (current_payload->exit_status)
 		return (free_split(env));
 	apply_redirs(current_payload);
+	cleanup_all_heredocs(shell);//check if needed!
 	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],
 			env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
