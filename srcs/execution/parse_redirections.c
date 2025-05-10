@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/07 13:31:59 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/10 16:12:22 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	parse_redirs(t_cmd *cmd, char **payload)
 	{
 		ret = process_redir(cmd, payload, &i, &last);
 		if (ret == -1)
-			return (-1);
+			return (1);
 		i++;
 	}
 	if (last == 2 && cmd->heredoc_fd != -1)
@@ -66,7 +66,7 @@ int	redir_in(t_cmd *current_payload, char *file)
 	if (fd == -1)
 	{
 		current_payload->exit_status = 1;
-		return (1);
+		return (-1);
 	}
 	current_payload->in_fd = fd;
 	return (0);
@@ -82,7 +82,7 @@ int	redir_out(t_cmd *current_payload, char *file)
 	if (fd == -1)
 	{
 		current_payload->exit_status = 1;
-		return (1);
+		return (-1);
 	}
 	current_payload->out_fd = fd;
 	return (0);
@@ -98,7 +98,7 @@ int	redir_append(t_cmd *current_payload, char *file)
 	if (fd == -1)
 	{
 		current_payload->exit_status = 1;
-		return (1);
+		return (-1);
 	}
 	current_payload->out_fd = fd;
 	return (0);

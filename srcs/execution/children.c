@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/10 13:58:26 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:26:59 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	child_perror(int exit_status, char **env)
 		ft_putendl_fd("rbsh: command not found.", 2);
 	else if (exit_status == 126)
 		ft_putendl_fd("rbsh: command not executable.", 2);
+	else if (exit_status == 1)
+		ft_putendl_fd("rbsh: no such file or directory!", 2);
 }
 
 int	set_exit_status(char *cmd_path)

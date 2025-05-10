@@ -4,6 +4,6 @@ Moe:
     expand heredoc is working , left is norminette;
   yousef:
 1- error handling in children.c
-2- ensure redir error messages are written from parent only!
-3- ensure clean error handling in general
+2- esnure clean error handling in env
+3- ensure clean error handling in execution
 
