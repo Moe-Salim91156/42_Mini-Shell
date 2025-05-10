@@ -6,20 +6,19 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:59:26 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/03 16:34:50 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/06 16:26:17 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 /*
- * in parent : 
+ * in parent :
  *  : sigint -> display a new prompt;
  *  : sigquit (\) -> ignore;
  *  : ctrl d -> exits the shell; | handled by default
  *
- * in child : 
+ * in child :
  *  : sigint -> exits the child;
  *  : sigquite -> same behavior in child;
  *  : ctrl d -> exits the shell | handled by default;
@@ -31,66 +30,49 @@
  *  ctrl d -> exits the shell | handled by default; i think;
  *
  * */
-
-void    sigint_handler_heredoc(int sig)
+void	par_sig_handler(int sig)
 {
-  g_sig = sig;
-  write(STDOUT_FILENO, "\n", 1);
+	if (sig)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_sig = sig;
+	}
 }
 
-void    setup_signals_heredoc(int sig)
+void	child_sig_c(int sig)
 {
-  if (sig == SIGINT)
-  {
-    signal(SIGINT, sigint_handler_heredoc);
-    signal(SIGQUIT, SIG_IGN);
-  }
+	g_sig = sig;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
-void    par_sig_handler(int sig)
+void	handle_first(int sig)
 {
-    if (sig)
-    {
-        write(STDOUT_FILENO, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-        g_sig = sig;
-    }
+	g_sig = sig;
 }
 
-void    child_sig_c(int sig)
+void	set_signal(int mode)
 {
-    g_sig = sig;
-    write(STDOUT_FILENO, "\n", 1);
+	if (mode == 0)
+	{
+		signal(SIGINT, par_sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	if (mode == 1)
+	{
+		signal(SIGINT, child_sig_c);
+		signal(SIGQUIT, SIG_DFL);
+	}
+	else if (mode == 2)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == 3)
+	{
+		signal(SIGINT, handle_first);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
-
-void    handle_first(int sig)
-{
-    g_sig = sig;
-}
-
-void    set_signal(int mode)
-{
-    if (mode == 0)
-    {
-        signal(SIGINT, par_sig_handler);
-        signal(SIGQUIT, SIG_IGN);
-    }
-    if (mode == 1)
-    {
-        signal(SIGINT, child_sig_c);
-        signal(SIGQUIT, SIG_DFL);
-    }
-    else if (mode == 2)
-    {
-        signal(SIGINT,setup_signals_heredoc);
-        signal(SIGQUIT, SIG_IGN);
-    }
-    else if (mode == 3)
-    {
-        signal(SIGINT, handle_first);
-        signal(SIGQUIT, SIG_IGN);
-    }
-}
-

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:01:36 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:48 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:31:59 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	process_redir(t_cmd *cmd, char **payload, int *i, int *last)
 {
 	int	ret;
 
-  ret = 0;
+	ret = 0;
 	if (!ft_strcmp(payload[*i], "<") && payload[*i + 1])
 	{
 		ret = redir_in(cmd, payload[++(*i)]);
@@ -101,23 +101,5 @@ int	redir_append(t_cmd *current_payload, char *file)
 		return (1);
 	}
 	current_payload->out_fd = fd;
-	return (0);
-}
-
-int	redir_heredoc(t_cmd *current_payload)
-{
-
-	if (current_payload->in_fd != STDIN_FILENO)
-		close(current_payload->in_fd);
-	if (current_payload->has_heredoc && current_payload->heredoc_fd > 0)
-	{
-		current_payload->in_fd = current_payload->heredoc_fd;
-		return (0);
-	}
-	if (current_payload->has_heredoc)
-	{
-		current_payload->exit_status = 1;
-		return (1);
-	}
 	return (0);
 }

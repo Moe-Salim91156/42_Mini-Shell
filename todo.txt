@@ -1,8 +1,9 @@
--> execution: 
-  : case 1 done;
-  : case 2 in-progress
+Moe:
+  heredoc:
+    signal handler for sigint done -> left is exit status fix on sig int it gives 1 instead of 130
+    expand heredoc is working , left is norminette;
+  yousef:
+1- error handling in children.c
+2- ensure redir error messages are written from parent only!
+3- ensure clean error handling in general
 
-  -> heredoc
-      : norminette;
-general edge cases : 
-    : general exit handler;

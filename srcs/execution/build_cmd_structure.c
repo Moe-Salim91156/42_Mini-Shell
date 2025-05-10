@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:28 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:42:45 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,37 +48,46 @@ char	**malloc_cmd_argv(t_cmd *payload)
  *
  *
  */
+
+static int	fill_cmd_argv(t_cmd *cmd)
+{
+	int		i;
+	int		j;
+	char	*arg;
+
+	i = 0;
+	j = 0;
+	while (cmd->payload_array[i])
+	{
+		if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
+		{
+			arg = ft_strdup(cmd->payload_array[i]);
+			if (arg)
+				cmd->argv[j++] = arg;
+		}
+		i++;
+	}
+	cmd->argv[j] = NULL;
+	return (0);
+}
+
 char	**build_cmd_argv(t_cmd_list *list)
 {
 	t_cmd	*payload;
-	char	*arg;
-	int		i;
-	int		j;
 
 	payload = list->head;
 	while (payload)
 	{
-		i = 0;
-		j = 0;
 		payload->argv = malloc_cmd_argv(payload);
 		if (!payload->argv)
 			return (NULL);
-		while (payload->payload_array[i])
-		{
-			if (payload->type[i] == COMMAND || payload->type[i] == ARGS)
-			{
-				arg = ft_strdup(payload->payload_array[i]);
-				if (arg)// removed arg[0] != '\0' for the ls "" case,;
-					payload->argv[j++] = arg;
-			}
-			i++;
-		}
-		payload->argv[j] = NULL;
+		fill_cmd_argv(payload);
 		payload = payload->next;
 	}
 	return (list->head->argv);
 }
 
+/*
 char	**build_payload_argv(t_cmd *payload)
 {
 	int	i;
@@ -110,4 +119,4 @@ char	**build_payload_argv(t_cmd *payload)
 	}
 	payload->argv[j] = NULL;
 	return (payload->argv);
-}
+}*/

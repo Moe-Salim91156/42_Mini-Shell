@@ -6,7 +6,8 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/05 23:27:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:57:18 by msalim           ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +18,13 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-#	 include <stdio.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <signal.h>
+
 extern volatile sig_atomic_t g_sig;
 /*################# structs ############################*/
 typedef enum e_token_type
@@ -73,6 +76,17 @@ typedef struct s_normal_mode_context
 	char			*temp;
 	char			*new_expanded;
 }					t_normal_mode_context;
+
+typedef struct expand_heredoc_context
+{
+  int start;
+  char  *before;
+  char  *env_name;
+  char  *env_value;
+  char  *after;
+  char  *tmp;
+  char  *res;
+} t_heredoc_context;
 
 typedef struct s_expand_env_context
 {
@@ -204,6 +218,8 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# Execution #################*/
 int					execution_entry(t_shell *shell);
 					/* HEREDOC HANDLING */
+int					run_heredoc(t_cmd *p, t_shell *s, char **envp);
+void				heredoc_read_loop(t_cmd *p, char **envp, int write_fd);
 int					process_heredocs(t_cmd *cmd, t_shell *shell);
 int					process_all_heredocs(t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
