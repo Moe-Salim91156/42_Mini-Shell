@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:14:53 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/11 17:02:01 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 18:16:26 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 ** Closes any open heredoc file descriptors
 */
 
+
 static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
 	close(fd[0]);
 	heredoc_read_loop(p, envp, fd[1]);
 	close(fd[1]);
