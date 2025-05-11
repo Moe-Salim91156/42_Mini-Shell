@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/11 12:37:18 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/11 17:54:20 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 		in = readline("> ");
 		if (!in || !ft_strcmp(in, p->heredoc_delimiter))
 		{
-			free(in);
+			if (in)
+				free(in);
 			break ;
 		}
 		if (!p->heredoc_quoted)
 			in = expand_heredoc_line(in, envp);
+		if (!in)
+			break ;
 		write(write_fd, in, ft_strlen(in));
 		write(write_fd, "\n", 1);
 		free(in);

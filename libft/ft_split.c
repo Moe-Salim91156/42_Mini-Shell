@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:56:26 by msalim            #+#    #+#             */
-/*   Updated: 2024/09/02 19:47:27 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 17:26:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ static int	ft_strlen1(char const *s, char c)
 
 static char	**ft_free(char **strs, int r)
 {
+	if (!strs)
+		return (NULL);
 	while (r >= 0)
 	{
-		free(strs[r]);
+		if (strs[r])
+			free(strs[r]);
 		r--;
 	}
 	free(strs);

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/06 16:47:48 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 17:29:52 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,14 @@ int	count_payloads(t_cmd_list *list)
 
 void	free_and_loop(t_shell *shell, char *input)
 {
-	free(input);
-	free_tokens(shell->token_list);
-	free_command_list(shell->cmd_list);
+	if (input)
+		free(input);
+	input = NULL;
+	if (shell->token_list)
+		free_tokens(shell->token_list);
+	shell->token_list = NULL;
+	if (shell->cmd_list)
+		free_command_list(shell->cmd_list);
 	shell->token_list = NULL;
 	shell->token_list = init_list();
 	shell->cmd_list = init_cmd_list();
@@ -49,7 +54,7 @@ int	happy_parser_path(char *input, t_shell *shell)
 		return (0);
 	if (!check_unexpected_token(shell, shell->token_list))
 		return (0);
-	return (1); // success
+	return (1);
 }
 
 int	main(void)
@@ -71,18 +76,15 @@ int	main(void)
 		}
 		if (happy_parser_path(input, &shell))
 		{
-			// print_tokens(shell.token_list);
 			expander_main(&shell);
 			build_payloads(shell.token_list, shell.cmd_list);
-			/* see_heredoc_if_quoted(&shell); */
 			lexer_cmd_list(shell.cmd_list);
 			build_cmd_argv(shell.cmd_list);
-			// debug_build_cmd_argv(shell.cmd_list);
 			shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
 			execution_entry(&shell);
 		}
 		free_and_loop(&shell, input);
 	}
-	// eit_handler
+	ft_exit(&shell, 0);
 	return (0);
 }
