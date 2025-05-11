@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/10 20:45:31 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:31:59 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count)
 			fork_error(pipe, cmd_count, shell);
 		if (!pids[pipe->pipe_index])
 			manage_fork(current, pipe, cmd_count, shell);
-		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
+		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);//this is behind the sigint
 		restore_io(current);
 		current = current->next;
 		pipe->pipe_index++;
