@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/06 16:31:47 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 13:16:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void	config_pipe_fds(t_cmd *cmd, int **pipes, int pipe_index,
 	{
 		cmd->in_fd = pipes[pipe_index - 1][0];
 	}
-	else if (cmd->has_heredoc && cmd->heredoc_fd > 0)
-		cmd->in_fd = cmd->heredoc_fd; // heredoc first cmd case
 	if (pipe_index < cmd_count - 1)
 	{
 		cmd->out_fd = pipes[pipe_index][1];
@@ -58,7 +56,10 @@ void	manage_fork(t_cmd *current, t_pipe *pipe, int cmd_count, t_shell *shell)
 		shell->last_status = manage_bltn(shell, current, 1);
 	else
 		manage_child(shell, current);
-	ft_exit(shell, 0);
+	close_pipes(pipe->pipes, cmd_count);
+	free(pipe);
+	cleanup_all_heredocs(shell);//check if needed later
+	ft_exit(shell, current->exit_status);
 }
 
 static void	parent_close_pipes(int **pipes, int pipe_index, int cmd_count)
@@ -95,7 +96,7 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count)
 			fork_error(pipe, cmd_count, shell);
 		if (!pids[pipe->pipe_index])
 			manage_fork(current, pipe, cmd_count, shell);
-		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
+		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);//this is behind the sigint
 		restore_io(current);
 		current = current->next;
 		pipe->pipe_index++;

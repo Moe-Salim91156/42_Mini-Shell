@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/07 13:57:18 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/10 19:49:53 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-#	 include <stdio.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <signal.h>
+
 extern volatile sig_atomic_t g_sig;
 /*################# structs ############################*/
 typedef enum e_token_type
@@ -76,13 +78,13 @@ typedef struct s_normal_mode_context
 
 typedef struct expand_heredoc_context
 {
-  int start;
-  char  *before;
-  char  *env_name;
-  char  *env_value;
-  char  *after;
-  char  *tmp;
-  char  *res;
+	int		start;
+	char	*before;
+	char	*env_name;
+	char	*env_value;
+	char	*after;
+	char	*tmp;
+	char	*res;
 } t_heredoc_context;
 
 typedef struct s_expand_env_context
@@ -101,13 +103,12 @@ typedef struct s_cmd
 {
 	char			**payload_array;
 	t_token_type	*type;
-	char **argv; // execve compaitable array
+	char			**argv;
 	char			*cmd_path;
 	int				heredoc_fd;
-	// a way to communicate or call it when parsing redirection in;
-	int				has_heredoc; // flag
+	int				has_heredoc;
 	char			*heredoc_delimiter;
-	int				heredoc_quoted; // for expansion or not
+	int				heredoc_quoted;
 	int				here_doc_counts;
 	int				exit_status;
 	int				backup_in_fd;
@@ -215,9 +216,9 @@ int					bltn_exit(char **argv, t_shell *shell);
 /*################# Execution #################*/
 int					execution_entry(t_shell *shell);
 					/* HEREDOC HANDLING */
-int	run_heredoc(t_cmd *p, t_shell *s, char **envp);
-void heredoc_read_loop(t_cmd *p, char **envp, int write_fd);
-int					process_heredocs(t_cmd *cmd, t_shell *shell);
+int					run_heredoc(t_cmd *p, t_shell *s, char **envp, t_cmd *head);
+void				heredoc_read_loop(t_cmd *p, char **envp, int write_fd);
+int					process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head);
 int					process_all_heredocs(t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
 void				cleanup_heredoc(t_cmd *cmd);
@@ -261,5 +262,5 @@ void				print_tokens(t_token_list *list);
 void				debug_build_cmd_argv(t_cmd_list *list);
 void				print_argv(t_cmd *payload);
 /*################# signal  #################*/
-void set_signal(int mode);
+void				set_signal(int mode);
 #endif

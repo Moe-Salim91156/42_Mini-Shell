@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/07 13:42:45 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/10 16:43:04 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	**malloc_cmd_argv(t_cmd *payload)
 
 	args_num = count_args(payload);
 	argv = malloc(sizeof(char *) * (args_num + 1));
+	if (!argv)
+		return (NULL);
 	argv[args_num] = NULL;
 	return (argv);
 }

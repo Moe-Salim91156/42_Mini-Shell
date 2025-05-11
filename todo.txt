@@ -1,3 +1,18 @@
-heredoc:
-  signal handler for sigint done -> left is exit status fix on sig int it gives 1 instead of 130
-  expand heredoc is working , left is norminette;
+Moe:
+  heredoc:
+    signal handler for sigint done -> left is exit status fix on sig int it gives 1 instead of 130
+    expand heredoc is working , left is norminette;
+  yousef:
+2- ensure clean error handling in execution
+3- esnure clean error handling in env
+
+general:
+  1-ensure everything confroms to structure
+  2-cleanup exec in general
+  2-build cmd argv cleanup
+  3-double check signals
+  4-main cleanup
+  4-norminette
+
+edgecases:
+<<1 | <<2 (no cmd heredoc)
