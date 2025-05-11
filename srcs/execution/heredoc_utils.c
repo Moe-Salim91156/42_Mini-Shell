@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:14:53 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/06 14:51:34 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 12:42:09 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
 	heredoc_read_loop(p, envp, fd[1]);
 	close(fd[1]);
 	s->last_status = 130;
-	exit(130);
+	free_split(envp);
 }
 
 static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
@@ -46,7 +46,7 @@ static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
 	return (fd[0]);
 }
 
-int	run_heredoc(t_cmd *p, t_shell *s, char **envp)
+int	run_heredoc(t_cmd *p, t_shell *s, char **envp, t_cmd *head)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -55,9 +55,21 @@ int	run_heredoc(t_cmd *p, t_shell *s, char **envp)
 		return (-1);
 	pid = fork();
 	if (pid == 0)
+	{
 		handle_child_heredoc(p, s, envp, fd);
-	else if (pid > 0)
-		return (handle_parent_heredoc(pid, fd, s));
+		free(p->heredoc_delimiter);
+		while (head != p)
+		{
+			if (head->heredoc_fd > 0)
+				close(head->heredoc_fd);
+			head = head->next;
+		}
+		ft_exit(s, 130);
+	}
+	if (p->heredoc_delimiter)
+		free(p->heredoc_delimiter);
+	p->heredoc_delimiter = NULL;
+	return (handle_parent_heredoc(pid, fd, s));
 	close(fd[0]);
 	close(fd[1]);
 	return (-1);

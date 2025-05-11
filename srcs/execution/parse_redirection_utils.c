@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:36:24 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/07 13:31:57 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/10 20:24:56 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,26 @@ void	apply_redirs(t_cmd *current_payload)
 {
 	if (current_payload->in_fd != STDIN_FILENO)
 	{
-		if (current_payload->backup_in_fd == -1
-			&& current_payload->is_fork == 0)
-			current_payload->backup_in_fd = dup(STDIN_FILENO);
-		if (current_payload->backup_out_fd == -1
-			&& current_payload->is_fork == 0)
-			current_payload->backup_out_fd = dup(STDOUT_FILENO);
+		if (!current_payload->is_fork)
+		{
+			if (current_payload->backup_in_fd < 0)
+				current_payload->backup_in_fd = dup(STDIN_FILENO);
+			if (current_payload->backup_out_fd < 0)
+				current_payload->backup_out_fd = dup(STDOUT_FILENO);
+		}
 		dup2(current_payload->in_fd, STDIN_FILENO);
 		close(current_payload->in_fd);
 	}
 	if (current_payload->out_fd != STDOUT_FILENO)
 	{
-		if (current_payload->backup_out_fd == -1
-			&& current_payload->is_fork == 0)
-			current_payload->backup_out_fd = dup(STDOUT_FILENO);
-		if (current_payload->backup_in_fd == -1
-			&& current_payload->is_fork == 0)
-			current_payload->backup_in_fd = dup(STDIN_FILENO);
+		if (!current_payload->is_fork)
+		{
+			if (current_payload->backup_in_fd < 0)
+				current_payload->backup_in_fd = dup(STDIN_FILENO);
+			if (current_payload->backup_out_fd < 0)
+				current_payload->backup_out_fd = dup(STDOUT_FILENO);
+		}
 		dup2(current_payload->out_fd, STDOUT_FILENO);
 		close(current_payload->out_fd);
 	}
-}
-
-int	redir_heredoc(t_cmd *current_payload)
-{
-	if (current_payload->in_fd != STDIN_FILENO)
-		close(current_payload->in_fd);
-	if (current_payload->has_heredoc && current_payload->heredoc_fd > 0)
-	{
-		current_payload->in_fd = current_payload->heredoc_fd;
-		return (0);
-	}
-	if (current_payload->has_heredoc)
-	{
-		current_payload->exit_status = 1;
-		return (1);
-	}
-	return (0);
 }

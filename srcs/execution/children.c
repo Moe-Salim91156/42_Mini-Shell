@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/10 13:58:26 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/11 17:12:38 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	child_perror(int exit_status, char **env)
 		ft_putendl_fd("rbsh: command not found.", 2);
 	else if (exit_status == 126)
 		ft_putendl_fd("rbsh: command not executable.", 2);
+	else if (exit_status == 1)
+		ft_putendl_fd("rbsh: No such file or directory!", 2);
 }
 
 int	set_exit_status(char *cmd_path)
@@ -64,6 +66,7 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	if (current_payload->exit_status)
 		return (free_split(env));
 	apply_redirs(current_payload);
+	cleanup_all_heredocs(shell);//check if needed!
 	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],
 			env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
@@ -84,7 +87,7 @@ void	wait_for_children(t_shell *shell, int cmd_count, pid_t *pids)
 	last_status = 0;
 	while (i < cmd_count)
 	{
-		wpid = waitpid(pids[i], &last_status, 0);
+		wpid = waitpid(-1, &last_status, 0);
 		if (wpid == -1)
 			break ;
 		if (WIFEXITED(last_status))
@@ -93,7 +96,7 @@ void	wait_for_children(t_shell *shell, int cmd_count, pid_t *pids)
 			last_status = WTERMSIG(last_status) + 128;
 		if (last_status)
 			child_perror(last_status, NULL);
-		if (i == cmd_count - 1)
+		if (wpid == pids[cmd_count - 1])
 			shell->last_status = last_status;
 		i++;
 	}
