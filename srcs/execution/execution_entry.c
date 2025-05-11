@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/10 16:15:47 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/11 16:59:16 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ int	execution_entry(t_shell *shell)
 	heredoc_result = process_all_heredocs(shell);
 	if (heredoc_result == -1)
 	{
+    if (g_sig == SIGINT)
+    {
+      shell->last_status = 130;
+      set_signal(0);
+      return (shell->last_status);
+    }
 		shell->last_status = -1;
 		return (shell->last_status);
 	}
