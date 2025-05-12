@@ -1,14 +1,8 @@
-  heredoc:
-  sigint-->clean exit
-  yousef:
-2- ensure clean error handling in execution
-3- esnure clean error handling in env
-4- protect frees(pipeline.c onward) malloc
-general:
- -1-handle payload of only operators.
-    -1.1--2-. | .. | . | ..
-  0-ctrl c changes $?
-  1-build cmd argv cleanup
-  2-double check signals
-  3-main cleanup
-  4-norminette
+####TODO###
+  general:
+      3-double check signals
+        a-ctrl c changes $?
+        b- sigint heredoc
+      4-main cleanup
+      5-null checks
+      6-norminette

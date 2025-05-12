@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:23:31 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/22 15:41:45 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 13:20:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	substr_and_add(char *input, int start, int i, t_token_list *tokens)
 
 	if (i > start)
 	{
-		result = ft_substr(input, start, i - start);
+		result = ft_substr(input, start, i - start);//null check
 		add_token(tokens, result);
 		free(result);
 	}

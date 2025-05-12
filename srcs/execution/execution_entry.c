@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/11 16:25:23 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:40:24 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,7 @@ int	execution_entry(t_shell *shell)
 	current_payload = shell->cmd_list->head;
 	heredoc_result = process_all_heredocs(shell);
 	if (heredoc_result == -1)
-	{
-    if (g_sig == SIGINT)
-    {
-      shell->last_status = 130;
-      set_signal(0);
-      return (shell->last_status);
-    }
-		shell->last_status = -1;
 		return (shell->last_status);
-	}
 	if (shell->cmd_list->payload_count == 1)
 	{
 		if (is_bltn(current_payload->argv))

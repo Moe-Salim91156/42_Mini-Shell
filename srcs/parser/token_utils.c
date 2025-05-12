@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:01:06 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/24 15:29:53 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 13:20:45 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	add_last_token(char *input, int start, int i, t_token_list *tokens)
 
 	if (start < i)
 	{
-		result = ft_substr(input, start, i - start);
+		result = ft_substr(input, start, i - start);//null check
 		add_token(tokens, result);
 		free(result);
 	}

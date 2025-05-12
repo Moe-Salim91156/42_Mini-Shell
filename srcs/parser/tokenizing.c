@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/11 16:08:55 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 13:20:52 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 	}
 	else
 	{
-		result = ft_substr(input, *i, 1);
+		result = ft_substr(input, *i, 1);//null check
 		add_token(tokens, result);
 		free(result);
 		(*i)++;
