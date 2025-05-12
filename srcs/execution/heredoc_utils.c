@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:14:53 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/11 18:16:26 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 13:14:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
 	heredoc_read_loop(p, envp, fd[1]);
 	close(fd[1]);
 	s->last_status = 130;
-  ft_exit(s,130);
+	ft_exit(s,130);
 }
 
 static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
@@ -37,9 +37,9 @@ static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
 	set_signal(0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
-    s->last_status= 130;
+		s->last_status= 130;
 		close(fd[0]);
-    close(fd[1]);
+		close(fd[1]);
 		g_sig = SIGINT;
 		return (-1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_vars.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 13:27:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/11 16:27:03 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 13:18:39 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,10 @@ char	*expand_env_var_concat(t_expand_env_context *ctx, char *value,
 {
 	char	*temp;
 
+	//validate ctx 
 	if (value[*next_index] == '$')
 	{
-		temp = ft_strjoin(ctx->env_value, "$");
+		temp = ft_strjoin(ctx->env_value, "$");//null check
 		free(ctx->env_value);
 		ctx->env_value = temp;
 		(*next_index)++;

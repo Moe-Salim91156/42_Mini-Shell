@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/07 13:32:53 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 13:20:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_tokens(t_token_list *list)
 	t_token	*current;
 	t_token	*temp;
 
+	if (!list)
+		return ;
 	current = list->head;
 	while (current)
 	{
@@ -64,12 +66,17 @@ void	free_command_list(t_cmd_list *cmd_list)
 	t_cmd	*current;
 	t_cmd	*temp;
 
+	if (!cmd_list)
+		return ;
 	current = cmd_list->head;
 	while (current)
 	{
-		free_split(current->payload_array);
-		free_split(current->argv);
-		free(current->type);
+		if (current->payload_array)
+			free_split(current->payload_array);
+		if (current->argv)
+			free_split(current->argv);
+		if (current->type)
+			free(current->type);
 		temp = current->next;
 		free(current);
 		current = temp;
