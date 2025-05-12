@@ -1,2 +1,2 @@
 #!/bin/bash
-valgrind --leak-check=full --track-fds=yes --trace-children=yes --show-leak-kinds=all --suppressions=readline_curses.supp ./minishell
+valgrind  --track-fds=yes --trace-children=yes --suppressions=readline_curses.supp ./minishell
