@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/12 17:50:56 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +18,36 @@
 --this whole FILE is entierly vibe coded--
 	needs a proper refactor.
 */
-void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
+void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd,t_shell *shell)
 {
 	char	*in;
+  int infd;
 
 	while (1)
 	{
+    infd = dup(STDIN_FILENO);
+    if (g_sig == SIGINT)
+    {
+      printf("before readline\n");
+      close(write_fd);
+      close(infd);
+      g_sig = 0;
+      ft_exit(shell,130);
+    }
 		in = readline("> ");
+    if (g_sig == SIGINT)
+    {
+      printf("before readline\n");
+      close(write_fd);
+      g_sig = 0;
+      dup2(infd, STDIN_FILENO);
+      close(infd);
+      ft_exit(shell,130);
+    }
 		if (!in || !ft_strcmp(in, p->heredoc_delimiter))
 		{
-			if (in)
-				free(in);
+      close(infd);
+			free(in);
 			break ;
 		}
 		if (!p->heredoc_quoted)
@@ -39,6 +57,8 @@ void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 		write(write_fd, in, ft_strlen(in));
 		write(write_fd, "\n", 1);
 		free(in);
+    close(infd);
+    g_sig = 0;
 	}
 	if (p->heredoc_delimiter)
 	{
