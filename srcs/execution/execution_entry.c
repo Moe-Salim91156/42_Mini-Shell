@@ -49,6 +49,12 @@ int	execution_entry(t_shell *shell)
 	heredoc_result = process_all_heredocs(shell);
 	if (heredoc_result == -1)
 	{
+    if (g_sig == SIGINT)
+    {
+      shell->last_status = 130;
+      set_signal(0);
+      return (shell->last_status);
+    }
 		shell->last_status = -1;
 		return (shell->last_status);
 	}
