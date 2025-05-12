@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 13:34:50 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:58 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/11 17:46:59 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_envp	*ft_getenv(t_envp *list, char *str)
 	char	*key;
 	t_envp	*ret;
 
+	if (!list || !str)
+		return (NULL);
 	key = ft_strjoin(str, "=");
 	if (!key)
 		return (NULL);

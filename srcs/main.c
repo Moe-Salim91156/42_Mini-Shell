@@ -31,6 +31,7 @@ void	free_and_loop(t_shell *shell, char *input)
 {
   if (input)
     free(input);
+  input = NULL;
   if (shell->token_list && shell->cmd_list)
   {
 	  free_tokens(shell->token_list);
@@ -53,7 +54,7 @@ int	happy_parser_path(char *input, t_shell *shell)
 		return (0);
 	if (!check_unexpected_token(shell, shell->token_list))
 		return (0);
-	return (1); // success
+	return (1);
 }
 
 char *handle_input(char *input)

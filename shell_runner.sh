@@ -1,2 +1,2 @@
 #!/bin/bash
-valgrind --leak-check=full --track-fds=yes --trace-children=yes --show-leak-kinds=all --suppressions=readline_curses.supp ./minishell
+valgrind --leak-check=full --track-fds=yes --trace-children=yes --suppressions=/home/yokitane/Code/C/Minishell/readline_curses.supp ./minishell

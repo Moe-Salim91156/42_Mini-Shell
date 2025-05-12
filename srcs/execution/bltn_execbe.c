@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/11 12:07:09 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/11 16:49:05 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ int	manage_bltn(t_shell *shell, t_cmd *current_payload, int fork_flag)
 				shell);
 	}
 	else
-		ft_putendl_fd("rbsh: Invalid Redirection!", 2);
-	current_payload->exit_status = err;
+	{
+		if(!fork_flag)
+			ft_putendl_fd("rbsh: Invalid redirection", 2);
+		current_payload->exit_status = err;
+	}
 	restore_io(current_payload);
 	return (current_payload->exit_status);
 }

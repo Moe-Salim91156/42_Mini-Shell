@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/07 13:37:07 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 17:46:21 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ static int	append_equal(t_envp *list, char **old_arg)
 {
 	char	*new_arg;
 
+	if (!old_arg || !*old_arg)
+		return (1);
 	new_arg = NULL;
 	new_arg = ft_strjoin(*old_arg, "=");
 	if (!new_arg)

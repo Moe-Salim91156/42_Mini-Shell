@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:38:09 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/07 14:00:50 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 17:52:39 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ char	*get_env_value_from_envp(char *key, char **envp)
 	char	*prefix;
 	size_t	len;
 
+	if (!key || !envp)
+		return (NULL);
 	len = ft_strlen(key);
 	prefix = ft_strjoin(key, "=");
+	if (!prefix)
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
@@ -38,6 +42,7 @@ char	*expand_env_segment(char *line, int *i, char **envp)
 {
 	t_heredoc_context	h_ctx;
 
+	// m7md deal with this shit I have no clue what it even does.
 	h_ctx.before = ft_substr(line, 0, *i);
 	(*i)++;
 	h_ctx.start = *i;
@@ -64,6 +69,8 @@ char	*expand_heredoc_line(char *line, char **envp)
 	char	*tmp;
 	int		i;
 
+	if(!line)
+		return (NULL);
 	i = 0;
 	result = ft_strdup(line);
 	while (result[i])
