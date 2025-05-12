@@ -59,6 +59,8 @@
  */
 
 /******* CASE 3 (pipeline case): *******
+ * open in parent
+ * dup in child.
  * ---> establish pipeline:
  *	---> Count total commands(payloads) in pipeline
  *	---> Create necessary pipes (n commands need n-1 pipes)

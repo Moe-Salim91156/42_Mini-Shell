@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltn_env.c                                         :+:      :+:    :+:   */
+/*   payload_lexing_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 17:54:09 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:36:13 by yokitane         ###   ########.fr       */
+/*   Created: 2025/04/22 15:20:46 by msalim            #+#    #+#             */
+/*   Updated: 2025/04/22 15:34:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	bltn_env(t_shell *shell)
+int	is_redirect_1(char *str)
 {
-	t_envp	*visit;
-
-	if (!shell->envp_list)
+	if (!ft_strcmp(str, ">"))
 		return (1);
-	visit = shell->envp_list;
-	while (visit)
-	{
-		if (visit->key && visit->value)
-			if (printf("%s%s\n", visit->key, visit->value) == -1)
-				return (1);
-		visit = visit->next;
-	}
+	if (!ft_strcmp(str, ">>"))
+		return (1);
+	if (!ft_strcmp(str, "<"))
+		return (1);
 	return (0);
 }

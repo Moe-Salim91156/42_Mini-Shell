@@ -12,7 +12,8 @@
 
 #include "../../includes/minishell.h"
 
-# define HEREDOC_FILE "/tmp/.heredoc_tmp"
+#define HEREDOC_FILE "/tmp/.heredoc_tmp"
+
 /*
  * lookup payloads array of args for (<<)
  * if found execute the heredoc function

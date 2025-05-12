@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/14 14:15:44 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 16:00:10 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_tokens(t_token_list *list)
 	t_token	*current;
 	t_token	*temp;
 
+	if (!list)
+		return ;
 	current = list->head;
 	while (current)
 	{
@@ -28,11 +30,27 @@ void	free_tokens(t_token_list *list)
 	}
 	free(list);
 }
+
+void	free_payload_array(char **payload_array)
+{
+	int	i;
+
+	i = 0;
+	if (!payload_array)
+		return ;
+	while (payload_array[i])
+	{
+		free(payload_array[i]);
+		i++;
+	}
+	free(payload_array);
+}
+
 void	free_split(char **split)
 {
 	int	i;
 
-	if (!split)
+	if (!split && !split[0])
 		return ;
 	i = 0;
 	while (split[i])
@@ -47,19 +65,21 @@ void	free_command_list(t_cmd_list *cmd_list)
 {
 	t_cmd	*current;
 	t_cmd	*temp;
-	int		i;
 
+	if (!cmd_list)
+		return ;
 	current = cmd_list->head;
 	while (current)
 	{
-		temp = current->next;
+		if (current->heredoc_delimiter)
+			free(current->heredoc_delimiter);
+		if (current->payload_array)
+			free_split(current->payload_array);
 		if (current->argv)
-		{
-			i = 0;
-			while (current->argv[i])
-				free(current->argv[i++]);
-			free(current->argv);
-		}
+			free_split(current->argv);
+		if (current->type)
+			free(current->type);
+		temp = current->next;
 		free(current);
 		current = temp;
 	}

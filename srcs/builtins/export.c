@@ -6,13 +6,13 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:44:59 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/05 17:26:20 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:02:38 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
+/**
 	export: takes arguments, then stores values in keys.
 	behaviour cases:
 		1- no arguments: print all envp list.
@@ -30,10 +30,10 @@
 				--> reevaluate case 2.2B only.
 					--> if true, append key with value = NULL.
 		###########
-		return value:
+		@returns value:
 			The return status is zero unless an invalid @arg is supplied.
 		########### TBD ###########
-		nothing inshallah (= unless future edge cases resurface)
+		empty env handle...
 */
 
 static int	invalid_arg(char *str, int *ret)
@@ -47,6 +47,7 @@ static int	invalid_arg(char *str, int *ret)
 	}
 	return (0);
 }
+
 /*
 	assigns value of NULL rather than a literal string.
 */
@@ -104,6 +105,8 @@ static int	append_equal(t_envp *list, char **old_arg)
 {
 	char	*new_arg;
 
+	if (!old_arg || !*old_arg)
+		return (1);
 	new_arg = NULL;
 	new_arg = ft_strjoin(*old_arg, "=");
 	if (!new_arg)

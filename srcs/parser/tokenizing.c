@@ -6,29 +6,11 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:06:20 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/10 14:33:50 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 20:08:51 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	substr_and_add(char *input, int start, int i, t_token_list *tokens)
-{
-	char	*result;
-
-	if (i > start)
-	{
-		result = ft_substr(input, start, i - start);
-		add_token(tokens, result);
-		free(result);
-	}
-}
-
-void	skip_beginning_spaces(char *str)
-{
-	while (*str == ' ')
-		str++;
-}
 
 void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
 {
@@ -37,17 +19,6 @@ void	handle_separator(char *input, int *i, int *start, t_token_list *tokens)
 		add_token(tokens, "|");
 	(*i)++;
 	*start = *i;
-}
-
-int	is_invalid_redirection(char *input, int i)
-{
-	if ((input[i] == '>' && input[i + 1] == '>' && input[i + 2] == '>')
-		|| (input[i] == '<' && input[i + 1] == '<' && input[i + 2] == '<'))
-	{
-		printf("syntax error\n");
-		return (1); // Invalid redirection pattern
-	}
-	return (0);
 }
 
 int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
@@ -69,7 +40,7 @@ int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 	}
 	else
 	{
-		result = ft_substr(input, *i, 1);
+		result = ft_substr(input, *i, 1); // null check
 		add_token(tokens, result);
 		free(result);
 		(*i)++;
@@ -78,7 +49,7 @@ int	handle_redirect(char *input, int *i, int *start, t_token_list *tokens)
 	return (0);
 }
 
-int	handle_quotes(char *input, int *i)
+int	handle_quotes(char *input, int *i, t_shell *shell)
 {
 	char	quote;
 
@@ -89,34 +60,32 @@ int	handle_quotes(char *input, int *i)
 	if (input[*i] != quote)
 	{
 		printf("Syntax error: unclosed quote\n");
+		shell->last_status = 127;
 		return (0);
 	}
 	(*i)++;
 	return (1);
 }
 
-int	tokenizer(char *input, t_token_list *tokens)
+int	tokenizer(char *input, t_token_list *tokens, t_shell *shell)
 {
 	int	i;
 	int	start;
-	int	result;
 
 	i = 0;
 	start = 0;
-	skip_beginning_spaces(input);
 	while (input[i])
 	{
 		if (is_seperator_token(input[i]))
 			handle_separator(input, &i, &start, tokens);
 		else if (is_redirect(input[i]))
 		{
-			result = handle_redirect(input, &i, &start, tokens);
-			if (result == 1)
+			if (handle_redirect(input, &i, &start, tokens))
 				return (0);
 		}
 		else if (is_quotes(input[i]))
 		{
-			if (!handle_quotes(input, &i))
+			if (!handle_quotes(input, &i, shell))
 				return (0);
 		}
 		else

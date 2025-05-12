@@ -6,13 +6,13 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:34:41 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/09 17:11:20 by msalim           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:39:44 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	handle_heredoc(char **payload, t_token_type *type, int *i)
+void	handle_heredoc(char **payload, t_token_type *type, int *i)
 {
 	type[*i] = HEREDOC;
 	if (payload[*i + 1])
@@ -22,18 +22,7 @@ static void	handle_heredoc(char **payload, t_token_type *type, int *i)
 	}
 }
 
-static int	is_redirect_1(char *str)
-{
-	if (!ft_strcmp(str, ">"))
-		return (1);
-	if (!ft_strcmp(str, ">>"))
-		return (1);
-	if (!ft_strcmp(str, "<"))
-		return (1);
-	return (0);
-}
-
-static void	handle_redirect(char *str, t_token_type *type, int i,
+void	handle_redirect_1(char *str, t_token_type *type, int i,
 		int *saw_redirect)
 {
 	if (!ft_strcmp(str, ">"))
@@ -45,7 +34,7 @@ static void	handle_redirect(char *str, t_token_type *type, int i,
 	*saw_redirect = 1;
 }
 
-static void	handle_token_type(t_token_type *type, int i, int *saw_redirect,
+void	handle_token_type(t_token_type *type, int i, int *saw_redirect,
 		int *next_is_cmd)
 {
 	if (*saw_redirect)
@@ -82,7 +71,7 @@ void	handle_payload(char **payload, t_token_type *type)
 		else if (!ft_strcmp(payload[i], "<<"))
 			handle_heredoc(payload, type, &i);
 		else if (is_redirect_1(payload[i]))
-			handle_redirect(payload[i], type, i, &saw_redirect);
+			handle_redirect_1(payload[i], type, i, &saw_redirect);
 		else
 			handle_token_type(type, i, &saw_redirect, &next_is_cmd);
 		i++;

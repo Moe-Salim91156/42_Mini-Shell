@@ -1,0 +1,15 @@
+minishell
+*/*.o
+.gitignore
+*.a
+objs/*
+outfile
+infile
+in
+out
+file
+file.txt 
+output.txt 
+out 
+o2
+sorted.txt

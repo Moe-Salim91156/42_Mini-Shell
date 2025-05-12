@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/04/20 19:06:08 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:51:10 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	is_bltn(char **argv)
 		return (1);
 	else if (!ft_strcmp("exit", argv[0]))
 		return (1);
+	else if (!ft_strcmp("NOPXRBSH", argv[0]))
+		return (1);
 	else
 		return (0);
 }
@@ -46,33 +48,38 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else if (!ft_strcmp("export", argv[0]))
 		return (bltn_export(argv, shell->envp_list));
 	else if (!ft_strcmp("unset", argv[0]))
-		return (bltn_unset(argv, shell->envp_list));
+		return (bltn_unset(argv, &shell->envp_list));
 	else if (!ft_strcmp("cd", argv[0]))
 		return (bltn_cd(argv, shell->envp_list));
 	else if (!ft_strcmp("echo", argv[0]))
 		return (bltn_echo(argv));
-	/* else if (ft_strcmp("exit", argv[0])) */
-		/* return (bltn_exit(argv, shell)); */
+	else if (!ft_strcmp("exit", argv[0]))
+		return (bltn_exit(argv, shell));
+	else if (!ft_strcmp("NOPXRBSH", argv[0]))
+		return (0);
 	else
 		return (-1);
 }
-int manage_bltn(t_shell *shell, t_cmd *current_payload, int pipe[])
-{
-	int		err;
 
-	if (pipe)
-	{
-		printf("this is just to shut up a warning\n");
-		/* handle_pipe(pipe); */
-	}
+int	manage_bltn(t_shell *shell, t_cmd *current_payload, int fork_flag)
+{
+	int	err;
+
+	current_payload->is_fork = fork_flag;
 	err = 0;
-  //locate_heredoc(shell->cmd_list, shell);
-  err = parse_redirs(current_payload,current_payload->payload_array);
-		if(!err)
-			current_payload->exit_status = bltn_execbe(current_payload->argv, shell);
-		else
-			current_payload->exit_status = 1;
+	err = parse_redirs(current_payload, current_payload->payload_array);
+	if (!err)
+	{
+		apply_redirs(current_payload);
+		current_payload->exit_status = bltn_execbe(current_payload->argv,
+				shell);
+	}
+	else
+	{
+		if (!fork_flag)
+			ft_putendl_fd("rbsh: Invalid redirection", 2);
+		current_payload->exit_status = err;
+	}
 	restore_io(current_payload);
-	// delete heredoc tmp file
 	return (current_payload->exit_status);
 }

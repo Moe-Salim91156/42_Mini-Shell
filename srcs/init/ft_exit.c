@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_payload_utils.c                              :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 14:19:11 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/05 17:19:17 by yokitane         ###   ########.fr       */
+/*   Created: 2025/05/03 18:57:43 by yokitane          #+#    #+#             */
+/*   Updated: 2025/05/10 18:59:41 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
- * here we would put the NEWLINE enum new value
- * for seperating commands(payload);
- * */
-int	is_seperator(int type)
+void	ft_exit(t_shell *shell, int status)
 {
-	return (type == PIPE);
-}
-
-char	**allocate_cmd_argv(int count)
-{
-	char	**argv;
-
-	argv = malloc(sizeof(char *) * (count + 1));
-	if (!argv)
-		return (NULL);
-	argv[count] = NULL;
-	return (argv);
+	if (status)
+		shell->last_status = status;
+	if (shell->cmd_list)
+	{
+		free_command_list(shell->cmd_list);
+		shell->cmd_list = NULL;
+	}
+	if (shell->token_list)
+	{
+		free_tokens(shell->token_list);
+		shell->token_list = NULL;
+	}
+	if (shell->envp_list)
+	{
+		free_env(shell->envp_list);
+		shell->envp_list = NULL;
+	}
+	exit(shell->last_status);
 }

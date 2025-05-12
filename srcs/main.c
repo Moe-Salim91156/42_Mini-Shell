@@ -6,63 +6,104 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/20 18:40:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
+volatile sig_atomic_t	g_sig = 0;
 
-int count_payloads(t_cmd_list *list)
+int	count_payloads(t_cmd_list *list)
 {
-  t_cmd *pay;
+	t_cmd	*pay;
 
-  pay = list->head;
-  while (pay && pay->argv[0])
-  {
-    list->payload_count++;
-    pay = pay->next;
-  }
-  return (list->payload_count);
+	pay = list->head;
+	while (pay)
+	{
+		list->payload_count++;
+		pay = pay->next;
+	}
+	return (list->payload_count);
+}
+
+void	free_and_loop(t_shell *shell, char *input)
+{
+	if (input)
+		free(input);
+	input = NULL;
+	if (shell->token_list && shell->cmd_list)
+	{
+		free_tokens(shell->token_list);
+		free_command_list(shell->cmd_list);
+		shell->token_list = NULL;
+		shell->token_list = init_list();
+		shell->cmd_list = init_cmd_list();
+	}
+}
+
+int	happy_parser_path(char *input, t_shell *shell)
+{
+	if (!input)
+		return (0);
+	if (input[0])
+		add_history(input);
+	if (!tokenizer(input, shell->token_list, shell))
+		return (0);
+	if (!lexing(shell, shell->token_list))
+		return (0);
+	if (!check_unexpected_token(shell, shell->token_list))
+		return (0);
+	return (1);
+}
+
+char	*handle_input(char *input)
+{
+	char	*trimmed;
+
+	if (!input)
+		return (NULL);
+	trimmed = input;
+	while (*trimmed == ' ')
+		trimmed++;
+	if (*trimmed == '\0')
+	{
+		free(input);
+		return (NULL);
+	}
+	return (input);
 }
 
 int	main(void)
 {
+	t_shell	shell;
 	char	*input;
 
-	t_shell shell; // please add this
 	shell_init(&shell, __environ);
-	shell.token_list = init_list();
-	shell.cmd_list = init_cmd_list();
 	while (1)
 	{
+		set_signal(0);
 		input = readline("rbsh$ ");
+		if (g_sig == SIGINT)
+		{
+			shell.last_status = 130;
+			g_sig = 0;
+		}
 		if (!input)
 			break ;
-		if (input)
+		input = handle_input(input);
+		if (!input)
+			continue ;
+		if (happy_parser_path(input, &shell))
 		{
-			add_history(input);
-			if (!tokenizer(input, shell.token_list))
-				return (0); // wtf is a return doing here.
-			lexing(shell.token_list);
 			expander_main(&shell);
 			build_payloads(shell.token_list, shell.cmd_list);
-			see_heredoc_if_quoted(&shell);
 			lexer_cmd_list(shell.cmd_list);
-	//		print_tokens(shell.token_list);
-		//	print_command((shell.cmd_list));
 			build_cmd_argv(shell.cmd_list);
-      shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
-      //debug_build_cmd_argv(shell.cmd_list);
-      execution_entry(&shell);
-			free_tokens(shell.token_list);     // this
-			free_command_list(shell.cmd_list); // and this
-			shell.token_list = NULL;           // this too
-			shell.token_list = init_list();    // dont forget this
-			shell.cmd_list = init_cmd_list();  // and lastly this,
-												// need to put all that stuff in a seperate function(loop_clean or smth)
+			shell.cmd_list->payload_count = count_payloads(shell.cmd_list);
+			execution_entry(&shell);
 		}
+		free_and_loop(&shell, input);
 	}
-	// exit_handler
-	free(input);
+	ft_exit(&shell, shell.last_status);
 	return (0);
 }
