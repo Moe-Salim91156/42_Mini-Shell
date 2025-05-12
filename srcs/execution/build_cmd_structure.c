@@ -50,9 +50,9 @@ char	**malloc_cmd_argv(t_cmd *payload)
  *
  */
 
-static int nop_case(t_cmd *cmd)
+static int	nop_case(t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd->payload_array[i])
@@ -74,11 +74,11 @@ static int	fill_cmd_argv(t_cmd *cmd)
 	j = 0;
 	while (cmd->payload_array[i])
 	{
-		if ((!i) && nop_case(cmd) && (cmd->type[1] == FILE_TOKEN ||
-				cmd->type[1] == HEREDOC_DELIMITER))
+		if ((!i) && nop_case(cmd) && (cmd->type[1] == FILE_TOKEN
+				|| cmd->type[1] == HEREDOC_DELIMITER))
 		{
 			cmd->argv[j++] = ft_strdup("NOPXRBSH");
-			break;
+			break ;
 		}
 		if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
 		{

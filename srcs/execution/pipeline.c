@@ -58,7 +58,7 @@ void	manage_fork(t_cmd *current, t_pipe *pipe, int cmd_count, t_shell *shell)
 		manage_child(shell, current);
 	close_pipes(pipe->pipes, cmd_count);
 	free(pipe);
-	cleanup_all_heredocs(shell);//check if needed later
+	cleanup_all_heredocs(shell); // check if needed later
 	ft_exit(shell, current->exit_status);
 }
 
@@ -96,7 +96,8 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count)
 			fork_error(pipe, cmd_count, shell);
 		if (!pids[pipe->pipe_index])
 			manage_fork(current, pipe, cmd_count, shell);
-		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);//this is behind the sigint
+		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
+		// this is behind the sigint
 		restore_io(current);
 		current = current->next;
 		pipe->pipe_index++;

@@ -29,8 +29,8 @@ static int	get_len(long int n)
 
 char	*ft_itoa(int n)
 {
-	unsigned int len;
-	char *str;
+	unsigned int	len;
+	char			*str;
 
 	if (n == 0)
 		return (ft_strdup("0"));

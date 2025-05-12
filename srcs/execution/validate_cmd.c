@@ -25,10 +25,10 @@ static char	*find_command_in_directories(char *cmd, char **dir)
 	{
 		if (!dir[j])
 			return (NULL);
-		full_cmd = ft_strjoin(dir[j], "/");//null check
+		full_cmd = ft_strjoin(dir[j], "/"); // null check
 		if (!full_cmd)
 			return (NULL);
-		new_cm = ft_strjoin(full_cmd, cmd);//null check
+		new_cm = ft_strjoin(full_cmd, cmd); // null check
 		free(full_cmd);
 		if (!new_cm)
 			return (NULL);

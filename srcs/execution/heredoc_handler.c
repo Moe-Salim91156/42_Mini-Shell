@@ -61,20 +61,19 @@ int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 	return (0);
 }
 
-
-void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cmd *head)
+void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 {
 	cmd->has_heredoc = 1;
 	if (cmd->payload_array[*i + 1] && cmd->type[*i + 1] == HEREDOC_DELIMITER)
 		cmd->heredoc_delimiter = ft_strdup(cmd->payload_array[*i + 1]);
 	if (cmd->heredoc_fd != -1)
 		close(cmd->heredoc_fd);
-	cmd->heredoc_fd = run_heredoc(cmd, shell, envp, head);
+	cmd->heredoc_fd = run_heredoc(cmd, shell, envp);
 }
 
-static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cmd *head)
+static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 {
-	process_heredoc_helper(cmd, shell, i, envp, head);
+	process_heredoc_helper(cmd, shell, i, envp);
 	if (cmd->heredoc_fd < 0)
 	{
 		free_split(envp);
@@ -83,7 +82,7 @@ static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cm
 	return (0);
 }
 
-int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
+int	process_heredocs(t_cmd *cmd, t_shell *shell)
 {
 	int		i;
 	int		heredoc_count;
@@ -98,10 +97,10 @@ int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
 	{
 		if (!ft_strcmp(cmd->payload_array[i], "<<"))
 		{
-			if (handle_heredoc(cmd, shell, &i, envp, head) < 0)
-      {
+			if (handle_heredoc(cmd, shell, &i, envp) < 0)
+			{
 				return (-1);
-      }
+			}
 			heredoc_count++;
 			i += 2;
 		}
@@ -121,7 +120,7 @@ int	process_all_heredocs(t_shell *shell)
 	current = shell->cmd_list->head;
 	while (current)
 	{
-		result = process_heredocs(current, shell, shell->cmd_list->head);
+		result = process_heredocs(current, shell);
 		if (result < 0)
 		{
 			shell->last_status = 130;
@@ -131,4 +130,3 @@ int	process_all_heredocs(t_shell *shell)
 	}
 	return (0);
 }
-

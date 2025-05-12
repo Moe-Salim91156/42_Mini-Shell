@@ -69,7 +69,7 @@ char	*expand_heredoc_line(char *line, char **envp)
 	char	*tmp;
 	int		i;
 
-	if(!line)
+	if (!line)
 		return (NULL);
 	i = 0;
 	result = ft_strdup(line);

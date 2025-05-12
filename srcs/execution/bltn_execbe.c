@@ -56,7 +56,7 @@ int	bltn_execbe(char **argv, t_shell *shell)
 	else if (!ft_strcmp("exit", argv[0]))
 		return (bltn_exit(argv, shell));
 	else if (!ft_strcmp("NOPXRBSH", argv[0]))
-			return (0);
+		return (0);
 	else
 		return (-1);
 }

@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 15:59:26 by msalim            #+#    #+#             */
+/*   Created: 2025/05/12 20:07:53 by msalim            #+#    #+#             */
+/*   Updated: 2025/05/12 20:07:55 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +55,8 @@ void	handle_first(int sig)
 
 void	handle_heredoc_sig(int sig)
 {
-  g_sig = sig;
-  close (0);
+	g_sig = sig;
+	close(0);
 	write(1, "\n", 1);
 }
 
