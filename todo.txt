@@ -1,8 +1,0 @@
-####TODO###
-  general:
-      3-double check signals
-        a-ctrl c changes $?
-        b- sigint heredoc
-      4-main cleanup
-      5-null checks
-      6-norminette

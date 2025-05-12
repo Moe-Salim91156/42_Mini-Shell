@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 15:59:26 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 15:26:20 by yokitane         ###   ########.fr       */
+/*   Created: 2025/05/12 20:07:53 by msalim            #+#    #+#             */
+/*   Updated: 2025/05/12 20:07:55 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ void	handle_first(int sig)
 	g_sig = sig;
 }
 
+void	handle_heredoc_sig(int sig)
+{
+	g_sig = sig;
+	close(0);
+	write(1, "\n", 1);
+}
+
 void	set_signal(int mode)
 {
 	if (mode == 0)
@@ -73,6 +80,11 @@ void	set_signal(int mode)
 	else if (mode == 3)
 	{
 		signal(SIGINT, handle_first);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == 4)
+	{
+		signal(SIGINT, handle_heredoc_sig);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

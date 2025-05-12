@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/11 16:30:05 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 20:14:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,58 +218,47 @@ int								bltn_cd(char **argv, t_envp *list);
 int								bltn_echo(char **argv);
 int								bltn_exit(char **argv, t_shell *shell);
 /*################# Execution #################*/
-int								execution_entry(t_shell *shell);
-/* HEREDOC HANDLING */
-int								run_heredoc(t_cmd *p, t_shell *s, char **envp,
-									t_cmd *head);
-void							heredoc_read_loop(t_cmd *p, char **envp,
-									int write_fd);
-int								process_heredocs(t_cmd *cmd, t_shell *shell,
-									t_cmd *head);
-int								process_all_heredocs(t_shell *shell);
-char							*expand_heredoc_line(char *line, char **envp);
-void							cleanup_heredoc(t_cmd *cmd);
-void							cleanup_all_heredocs(t_shell *shell);
-/*	BUILT-INS		*/
-int								bltn_execbe(char **argv, t_shell *shell);
-int								is_bltn(char **argv);
-int								manage_bltn(t_shell *shell,
-									t_cmd *current_paylaod, int fork_flag);
-/*	FORK OPERATIONS	*/
-void							manage_child(t_shell *shell,
-									t_cmd *current_payload);
-void							wait_for_children(t_shell *shell, int cmd_count,
-									pid_t *pids);
-void							fork_error(t_pipe *tpipe, int cmd_count,
-									t_shell *shell);
-/*	REDIRECTIONS	*/
-int								parse_redirs(t_cmd *current_paylaod,
-									char **payload_array);
-void							restore_io(t_cmd *current_payload);
-void							restore_all_io(t_cmd *head);
-int								redir_in(t_cmd *current_payload, char *file);
-int								redir_out(t_cmd *current_payload, char *file);
-int								redir_append(t_cmd *current_payload,
-									char *file);
-int								redir_heredoc(t_cmd *current_payload);
-void							apply_redirs(t_cmd *current_payload);
-int								see_heredoc_if_quoted(t_shell *shell);
-char							*expand_heredoc_line(char *line, char **envp);
-/*	PIPELINE	*/
-void							manage_pipeline(t_shell *shell,
-									t_cmd *list_head, int cmd_count);
-void							close_pipes(int **pipes, int cmd_count);
-t_pipe							*lay_pipeline(int cmd_count, t_pipe *tpipe);
-void							end_pipeline(t_shell *shell, int cmd_count,
-									int *pids, t_pipe *pipe);
-void							pipe_error(t_shell *shell, t_pipe *tpipe);
-/* EXIT STATUS		*/
-int								set_exit_status(char *cmd_path);
-void							child_perror(int status, char **env);
-/* PATH STUFF */
-char							**build_cmd_argv(t_cmd_list *payload);
-char							*search_command_in_path(char *cmd, char **envp,
-									t_cmd *payload);
+int					execution_entry(t_shell *shell);
+					/* HEREDOC HANDLING */
+int					run_heredoc(t_cmd *p, t_shell *s, char **envp);
+int				heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell);
+int					process_heredocs(t_cmd *cmd, t_shell *shell);
+int					process_all_heredocs(t_shell *shell);
+char				*expand_heredoc_line(char *line, char **envp);
+void				cleanup_heredoc(t_cmd *cmd);
+void				cleanup_all_heredocs(t_shell *shell);
+					/*	BUILT-INS		*/
+int					bltn_execbe(char **argv, t_shell *shell);
+int					is_bltn(char **argv);
+int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int fork_flag);
+					/*	FORK OPERATIONS	*/
+void				manage_child(t_shell *shell, t_cmd *current_payload);
+void				wait_for_children(t_shell *shell, int cmd_count, pid_t *pids);
+void				fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell);
+					/*	REDIRECTIONS	*/
+int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
+void				restore_io(t_cmd *current_payload);
+void				restore_all_io(t_cmd *head);
+int					redir_in(t_cmd *current_payload, char *file);
+int					redir_out(t_cmd *current_payload, char *file);
+int					redir_append(t_cmd *current_payload, char *file);
+int					redir_heredoc(t_cmd *current_payload);
+void				apply_redirs(t_cmd *current_payload);
+int					see_heredoc_if_quoted(t_shell *shell);
+char				*expand_heredoc_line(char *line, char **envp);
+					/*	PIPELINE	*/
+void				manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count);
+void				close_pipes(int **pipes, int cmd_count);
+t_pipe				*lay_pipeline(int cmd_count, t_pipe *tpipe);
+void				end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe);
+void				pipe_error(t_shell *shell, t_pipe *tpipe);
+					/* EXIT STATUS		*/
+int					set_exit_status(char *cmd_path);
+void				child_perror(int status, char **env);
+					/* PATH STUFF */
+char				**build_cmd_argv(t_cmd_list *payload);
+char				*search_command_in_path(char *cmd, char **envp,
+						t_cmd *payload);
 /*################# general utils #################*/
 void							free_split(char **e);
 void							print_command(t_cmd_list *cmd_list);

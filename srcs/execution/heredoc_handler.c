@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/12 17:50:56 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +18,28 @@
 --this whole FILE is entierly vibe coded--
 	needs a proper refactor.
 */
-void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
+int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 {
 	char	*in;
+	int		infd;
 
+	infd = dup(STDIN_FILENO);
 	while (1)
 	{
 		in = readline("> ");
+		if (g_sig == SIGINT)
+		{
+			g_sig = 0;
+      		cleanup_all_heredocs(shell);
+			close(write_fd);
+			dup2(infd, STDIN_FILENO);
+			close(infd);
+			shell->last_status = 130;
+			return (-1);
+		}
 		if (!in || !ft_strcmp(in, p->heredoc_delimiter))
 		{
-			if (in)
-				free(in);
+			free(in);
 			break ;
 		}
 		if (!p->heredoc_quoted)
@@ -40,26 +50,27 @@ void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd)
 		write(write_fd, "\n", 1);
 		free(in);
 	}
-	if (p->heredoc_delimiter)
-	{
-		free(p->heredoc_delimiter);
-		p->heredoc_delimiter = NULL;
-	}
+	close(infd);
+	return (0);
 }
 
-void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cmd *head)
+void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 {
 	cmd->has_heredoc = 1;
 	if (cmd->payload_array[*i + 1] && cmd->type[*i + 1] == HEREDOC_DELIMITER)
+	{
+		if (cmd->heredoc_delimiter)
+			free(cmd->heredoc_delimiter);
 		cmd->heredoc_delimiter = ft_strdup(cmd->payload_array[*i + 1]);
+	}
 	if (cmd->heredoc_fd != -1)
 		close(cmd->heredoc_fd);
-	cmd->heredoc_fd = run_heredoc(cmd, shell, envp, head);
+	cmd->heredoc_fd = run_heredoc(cmd, shell, envp);
 }
 
-static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cmd *head)
+static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 {
-	process_heredoc_helper(cmd, shell, i, envp, head);
+	process_heredoc_helper(cmd, shell, i, envp);
 	if (cmd->heredoc_fd < 0)
 	{
 		free_split(envp);
@@ -68,7 +79,7 @@ static int	handle_heredoc(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cm
 	return (0);
 }
 
-int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
+int	process_heredocs(t_cmd *cmd, t_shell *shell)
 {
 	int		i;
 	int		heredoc_count;
@@ -83,8 +94,10 @@ int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
 	{
 		if (!ft_strcmp(cmd->payload_array[i], "<<"))
 		{
-			if (handle_heredoc(cmd, shell, &i, envp, head) < 0)
+			if (handle_heredoc(cmd, shell, &i, envp) < 0)
+			{
 				return (-1);
+			}
 			heredoc_count++;
 			i += 2;
 		}
@@ -98,19 +111,19 @@ int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
 int	process_all_heredocs(t_shell *shell)
 {
 	t_cmd	*current;
-	int		total_heredocs;
 	int		result;
 
 	see_heredoc_if_quoted(shell);
-	total_heredocs = 0;
 	current = shell->cmd_list->head;
 	while (current)
 	{
-		result = process_heredocs(current, shell, shell->cmd_list->head);
+		result = process_heredocs(current, shell);
 		if (result < 0)
-			return (-1);
-		total_heredocs += result;
+		{
+			shell->last_status = 130;
+			return (-1); // Stop parsing pipeline
+		}
 		current = current->next;
 	}
-	return (total_heredocs);
+	return (0);
 }

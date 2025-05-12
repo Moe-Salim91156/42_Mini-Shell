@@ -22,7 +22,7 @@ int	parse_redirs(t_cmd *cmd, char **payload)
 	while (payload[i])
 	{
 		if (!ft_strcmp(payload[i], "<") && payload[i + 1])
-		ret = redir_in(cmd, payload[++i]);
+			ret = redir_in(cmd, payload[++i]);
 		else if (!ft_strcmp(payload[i], ">") && payload[i + 1])
 			ret = redir_out(cmd, payload[++i]);
 		else if (!ft_strcmp(payload[i], ">>") && payload[i + 1])
@@ -87,7 +87,7 @@ int	redir_append(t_cmd *current_payload, char *file)
 	return (0);
 }
 
-int redir_heredoc(t_cmd *current_payload)
+int	redir_heredoc(t_cmd *current_payload)
 {
 	int	fd;
 

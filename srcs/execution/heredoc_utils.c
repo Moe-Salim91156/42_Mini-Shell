@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:14:53 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/12 13:14:08 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,62 +16,60 @@
 ** Closes any open heredoc file descriptors
 */
 
-
-static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
+/*static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
 {
 	close(fd[0]);
-	heredoc_read_loop(p, envp, fd[1]);
+	set_signal(3);
+  heredoc_read_loop(p, envp, fd[1],s);
+  if (g_sig == SIGINT)
+  {
 	close(fd[1]);
-	s->last_status = 130;
-	ft_exit(s,130);
+	printf("exited in child");
+	ft_exit(s,SIGINT);
+  }
+  close(fd[1]);
+  ft_exit(s,130);
 }
-
 static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
 {
 	int	status;
 
 	close(fd[1]);
-	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	set_signal(0);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	if (WIFEXITED(status) && WEXITSTATUS(status) == SIGINT)
 	{
-		s->last_status= 130;
 		close(fd[0]);
-		close(fd[1]);
-		g_sig = SIGINT;
+		s->last_status = 130;
+	ft_exit(s,SIGINT);
+		return (-1);
+	}
+	if (WIFSIGNALED(status))
+	{
+		close(fd[0]);
+		s->last_status = 128 + WTERMSIG(status);
 		return (-1);
 	}
 	return (fd[0]);
 }
-
-int	run_heredoc(t_cmd *p, t_shell *s, char **envp, t_cmd *head)
+*/
+int	run_heredoc(t_cmd *cmd, t_shell *shell, char **envp)
 {
-	int		fd[2];
-	pid_t	pid;
+	int	pipefd[2];
 
-	if (pipe(fd) < 0)
+	if (pipe(pipefd) == -1)
 		return (-1);
-	pid = fork();
-	if (pid == 0)
+	set_signal(4);
+	if (heredoc_read_loop(cmd, envp, pipefd[1], shell) == -1)
 	{
-		handle_child_heredoc(p, s, envp, fd);
-		free(p->heredoc_delimiter);
-		while (head != p)
-		{
-			if (head->heredoc_fd > 0)
-				close(head->heredoc_fd);
-			head = head->next;
-		}
-		//ft_exit(s, SIGINT);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		set_signal(0);
+		return (-1);
 	}
-	if (p->heredoc_delimiter)
-		free(p->heredoc_delimiter);
-	p->heredoc_delimiter = NULL;
-	return (handle_parent_heredoc(pid, fd, s));
-	close(fd[0]);
-	close(fd[1]);
-	return (-1);
+	close(pipefd[1]);
+	set_signal(0);
+	return (pipefd[0]);
 }
 
 void	cleanup_heredoc(t_cmd *cmd)
