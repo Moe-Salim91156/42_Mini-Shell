@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 18:10:46 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 19:11:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_payloads(t_cmd_list *list)
 	t_cmd	*pay;
 
 	pay = list->head;
-	while (pay && pay->argv[0])
+	while (pay)
 	{
 		list->payload_count++;
 		pay = pay->next;
