@@ -75,6 +75,7 @@ char *handle_input(char *input)
 
 	return (input);
 }
+
 int main(void)
 {
 	t_shell shell;
@@ -85,6 +86,11 @@ int main(void)
 	{
 		set_signal(0);
 		input = readline("rbsh$ ");
+    if (g_sig == SIGINT)
+    {
+      shell.last_status = 130;
+      g_sig = 0;
+    }
 		if (!input)
 			break;
 		input = handle_input(input);
