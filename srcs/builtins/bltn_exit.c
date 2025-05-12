@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 03:13:13 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/07 13:36:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/11 17:30:04 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static int	is_numeric(const char *str)
 	###
 	max num length to count as numeric: 19 digits
 	------
-	tbd: an exit handler to free heap and close open fds.
-	-----
 	note: as in with every builtin(I prolly forgot
 	to implement it this way in many of them)
 	-->argv[0] == exit
@@ -63,6 +61,7 @@ int	bltn_exit(char **argv, t_shell *shell)
 	if (argv[1] && argv[2])
 	{
 		ft_putendl_fd("rbsh: exit: too many arguments.", 2);
+		shell->last_status = 1;
 		return (1);
 	}
 	shell->last_status = ft_atoi(argv[1]) % 256;

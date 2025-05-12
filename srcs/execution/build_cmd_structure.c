@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/10 16:43:04 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:32:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**malloc_cmd_argv(t_cmd *payload)
 	int		args_num;
 
 	args_num = count_args(payload);
-	argv = malloc(sizeof(char *) * (args_num + 1));
+	argv = malloc(sizeof(char *) * (args_num + 3));
 	if (!argv)
 		return (NULL);
 	argv[args_num] = NULL;
@@ -51,6 +51,20 @@ char	**malloc_cmd_argv(t_cmd *payload)
  *
  */
 
+static int nop_case(t_cmd *cmd)
+{
+	int i;
+
+	i = 0;
+	while (cmd->payload_array[i])
+	{
+		if (cmd->type[i] == COMMAND)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int	fill_cmd_argv(t_cmd *cmd)
 {
 	int		i;
@@ -61,6 +75,12 @@ static int	fill_cmd_argv(t_cmd *cmd)
 	j = 0;
 	while (cmd->payload_array[i])
 	{
+		if ((!i) && nop_case(cmd) && (cmd->type[1] == FILE_TOKEN ||
+				cmd->type[1] == HEREDOC_DELIMITER))
+		{
+			cmd->argv[j++] = ft_strdup("NOPXRBSH");
+			break;
+		}
 		if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
 		{
 			arg = ft_strdup(cmd->payload_array[i]);

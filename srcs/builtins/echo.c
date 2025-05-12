@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:30:18 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:55 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:51:40 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	is_flag(char *str)
 	i = 1;
 	if (*str == '-')
 	{
-		while (str[i] == 'n' || str[i] == 'e' || str[i] == 'E')
+		while (str[i] == 'n')
 			i++;
 		if (!str[i])
 			return (1);
@@ -64,7 +64,8 @@ int	bltn_echo(char **argv)
 	while (argv[i])
 	{
 		ft_putstr_fd(argv[i], 1);
-		ft_putchar_fd(' ', 1);
+		if (argv[i + 1] != NULL)
+			ft_putchar_fd(' ', 1);
 		i++;
 	}
 	if (!n_flag)
