@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 10:10:49 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/05 22:38:55 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/11 16:08:25 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	take_me_home(t_envp *list, char *oldpwd)
 {
 	if (!ft_getenv(list, "HOME"))
 	{
-		ft_putstr_fd("cd: HOME not set", 2);
+		ft_putstr_fd("cd: HOME not set\n", 2);
 		return (1);
 	}
 	if (update_oldpwd(list, oldpwd))
