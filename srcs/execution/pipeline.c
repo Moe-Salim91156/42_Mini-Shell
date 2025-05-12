@@ -97,7 +97,6 @@ void	manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count)
 		if (!pids[pipe->pipe_index])
 			manage_fork(current, pipe, cmd_count, shell);
 		parent_close_pipes(pipe->pipes, pipe->pipe_index, cmd_count);
-		// this is behind the sigint
 		restore_io(current);
 		current = current->next;
 		pipe->pipe_index++;

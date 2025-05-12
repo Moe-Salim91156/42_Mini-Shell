@@ -71,6 +71,8 @@ void	free_command_list(t_cmd_list *cmd_list)
 	current = cmd_list->head;
 	while (current)
 	{
+		if (current->heredoc_delimiter)
+			free(current->heredoc_delimiter);
 		if (current->payload_array)
 			free_split(current->payload_array);
 		if (current->argv)

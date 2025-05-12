@@ -59,7 +59,7 @@ int	run_heredoc(t_cmd *cmd, t_shell *shell, char **envp)
 
 	if (pipe(pipefd) == -1)
 		return (-1);
-	set_signal(3);
+	set_signal(4);
 	if (heredoc_read_loop(cmd, envp, pipefd[1], shell) == -1)
 	{
 		close(pipefd[0]);

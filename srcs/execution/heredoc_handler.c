@@ -26,21 +26,14 @@ int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 	infd = dup(STDIN_FILENO);
 	while (1)
 	{
-		if (g_sig == SIGINT)
-		{
-			close(write_fd);
-			close(infd);
-			g_sig = 0;
-			shell->last_status = 130;
-			return (-1);
-		}
 		in = readline("> ");
 		if (g_sig == SIGINT)
 		{
+			g_sig = 0;
+      		cleanup_all_heredocs(shell);
 			close(write_fd);
 			dup2(infd, STDIN_FILENO);
 			close(infd);
-			g_sig = 0;
 			shell->last_status = 130;
 			return (-1);
 		}
@@ -65,7 +58,11 @@ void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp)
 {
 	cmd->has_heredoc = 1;
 	if (cmd->payload_array[*i + 1] && cmd->type[*i + 1] == HEREDOC_DELIMITER)
+	{
+		if (cmd->heredoc_delimiter)
+			free(cmd->heredoc_delimiter);
 		cmd->heredoc_delimiter = ft_strdup(cmd->payload_array[*i + 1]);
+	}
 	if (cmd->heredoc_fd != -1)
 		close(cmd->heredoc_fd);
 	cmd->heredoc_fd = run_heredoc(cmd, shell, envp);

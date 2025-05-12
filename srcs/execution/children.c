@@ -61,6 +61,7 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 		perror("envp");
 		exit(1);
 	}
+	set_signal(1);
 	current_payload->exit_status = parse_redirs(current_payload,
 			current_payload->payload_array);
 	if (current_payload->exit_status)
@@ -100,4 +101,5 @@ void	wait_for_children(t_shell *shell, int cmd_count, pid_t *pids)
 			shell->last_status = last_status;
 		i++;
 	}
+	set_signal(0);
 }

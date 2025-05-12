@@ -79,6 +79,11 @@ void	set_signal(int mode)
 	}
 	else if (mode == 3)
 	{
+		signal(SIGINT, handle_first);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == 4)
+	{
 		signal(SIGINT, handle_heredoc_sig);
 		signal(SIGQUIT, SIG_IGN);
 	}
