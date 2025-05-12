@@ -17,7 +17,7 @@
 */
 
 
-static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
+/*static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
 {
 	close(fd[0]);
 	set_signal(3);
@@ -53,37 +53,28 @@ static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
 	}
 	return (fd[0]);
 }
-
-int	run_heredoc(t_cmd *p, t_shell *s, char **envp, t_cmd *head)
+*/
+int	run_heredoc(t_cmd *cmd, t_shell *shell, char **envp, t_cmd *head)
 {
-	int		fd[2];
-	pid_t	pid;
+	int	pipefd[2];
 
-	if (pipe(fd) < 0)
+	(void)head;
+	if (pipe(pipefd) == -1)
 		return (-1);
 
-  signal(SIGINT,SIG_IGN);
-	pid = fork();
-	if (pid == 0)
+	set_signal(3);
+	if (heredoc_read_loop(cmd, envp, pipefd[1], shell) == -1)
 	{
-    while (head != p)
-    {
-      if (head->heredoc_fd > 0)
-        close(head->heredoc_fd);
-      head = head->next;
-    }
-    handle_child_heredoc(p, s, envp, fd);
-		free(p->heredoc_delimiter);
-		//ft_exit(s, SIGINT);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		set_signal(0);
+		return (-1);
 	}
-	if (p->heredoc_delimiter)
-		free(p->heredoc_delimiter);
-	p->heredoc_delimiter = NULL;
-	return (handle_parent_heredoc(pid, fd, s));
-	close(fd[0]);
-	close(fd[1]);
-	return (-1);
+	close(pipefd[1]);
+	set_signal(0);
+	return pipefd[0];
 }
+
 
 void	cleanup_heredoc(t_cmd *cmd)
 {

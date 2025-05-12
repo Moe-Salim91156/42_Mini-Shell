@@ -6,7 +6,6 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 16:32:00 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,37 +107,3 @@ char	**build_cmd_argv(t_cmd_list *list)
 	}
 	return (list->head->argv);
 }
-
-/*
-char	**build_payload_argv(t_cmd *payload)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	payload->argv = malloc_cmd_argv(payload);
-	if (!payload->argv)
-		return (NULL);
-	while (payload->payload_array[i])
-	{
-		if (payload->type[i] == COMMAND && ft_strcmp(payload->payload_array[i],
-				" "))
-		{
-			payload->argv[0] = ft_strdup(payload->payload_array[i]);
-			break ;
-		}
-		i++;
-	}
-	while (payload->payload_array[i])
-	{
-		if (payload->type[i] == ARGS)
-		{
-			payload->argv[j] = ft_strdup(payload->payload_array[i]);
-			j++;
-		}
-		i++;
-	}
-	payload->argv[j] = NULL;
-	return (payload->argv);
-}*/

@@ -18,35 +18,34 @@
 --this whole FILE is entierly vibe coded--
 	needs a proper refactor.
 */
-void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd,t_shell *shell)
+int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 {
 	char	*in;
-  int infd;
+	int		infd;
 
+	infd = dup(STDIN_FILENO);
 	while (1)
 	{
-    infd = dup(STDIN_FILENO);
-    if (g_sig == SIGINT)
-    {
-      printf("before readline\n");
-      close(write_fd);
-      close(infd);
-      g_sig = 0;
-      ft_exit(shell,130);
-    }
+		if (g_sig == SIGINT)
+		{
+			close(write_fd);
+			close(infd);
+			g_sig = 0;
+			shell->last_status = 130;
+			return (-1);
+		}
 		in = readline("> ");
-    if (g_sig == SIGINT)
-    {
-      printf("before readline\n");
-      close(write_fd);
-      g_sig = 0;
-      dup2(infd, STDIN_FILENO);
-      close(infd);
-      ft_exit(shell,130);
-    }
+		if (g_sig == SIGINT)
+		{
+			close(write_fd);
+			dup2(infd, STDIN_FILENO);
+			close(infd);
+			g_sig = 0;
+			shell->last_status = 130;
+			return (-1);
+		}
 		if (!in || !ft_strcmp(in, p->heredoc_delimiter))
 		{
-      close(infd);
 			free(in);
 			break ;
 		}
@@ -57,15 +56,11 @@ void	heredoc_read_loop(t_cmd *p, char **envp, int write_fd,t_shell *shell)
 		write(write_fd, in, ft_strlen(in));
 		write(write_fd, "\n", 1);
 		free(in);
-    close(infd);
-    g_sig = 0;
 	}
-	if (p->heredoc_delimiter)
-	{
-		free(p->heredoc_delimiter);
-		p->heredoc_delimiter = NULL;
-	}
+	close(infd);
+	return (0);
 }
+
 
 void	process_heredoc_helper(t_cmd *cmd, t_shell *shell, int *i, char **envp,  t_cmd *head)
 {
@@ -104,7 +99,9 @@ int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
 		if (!ft_strcmp(cmd->payload_array[i], "<<"))
 		{
 			if (handle_heredoc(cmd, shell, &i, envp, head) < 0)
+      {
 				return (-1);
+      }
 			heredoc_count++;
 			i += 2;
 		}
@@ -118,19 +115,20 @@ int	process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head)
 int	process_all_heredocs(t_shell *shell)
 {
 	t_cmd	*current;
-	int		total_heredocs;
 	int		result;
 
 	see_heredoc_if_quoted(shell);
-	total_heredocs = 0;
 	current = shell->cmd_list->head;
 	while (current)
 	{
 		result = process_heredocs(current, shell, shell->cmd_list->head);
 		if (result < 0)
-			return (-1);
-		total_heredocs += result;
+		{
+			shell->last_status = 130;
+			return (-1); // Stop parsing pipeline
+		}
 		current = current->next;
 	}
-	return (total_heredocs);
+	return (0);
 }
+
