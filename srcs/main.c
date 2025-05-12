@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 13:22:48 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:20:37 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_payloads(t_cmd_list *list)
 	t_cmd	*pay;
 
 	pay = list->head;
-	while (pay && pay->argv[0])
+	while (pay)
 	{
 		list->payload_count++;
 		pay = pay->next;
@@ -39,7 +39,7 @@ void	free_and_loop(t_shell *shell, char *input)
 		shell->token_list = NULL;
 		shell->token_list = init_list();
 		shell->cmd_list = init_cmd_list();
-  }
+	}
 }
 
 int	happy_parser_path(char *input, t_shell *shell)
@@ -102,5 +102,6 @@ int main(void)
 		}
 		free_and_loop(&shell, input);
 	}
+	ft_exit(&shell, shell.last_status);
 	return (0);
 }

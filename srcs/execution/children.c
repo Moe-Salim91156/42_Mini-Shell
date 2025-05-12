@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:59:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/12 12:53:44 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:03:42 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	child_perror(int exit_status, char **env)
 
 int	set_exit_status(char *cmd_path)
 {
-	struct stat sb;
+	struct stat	sb;
 
 	if (cmd_path == NULL || !*cmd_path)
 		return (127);
@@ -66,9 +66,9 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 	if (current_payload->exit_status)
 		return (free_split(env));
 	apply_redirs(current_payload);
-	cleanup_all_heredocs(shell);//check if needed!
-	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],
-			env, current_payload);
+	cleanup_all_heredocs(shell);
+	current_payload->cmd_path = search_command_in_path(
+			current_payload->argv[0], env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
 	if (!current_payload->exit_status)
 		execve(current_payload->cmd_path, current_payload->argv, env);

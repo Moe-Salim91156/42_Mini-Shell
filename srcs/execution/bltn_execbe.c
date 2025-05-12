@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:23:07 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/11 16:49:05 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:51:10 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	is_bltn(char **argv)
 		return (1);
 	else if (!ft_strcmp("exit", argv[0]))
 		return (1);
+	else if (!ft_strcmp("NOPXRBSH", argv[0]))
+		return (1);
 	else
 		return (0);
 }
@@ -53,6 +55,8 @@ int	bltn_execbe(char **argv, t_shell *shell)
 		return (bltn_echo(argv));
 	else if (!ft_strcmp("exit", argv[0]))
 		return (bltn_exit(argv, shell));
+	else if (!ft_strcmp("NOPXRBSH", argv[0]))
+			return (0);
 	else
 		return (-1);
 }
@@ -72,7 +76,7 @@ int	manage_bltn(t_shell *shell, t_cmd *current_payload, int fork_flag)
 	}
 	else
 	{
-		if(!fork_flag)
+		if (!fork_flag)
 			ft_putendl_fd("rbsh: Invalid redirection", 2);
 		current_payload->exit_status = err;
 	}

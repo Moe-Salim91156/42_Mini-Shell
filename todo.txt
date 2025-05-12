@@ -1,13 +1,8 @@
-  yousef:
-  1 - ensure clean error handling in execution
-  2 - esnure clean error handling in env
-general:
-(needs merege)-handle payload of only operators.
-  1- sigint heredoc
-  2-build cmd argv cleanup
-  3-double check signals
-    a-ctrl c changes $?
-    b-clean exit on ctrl+d.
-  4-main cleanup
-  5-null checks
-  6-norminette
+####TODO###
+  general:
+      3-double check signals
+        a-ctrl c changes $?
+        b- sigint heredoc
+      4-main cleanup
+      5-null checks
+      6-norminette

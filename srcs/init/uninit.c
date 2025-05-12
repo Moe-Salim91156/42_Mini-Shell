@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/12 13:20:08 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:00:10 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_split(char **split)
 {
 	int	i;
 
-	if (!split)
+	if (!split && !split[0])
 		return ;
 	i = 0;
 	while (split[i])
