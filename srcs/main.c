@@ -56,40 +56,43 @@ int	happy_parser_path(char *input, t_shell *shell)
 	return (1);
 }
 
-char *handle_input(char *input)
+char	*handle_input(char *input)
 {
-	char *trimmed;
+	char	*trimmed;
 
 	if (!input)
 		return (NULL);
-
 	trimmed = input;
 	while (*trimmed == ' ')
 		trimmed++;
-
 	if (*trimmed == '\0')
 	{
 		free(input);
 		return (NULL);
 	}
-
 	return (input);
 }
-int main(void)
+
+int	main(void)
 {
-	t_shell shell;
-	char *input;
+	t_shell	shell;
+	char	*input;
 
 	shell_init(&shell, __environ);
 	while (1)
 	{
 		set_signal(0);
 		input = readline("rbsh$ ");
+		if (g_sig == SIGINT)
+		{
+			shell.last_status = 130;
+			g_sig = 0;
+		}
 		if (!input)
-			break;
+			break ;
 		input = handle_input(input);
 		if (!input)
-			continue;
+			continue ;
 		if (happy_parser_path(input, &shell))
 		{
 			expander_main(&shell);

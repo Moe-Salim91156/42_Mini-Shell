@@ -33,7 +33,7 @@ void	add_last_token(char *input, int start, int i, t_token_list *tokens)
 
 	if (start < i)
 	{
-		result = ft_substr(input, start, i - start);//null check
+		result = ft_substr(input, start, i - start); // null check
 		add_token(tokens, result);
 		free(result);
 	}

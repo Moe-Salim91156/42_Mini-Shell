@@ -61,14 +61,15 @@ void	manage_child(t_shell *shell, t_cmd *current_payload)
 		perror("envp");
 		exit(1);
 	}
+	set_signal(1);
 	current_payload->exit_status = parse_redirs(current_payload,
 			current_payload->payload_array);
 	if (current_payload->exit_status)
 		return (free_split(env));
 	apply_redirs(current_payload);
 	cleanup_all_heredocs(shell);
-	current_payload->cmd_path = search_command_in_path(
-			current_payload->argv[0], env, current_payload);
+	current_payload->cmd_path = search_command_in_path(current_payload->argv[0],
+			env, current_payload);
 	current_payload->exit_status = set_exit_status(current_payload->cmd_path);
 	if (!current_payload->exit_status)
 		execve(current_payload->cmd_path, current_payload->argv, env);
@@ -100,4 +101,5 @@ void	wait_for_children(t_shell *shell, int cmd_count, pid_t *pids)
 			shell->last_status = last_status;
 		i++;
 	}
+	set_signal(0);
 }

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 19:02:51 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/12 20:14:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,9 +220,9 @@ int								bltn_exit(char **argv, t_shell *shell);
 /*################# Execution #################*/
 int					execution_entry(t_shell *shell);
 					/* HEREDOC HANDLING */
-int					run_heredoc(t_cmd *p, t_shell *s, char **envp, t_cmd *head);
+int					run_heredoc(t_cmd *p, t_shell *s, char **envp);
 int				heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell);
-int					process_heredocs(t_cmd *cmd, t_shell *shell, t_cmd *head);
+int					process_heredocs(t_cmd *cmd, t_shell *shell);
 int					process_all_heredocs(t_shell *shell);
 char				*expand_heredoc_line(char *line, char **envp);
 void				cleanup_heredoc(t_cmd *cmd);
