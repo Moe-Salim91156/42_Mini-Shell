@@ -12,7 +12,8 @@
 
 #include "../../includes/minishell.h"
 
-static void	fork_single_child(t_shell *shell, t_cmd *current_payload, int *status)
+static void	fork_single_child(t_shell *shell, t_cmd *current_payload,
+		int *status)
 {
 	int	pid;
 

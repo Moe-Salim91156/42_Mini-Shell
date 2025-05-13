@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/13 16:19:54 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:12:01 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ char	**malloc_cmd_argv(t_cmd *payload)
 	argv[args_num] = NULL;
 	return (argv);
 }
-/*
- * malloc a 2d array argv
- * argv = [path, cmd_and_its_arguments, envp];
- * path will be found using pipex functions;
- * argv building;
- *  // malloc 3 arguments for the whole array;
- *  // cmd_and argument gonna have a sepearte 2d array for them cmd_argv
- *
- *
- */
 
 static int	nop_case(t_cmd *cmd)
 {
@@ -67,9 +57,8 @@ static int	nop_case(t_cmd *cmd)
 
 static int	fill_cmd_argv(t_cmd *cmd)
 {
-	int		i;
-	int		j;
-	char	*arg;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -77,16 +66,11 @@ static int	fill_cmd_argv(t_cmd *cmd)
 	{
 		if ((!i) && nop_case(cmd) && (cmd->type[1] == FILE_TOKEN
 				|| cmd->type[1] == HEREDOC_DELIMITER))
-		{
-			cmd->argv[j++] = ft_strdup("NOPXRBSH");//null check
-			break ;
-		}
-		if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
-		{
-			arg = ft_strdup(cmd->payload_array[i]);
-			if (arg)
-				cmd->argv[j++] = arg;
-		}
+			cmd->argv[j++] = ft_strdup("NOPXRBSH");
+		else if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
+			cmd->argv[j++] = ft_strdup(cmd->payload_array[i]);
+		if (!cmd->argv[j - 1])
+			return (1);
 		i++;
 	}
 	cmd->argv[j] = NULL;
@@ -103,7 +87,8 @@ char	**build_cmd_argv(t_cmd_list *list)
 		payload->argv = malloc_cmd_argv(payload);
 		if (!payload->argv)
 			return (NULL);
-		fill_cmd_argv(payload);
+		if (fill_cmd_argv(payload))
+			return (NULL);
 		payload = payload->next;
 	}
 	return (list->head->argv);

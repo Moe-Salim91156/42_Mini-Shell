@@ -62,7 +62,7 @@ char	*get_env_name(char *value, int *env_index, int *env_len)
 	if (!ft_isalnum(value[*env_index + 1]) && value[*env_index + 1] != '_')
 		return (ft_strdup(""));
 	while (ft_isalnum(value[*env_index + 1 + *env_len]) || value[*env_index + 1
-		+ *env_len] == '_')
+			+ *env_len] == '_')
 		(*env_len)++;
 	env_name = malloc(*env_len + 1);
 	if (!env_name)
@@ -77,10 +77,11 @@ char	*expand_env_var_concat(t_expand_env_context *ctx, char *value,
 {
 	char	*temp;
 
-	// validate ctx
 	if (value[*next_index] == '$')
 	{
-		temp = ft_strjoin(ctx->env_value, "$"); // null check
+		temp = ft_strjoin(ctx->env_value, "$");
+		if (!temp)
+			return (NULL);
 		free(ctx->env_value);
 		ctx->env_value = temp;
 		(*next_index)++;

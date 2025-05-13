@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/13 16:19:47 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/13 18:46:18 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	free_tokens(t_token_list *list)
 	}
 	free(list);
 }
-
 
 void	free_split(char **split)
 {

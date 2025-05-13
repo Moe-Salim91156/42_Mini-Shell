@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:14:53 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/13 14:04:19 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:51:29 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,24 @@ int	run_heredoc(t_cmd *cmd, t_shell *shell, char **envp)
 	close(pipefd[1]);
 	set_signal(0);
 	return (pipefd[0]);
+}
+
+int	heredoc_init_and_handle_signal(t_shell *shell, int write_fd, int *infd)
+{
+	*infd = dup(STDIN_FILENO);
+	if (*infd == -1)
+		return (-1);
+	if (g_sig == SIGINT)
+	{
+		g_sig = 0;
+		cleanup_all_heredocs(shell);
+		close(write_fd);
+		dup2(*infd, STDIN_FILENO);
+		close(*infd);
+		shell->last_status = 130;
+		return (-1);
+	}
+	return (0);
 }
 
 void	cleanup_heredoc(t_cmd *cmd)

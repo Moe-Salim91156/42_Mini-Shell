@@ -100,11 +100,11 @@ char	*handle_quotes_mode(t_token *current, t_shell *shell)
 			temp = double_quote_mode(current, &i, shell);
 		else
 			temp = normal_mode(current, &i, shell);
-    if (!temp)
-      return (NULL);
+		if (!temp)
+			return (NULL);
 		result = append_mode_result(result, temp);
-    if (!result)
-      return (NULL);
+		if (!result)
+			return (NULL);
 	}
 	return (result);
 }
@@ -128,7 +128,7 @@ char	*expander_main(t_shell *shell)
 		}
 		result = handle_quotes_mode(current, shell);
 		if (!result)
-      return (NULL);
+			return (NULL);
 		if (result)
 		{
 			free(current->value);

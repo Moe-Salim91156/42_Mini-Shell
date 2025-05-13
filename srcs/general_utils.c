@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../includes/minishell.h"
+#include "../includes/minishell.h"
 
 int	count_payloads(t_cmd_list *list)
 {

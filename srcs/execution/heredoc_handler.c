@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/13 13:32:54 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:12:43 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,30 @@
 --this whole FILE is entierly vibe coded--
 	needs a proper refactor.
 */
+
 int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 {
 	char	*in;
 	int		infd;
 
-	infd = dup(STDIN_FILENO);
+	if (heredoc_init_and_handle_signal(shell, write_fd, &infd) == -1)
+		return (-1);
 	while (1)
 	{
 		in = readline("> ");
-		if (g_sig == SIGINT)
-		{
-			g_sig = 0;
-			cleanup_all_heredocs(shell);
-			close(write_fd);
-			dup2(infd, STDIN_FILENO);
-			close(infd);
-			shell->last_status = 130;
-			return (-1);
-		}
-		if (!in || !ft_strcmp(in, p->heredoc_delimiter))
-		{
-			free(in);
+		if (g_sig == SIGINT || !in || !ft_strcmp(in, p->heredoc_delimiter))
 			break ;
-		}
 		if (!p->heredoc_quoted)
+		{
 			in = expand_heredoc_line(in, envp);
-		if (!in)
-			break ;
+			if (!in)
+				ft_exit(shell, -1);
+		}
 		write(write_fd, in, ft_strlen(in));
 		write(write_fd, "\n", 1);
 		free(in);
 	}
+	free(in);
 	close(infd);
 	return (0);
 }
@@ -122,7 +114,7 @@ int	process_all_heredocs(t_shell *shell)
 		if (result < 0)
 		{
 			shell->last_status = 130;
-			return (-1); // Stop parsing pipeline
+			return (-1);
 		}
 		current = current->next;
 	}
