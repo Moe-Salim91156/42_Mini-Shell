@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:14:53 by yokitane          #+#    #+#             */
+/*   Updated: 2025/05/13 14:04:19 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +15,6 @@
 /*
 ** Cleans up heredoc resources for a command
 ** Closes any open heredoc file descriptors
-*/
-
-/*static void	handle_child_heredoc(t_cmd *p, t_shell *s, char **envp, int *fd)
-{
-	close(fd[0]);
-	set_signal(3);
-  heredoc_read_loop(p, envp, fd[1],s);
-  if (g_sig == SIGINT)
-  {
-	close(fd[1]);
-	printf("exited in child");
-	ft_exit(s,SIGINT);
-  }
-  close(fd[1]);
-  ft_exit(s,130);
-}
-static int	handle_parent_heredoc(pid_t pid, int *fd, t_shell *s)
-{
-	int	status;
-
-	close(fd[1]);
-	waitpid(pid, &status, 0);
-	set_signal(0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == SIGINT)
-	{
-		close(fd[0]);
-		s->last_status = 130;
-	ft_exit(s,SIGINT);
-		return (-1);
-	}
-	if (WIFSIGNALED(status))
-	{
-		close(fd[0]);
-		s->last_status = 128 + WTERMSIG(status);
-		return (-1);
-	}
-	return (fd[0]);
-}
 */
 int	run_heredoc(t_cmd *cmd, t_shell *shell, char **envp)
 {

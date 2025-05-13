@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:11:48 by msalim            #+#    #+#             */
+/*   Updated: 2025/05/13 14:03:44 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +74,13 @@ char	*handle_input(char *input)
 	return (input);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 	char	*input;
 
-	shell_init(&shell, __environ);
+	(void)argc, (void)argv;
+	shell_init(&shell, envp);
 	while (1)
 	{
 		set_signal(0);
