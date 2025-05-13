@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/13 16:32:07 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:54:34 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	fork_single_child(t_shell *shell, t_cmd *current_payload, int *statu
 	{
 		set_signal(1);
 		manage_child(shell, current_payload);
+		restore_io(current_payload);
 		ft_exit(shell, current_payload->exit_status);
 	}
 	set_signal(3);
