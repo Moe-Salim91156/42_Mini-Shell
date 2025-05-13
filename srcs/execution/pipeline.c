@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:10:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/11 17:10:30 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:55:14 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	manage_fork(t_cmd *current, t_pipe *pipe, int cmd_count, t_shell *shell)
 		manage_child(shell, current);
 	close_pipes(pipe->pipes, cmd_count);
 	free(pipe);
-	cleanup_all_heredocs(shell); // check if needed later
+	cleanup_all_heredocs(shell);
 	ft_exit(shell, current->exit_status);
 }
 

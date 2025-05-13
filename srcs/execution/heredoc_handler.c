@@ -6,6 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
+/*   Updated: 2025/05/13 13:32:54 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +31,7 @@ int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 		if (g_sig == SIGINT)
 		{
 			g_sig = 0;
-      		cleanup_all_heredocs(shell);
+			cleanup_all_heredocs(shell);
 			close(write_fd);
 			dup2(infd, STDIN_FILENO);
 			close(infd);

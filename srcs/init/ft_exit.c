@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:57:43 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/10 18:59:41 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:26:45 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_exit(t_shell *shell, int status)
 		shell->last_status = status;
 	if (shell->cmd_list)
 	{
+		cleanup_all_heredocs(shell);
 		free_command_list(shell->cmd_list);
 		shell->cmd_list = NULL;
 	}
