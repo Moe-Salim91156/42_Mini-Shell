@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:38:09 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/11 17:52:39 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:58:32 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	*expand_env_segment(char *line, int *i, char **envp)
 {
 	t_heredoc_context	h_ctx;
 
-	// m7md deal with this shit I have no clue what it even does.
 	h_ctx.before = ft_substr(line, 0, *i);
 	(*i)++;
 	h_ctx.start = *i;
@@ -78,6 +77,8 @@ char	*expand_heredoc_line(char *line, char **envp)
 		if (result[i] == '$' && ft_isalpha(result[i + 1]))
 		{
 			tmp = expand_env_segment(result, &i, envp);
+			if (!tmp)
+				return (NULL);
 			free(result);
 			result = tmp;
 			i = -1;

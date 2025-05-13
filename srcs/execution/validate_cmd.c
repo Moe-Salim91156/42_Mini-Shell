@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:05:47 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/13 13:32:48 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:57:14 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static char	*find_command_in_directories(char *cmd, char **dir)
 	{
 		if (!dir[j])
 			return (NULL);
-		full_cmd = ft_strjoin(dir[j], "/"); // null check
+		full_cmd = ft_strjoin(dir[j], "/");
 		if (!full_cmd)
 			return (NULL);
-		new_cm = ft_strjoin(full_cmd, cmd); // null check
+		new_cm = ft_strjoin(full_cmd, cmd);
 		free(full_cmd);
 		if (!new_cm)
 			return (NULL);
@@ -57,18 +57,14 @@ static char	*get_path_from_env(char **envp)
 	RETURNS CMD ON MATCH
 	NULL ELSE
 */
+
 char	*search_command_in_path(char *cmd, char **envp, t_cmd *payload)
 {
 	char	*path;
 	char	**dir;
 	char	*result;
 
-	if (!ft_strcmp(cmd, ".") || !ft_strcmp(cmd, ".."))
-	{
-		payload->cmd_path = cmd;
-		return (cmd);
-	}
-	if (ft_strchr(cmd, '/'))
+	if (!ft_strcmp(cmd, ".") || !ft_strcmp(cmd, "..") || ft_strchr(cmd, '/'))
 	{
 		payload->cmd_path = cmd;
 		return (cmd);

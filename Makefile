@@ -20,7 +20,7 @@ EXEC = execution/pipeline_utils.c execution/heredoc_utils.c execution/build_cmd_
 BLTNS = builtins/echo.c builtins/cd.c builtins/unset.c builtins/bltn_env.c builtins/pwd.c builtins/export.c builtins/export_utils.c builtins/bltn_exit.c
 ENVP = envp/envp_manip.c envp/envp_utils.c
 
-src = debug_utils.c main.c $(INIT) $(PRSR) $(BLTNS) $(ENVP) $(XPNDR) $(EXEC)
+src = general_utils.c main.c $(INIT) $(PRSR) $(BLTNS) $(ENVP) $(XPNDR) $(EXEC)
 
 SRCS = $(addprefix $(SRC_DIR)/, $(src))
 OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 20:14:10 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/13 18:51:25 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_token
 	int							heredoc_quoted;
 	struct s_token				*next;
 }								t_token;
-
 typedef struct s_token_list
 {
 	int							size;
@@ -142,6 +141,15 @@ typedef struct s_shell
 	int							last_status;
 }								t_shell;
 
+typedef struct s_tokenizer_ctx
+{
+	char						*input;
+	int							i;
+	int							start;
+	t_token_list				*tokens;
+	t_shell						*shell;
+}								t_tokenizer_ctx;
+
 typedef struct s_pipes
 {
 	int							**pipes;
@@ -162,11 +170,18 @@ void							ft_exit(t_shell *shell, int status);
 /*################## Signals #####################*/
 void							setup_signals_main(void);
 /*################# Tokenization #################*/
+
+int								handle_separator(char *input, int *i,
+									int *start, t_token_list *tokens);
+int								handle_quotes(char *input, int *i,
+									t_shell *shell);
+char							*handle_redirect_helper(char *input, int *i,
+									t_token_list *list);
 int								check_unexpected_token(t_shell *shell,
 									t_token_list *list);
 int								is_invalid_redirection(char *input, int i);
 int								is_redirect_1(char *str);
-void							substr_and_add(char *input, int start, int i,
+int								substr_and_add(char *input, int start, int i,
 									t_token_list *tokens);
 void							lexer_cmd_list(t_cmd_list *list);
 int								lexing(t_shell *shell, t_token_list *list);
@@ -175,15 +190,14 @@ int								is_seperator(int type);
 int								is_seperator_token(char c);
 int								is_quotes(char c);
 int								is_redirect(char c);
-void							add_last_token(char *input, int start, int i,
+int								add_last_token(char *input, int start, int i,
 									t_token_list *tokens);
 int								tokenizer(char *input, t_token_list *tokens,
 									t_shell *shell);
 t_cmd							*build_payloads(t_token_list *list,
 									t_cmd_list *cmd_list);
-void							skip_beginning_spaces(char *str);
 int								lexemes(t_token *token);
-void							add_token(t_token_list *list, char *value);
+int								add_token(t_token_list *list, char *value);
 /*################# Expander ###########################*/
 char							*append_mode_result(char *result,
 									char *mode_result);
@@ -218,53 +232,66 @@ int								bltn_cd(char **argv, t_envp *list);
 int								bltn_echo(char **argv);
 int								bltn_exit(char **argv, t_shell *shell);
 /*################# Execution #################*/
-int					execution_entry(t_shell *shell);
-					/* HEREDOC HANDLING */
-int					run_heredoc(t_cmd *p, t_shell *s, char **envp);
-int				heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell);
-int					process_heredocs(t_cmd *cmd, t_shell *shell);
-int					process_all_heredocs(t_shell *shell);
-char				*expand_heredoc_line(char *line, char **envp);
-void				cleanup_heredoc(t_cmd *cmd);
-void				cleanup_all_heredocs(t_shell *shell);
-					/*	BUILT-INS		*/
-int					bltn_execbe(char **argv, t_shell *shell);
-int					is_bltn(char **argv);
-int					manage_bltn(t_shell *shell,t_cmd *current_paylaod, int fork_flag);
-					/*	FORK OPERATIONS	*/
-void				manage_child(t_shell *shell, t_cmd *current_payload);
-void				wait_for_children(t_shell *shell, int cmd_count, pid_t *pids);
-void				fork_error(t_pipe *tpipe, int cmd_count, t_shell *shell);
-					/*	REDIRECTIONS	*/
-int					parse_redirs(t_cmd *current_paylaod,char **payload_array);
-void				restore_io(t_cmd *current_payload);
-void				restore_all_io(t_cmd *head);
-int					redir_in(t_cmd *current_payload, char *file);
-int					redir_out(t_cmd *current_payload, char *file);
-int					redir_append(t_cmd *current_payload, char *file);
-int					redir_heredoc(t_cmd *current_payload);
-void				apply_redirs(t_cmd *current_payload);
-int					see_heredoc_if_quoted(t_shell *shell);
-char				*expand_heredoc_line(char *line, char **envp);
-					/*	PIPELINE	*/
-void				manage_pipeline(t_shell *shell, t_cmd *list_head, int cmd_count);
-void				close_pipes(int **pipes, int cmd_count);
-t_pipe				*lay_pipeline(int cmd_count, t_pipe *tpipe);
-void				end_pipeline(t_shell *shell, int cmd_count , int *pids, t_pipe *pipe);
-void				pipe_error(t_shell *shell, t_pipe *tpipe);
-					/* EXIT STATUS		*/
-int					set_exit_status(char *cmd_path);
-void				child_perror(int status, char **env);
-					/* PATH STUFF */
-char				**build_cmd_argv(t_cmd_list *payload);
-char				*search_command_in_path(char *cmd, char **envp,
-						t_cmd *payload);
+int								execution_entry(t_shell *shell);
+/* HEREDOC HANDLING */
+
+int								heredoc_init_and_handle_signal(t_shell *shell,
+									int write_fd, int *infd);
+int								run_heredoc(t_cmd *p, t_shell *s, char **envp);
+int								heredoc_read_loop(t_cmd *p, char **envp,
+									int write_fd, t_shell *shell);
+int								process_heredocs(t_cmd *cmd, t_shell *shell);
+int								process_all_heredocs(t_shell *shell);
+char							*expand_heredoc_line(char *line, char **envp);
+void							cleanup_heredoc(t_cmd *cmd);
+void							cleanup_all_heredocs(t_shell *shell);
+/*	BUILT-INS		*/
+int								bltn_execbe(char **argv, t_shell *shell);
+int								is_bltn(char **argv);
+int								manage_bltn(t_shell *shell,
+									t_cmd *current_paylaod, int fork_flag);
+/*	FORK OPERATIONS	*/
+void							manage_child(t_shell *shell,
+									t_cmd *current_payload);
+void							wait_for_children(t_shell *shell, int cmd_count,
+									pid_t *pids);
+void							fork_error(t_pipe *tpipe, int cmd_count,
+									t_shell *shell);
+/*	REDIRECTIONS	*/
+int								parse_redirs(t_cmd *current_paylaod,
+									char **payload_array);
+void							restore_io(t_cmd *current_payload);
+void							restore_all_io(t_cmd *head);
+int								redir_in(t_cmd *current_payload, char *file);
+int								redir_out(t_cmd *current_payload, char *file);
+int								redir_append(t_cmd *current_payload,
+									char *file);
+int								redir_heredoc(t_cmd *current_payload);
+void							apply_redirs(t_cmd *current_payload);
+int								see_heredoc_if_quoted(t_shell *shell);
+char							*expand_heredoc_line(char *line, char **envp);
+/*	PIPELINE	*/
+void							manage_pipeline(t_shell *shell,
+									t_cmd *list_head, int cmd_count);
+void							close_pipes(int **pipes, int cmd_count);
+t_pipe							*lay_pipeline(int cmd_count, t_pipe *tpipe);
+void							end_pipeline(t_shell *shell, int cmd_count,
+									int *pids, t_pipe *pipe);
+void							pipe_error(t_shell *shell, t_pipe *tpipe);
+/* EXIT STATUS		*/
+int								set_exit_status(char *cmd_path);
+void							child_perror(int status, char **env);
+/* PATH STUFF */
+char							**build_cmd_argv(t_cmd_list *payload);
+char							*search_command_in_path(char *cmd, char **envp,
+									t_cmd *payload);
 /*################# general utils #################*/
 void							free_split(char **e);
-void							print_command(t_cmd_list *cmd_list);
-void							print_tokens(t_token_list *list);
-void							debug_build_cmd_argv(t_cmd_list *list);
+// void							print_command(t_cmd_list *cmd_list);
+// void							print_tokens(t_token_list *list);
+// void							debug_build_cmd_argv(t_cmd_list *list);
 void							print_argv(t_cmd *payload);
+int								count_payloads(t_cmd_list *list);
 /*################# signal  #################*/
 void							set_signal(int mode);
 #endif
