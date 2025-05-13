@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/13 16:23:16 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/13 18:11:14 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void							setup_signals_main(void);
 
 int	handle_separator(char *input, int *i, int *start, t_token_list *tokens);
 int	handle_quotes(char *input, int *i, t_shell *shell);
-char	*handle_redirect_helper(char *input, int *i);
+char	*handle_redirect_helper(char *input, int *i,t_token_list *list);
 int								check_unexpected_token(t_shell *shell,
 									t_token_list *list);
 int								is_invalid_redirection(char *input, int i);

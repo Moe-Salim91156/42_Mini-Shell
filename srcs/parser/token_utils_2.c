@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:23:31 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/13 14:20:04 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/13 18:12:35 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ int	handle_quotes(char *input, int *i, t_shell *shell)
 	return (1);
 }
 
-char	*handle_redirect_helper(char *input, int *i)
+char	*handle_redirect_helper(char *input, int *i, t_token_list *tokens)
 {
 	char	*result;
 
 	result = ft_substr(input, *i, 1);
 	if (!result)
 		return (NULL);
+	add_token(tokens, result);
 	free(result);
-	(*i)++;
 	return (result);
 }
 
