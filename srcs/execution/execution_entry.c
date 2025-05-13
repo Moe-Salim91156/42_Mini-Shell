@@ -6,14 +6,13 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:37:55 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 13:40:24 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:32:07 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	fork_single_child(t_shell *shell, t_cmd *current_payload,
-		int *status)
+static void	fork_single_child(t_shell *shell, t_cmd *current_payload, int *status)
 {
 	int	pid;
 
