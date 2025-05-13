@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:23:21 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/07 13:32:49 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/13 13:45:16 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int	shell_init(t_shell *shell, char **envp)
 	shell->envp_list = init_envp(envp);
 	shell->last_status = 0;
 	if (!shell->token_list || !shell->cmd_list || !shell->envp_list)
-		return (-1);
+		ft_exit(shell, -1);
 	return (0);
 }

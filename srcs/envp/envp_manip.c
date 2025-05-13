@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:44 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/12 13:56:42 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:15:47 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,6 @@ int	append_env_node(t_envp *list, char *str)
 	it works on the assumption that no existing node with matching key
 	already exists. this function should only be called when you want
 	to construct and then append a new node.
-	(atheist funcion)
-	---------------------------------
-	its actually pretty good now, I just found the original comment too
-	funny and should serve as a warning to why you dont nest 13 conditions
-	inside each other.
 */
 t_envp	*build_env_node(char *str)
 {
@@ -153,8 +148,17 @@ t_envp	*build_env_node(char *str)
 		return (NULL);
 	new->next = NULL;
 	new->key = ft_substr(str, 0, ft_strchr(str, '=') + 1 - str);
-	new->value = ft_strdup(ft_strchr(str, '=') + 1);
-	if (!new->key || !new->value)
+	if (!new->key)
+	{
+		free(new);
 		return (NULL);
+	}
+	new->value = ft_strdup(ft_strchr(str, '=') + 1);
+	if (!new->value)
+	{
+		free(new->key);
+		free(new);
+		return (NULL);
+	}
 	return (new);
 }
