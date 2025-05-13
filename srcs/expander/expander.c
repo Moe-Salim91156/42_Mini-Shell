@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:18:01 by msalim            #+#    #+#             */
-/*   Updated: 2025/04/25 19:42:37 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:38:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,11 @@ char	*handle_quotes_mode(t_token *current, t_shell *shell)
 			temp = double_quote_mode(current, &i, shell);
 		else
 			temp = normal_mode(current, &i, shell);
+    if (!temp)
+      return (NULL);
 		result = append_mode_result(result, temp);
+    if (!result)
+      return (NULL);
 	}
 	return (result);
 }
@@ -124,7 +128,7 @@ char	*expander_main(t_shell *shell)
 		}
 		result = handle_quotes_mode(current, shell);
 		if (!result)
-			return (NULL);
+      return (NULL);
 		if (result)
 		{
 			free(current->value);

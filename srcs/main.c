@@ -63,7 +63,7 @@ char	*handle_input(char *input)
 	if (!input)
 		return (NULL);
 	trimmed = input;
-	while (*trimmed == ' ')
+	while (*trimmed == ' ' || *trimmed == '\t')
 		trimmed++;
 	if (*trimmed == '\0')
 	{
@@ -95,6 +95,7 @@ int	main(void)
 			continue ;
 		if (happy_parser_path(input, &shell))
 		{
+			print_tokens(shell.token_list);
 			expander_main(&shell);
 			build_payloads(shell.token_list, shell.cmd_list);
 			lexer_cmd_list(shell.cmd_list);

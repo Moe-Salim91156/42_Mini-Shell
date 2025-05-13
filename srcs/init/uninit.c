@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:34:22 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/12 16:00:10 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:19:47 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,6 @@ void	free_tokens(t_token_list *list)
 	free(list);
 }
 
-void	free_payload_array(char **payload_array)
-{
-	int	i;
-
-	i = 0;
-	if (!payload_array)
-		return ;
-	while (payload_array[i])
-	{
-		free(payload_array[i]);
-		i++;
-	}
-	free(payload_array);
-}
 
 void	free_split(char **split)
 {

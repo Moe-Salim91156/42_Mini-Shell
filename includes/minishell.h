@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 20:14:10 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:23:16 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct s_token
 	char						*value;
 	int							heredoc_quoted;
 	struct s_token				*next;
-}								t_token;
-
+}
+t_token;
 typedef struct s_token_list
 {
 	int							size;
@@ -99,6 +99,7 @@ typedef struct s_expand_env_context
 	char						*final_result;
 }								t_expand_env_context;
 
+
 typedef struct s_cmd
 {
 	char						**payload_array;
@@ -142,6 +143,16 @@ typedef struct s_shell
 	int							last_status;
 }								t_shell;
 
+typedef struct s_tokenizer_ctx
+{
+	char			*input;
+	int				i;
+	int				start;
+	t_token_list	*tokens;
+	t_shell			*shell;
+}	t_tokenizer_ctx;
+
+
 typedef struct s_pipes
 {
 	int							**pipes;
@@ -157,16 +168,21 @@ t_envp							*init_envp(char **envp);
 void							*free_env(t_envp *list);
 void							free_command_list(t_cmd_list *cmd_list);
 void							free_tokens(t_token_list *list);
+int cleanup_expander_contexts(t_expand_env_context *env_ctx, t_normal_mode_context *normal_ctx, t_double_quote_context *double_context);
 // ft_exit is the ultimate exit handler. termination is always done through it.
 void							ft_exit(t_shell *shell, int status);
 /*################## Signals #####################*/
 void							setup_signals_main(void);
 /*################# Tokenization #################*/
+
+int	handle_separator(char *input, int *i, int *start, t_token_list *tokens);
+int	handle_quotes(char *input, int *i, t_shell *shell);
+char	*handle_redirect_helper(char *input, int *i);
 int								check_unexpected_token(t_shell *shell,
 									t_token_list *list);
 int								is_invalid_redirection(char *input, int i);
 int								is_redirect_1(char *str);
-void							substr_and_add(char *input, int start, int i,
+int							substr_and_add(char *input, int start, int i,
 									t_token_list *tokens);
 void							lexer_cmd_list(t_cmd_list *list);
 int								lexing(t_shell *shell, t_token_list *list);
@@ -175,7 +191,7 @@ int								is_seperator(int type);
 int								is_seperator_token(char c);
 int								is_quotes(char c);
 int								is_redirect(char c);
-void							add_last_token(char *input, int start, int i,
+int							add_last_token(char *input, int start, int i,
 									t_token_list *tokens);
 int								tokenizer(char *input, t_token_list *tokens,
 									t_shell *shell);
@@ -183,7 +199,7 @@ t_cmd							*build_payloads(t_token_list *list,
 									t_cmd_list *cmd_list);
 void							skip_beginning_spaces(char *str);
 int								lexemes(t_token *token);
-void							add_token(t_token_list *list, char *value);
+int							add_token(t_token_list *list, char *value);
 /*################# Expander ###########################*/
 char							*append_mode_result(char *result,
 									char *mode_result);

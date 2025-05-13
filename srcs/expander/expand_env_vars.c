@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 13:27:51 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/12 13:18:39 by yokitane         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:33:25 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,23 @@ char	*expand_env_var_concat(t_expand_env_context *ctx, char *value,
 {
 	char	*temp;
 
-	// validate ctx
 	if (value[*next_index] == '$')
 	{
-		temp = ft_strjoin(ctx->env_value, "$"); // null check
-		free(ctx->env_value);
+		temp = ft_strjoin(ctx->env_value, "$");
+    if (!temp)
+    {
+      free(ctx->env_value);
+    }
 		ctx->env_value = temp;
 		(*next_index)++;
 	}
 	ctx->result = ft_strjoin(ctx->before_str, ctx->env_value);
 	return (ft_strjoin(ctx->result, &value[*next_index]));
 }
-
 char	*expand_env_var(char *value, int *env_index, t_shell *shell)
 {
-	t_expand_env_context	ctx;
+	t_expand_env_context	ctx = {0};
+	char				*final_result;
 
 	ctx.before_str = get_before_str(value, &ctx.before);
 	if (!ctx.before_str)
@@ -99,7 +101,7 @@ char	*expand_env_var(char *value, int *env_index, t_shell *shell)
 	ctx.env_name = get_env_name(value, env_index, &ctx.env_len);
 	if (!ctx.env_name)
 	{
-		free(ctx.before_str);
+		clean_expand_env_context(&ctx);
 		return (NULL);
 	}
 	ctx.env_value = extract_env_value_from_name(ctx.env_name, shell);
@@ -107,10 +109,10 @@ char	*expand_env_var(char *value, int *env_index, t_shell *shell)
 		ctx.env_value = ft_strdup("");
 	free(ctx.env_name);
 	ctx.next_index = *env_index + 1 + ctx.env_len;
-	ctx.final_result = expand_env_var_concat(&ctx, value, &ctx.next_index);
-	free(ctx.before_str);
-	free(ctx.env_value);
-	free(ctx.result);
+	final_result = expand_env_var_concat(&ctx, value, &ctx.next_index);
+	clean_expand_env_context(&ctx);
+	if (!final_result)
+		return (NULL);
 	*env_index = ctx.next_index - 1;
-	return (ctx.final_result);
+	return (final_result);
 }

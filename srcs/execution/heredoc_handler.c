@@ -30,7 +30,7 @@ int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 		if (g_sig == SIGINT)
 		{
 			g_sig = 0;
-      		cleanup_all_heredocs(shell);
+			cleanup_all_heredocs(shell);
 			close(write_fd);
 			dup2(infd, STDIN_FILENO);
 			close(infd);
