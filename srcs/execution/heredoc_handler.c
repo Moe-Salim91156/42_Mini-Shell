@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:15:37 by yokitane          #+#    #+#             */
-/*   Updated: 2025/05/13 19:12:43 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:07:55 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ int	heredoc_read_loop(t_cmd *p, char **envp, int write_fd, t_shell *shell)
 	while (1)
 	{
 		in = readline("> ");
+		if (g_sig == SIGINT)
+	{
+		g_sig = 0;
+		cleanup_all_heredocs(shell);
+		close(write_fd);
+		dup2(infd, STDIN_FILENO);
+		close(infd);
+		shell->last_status = 130;
+		return (-1);
+	}
 		if (g_sig == SIGINT || !in || !ft_strcmp(in, p->heredoc_delimiter))
 			break ;
 		if (!p->heredoc_quoted)
