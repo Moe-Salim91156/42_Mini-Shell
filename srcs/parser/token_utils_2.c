@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:23:31 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/13 18:12:35 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/14 11:06:47 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*handle_redirect_helper(char *input, int *i, t_token_list *tokens)
 		return (NULL);
 	add_token(tokens, result);
 	free(result);
-	return (result);
+	return (input);
 }
 
 int	is_invalid_redirection(char *input, int i)

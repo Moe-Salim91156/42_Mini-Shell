@@ -6,7 +6,7 @@
 /*   By: yokitane <yokitane@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:47:33 by msalim            #+#    #+#             */
-/*   Updated: 2025/05/13 19:12:01 by msalim           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:10:14 by yokitane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ static int	nop_case(t_cmd *cmd)
 
 static int	fill_cmd_argv(t_cmd *cmd)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*arg;
 
 	i = 0;
 	j = 0;
@@ -66,11 +67,16 @@ static int	fill_cmd_argv(t_cmd *cmd)
 	{
 		if ((!i) && nop_case(cmd) && (cmd->type[1] == FILE_TOKEN
 				|| cmd->type[1] == HEREDOC_DELIMITER))
-			cmd->argv[j++] = ft_strdup("NOPXRBSH");
-		else if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
-			cmd->argv[j++] = ft_strdup(cmd->payload_array[i]);
-		if (!cmd->argv[j - 1])
-			return (1);
+		{
+			cmd->argv[j++] = ft_strdup("NOPXRBSH");//null check
+			break ;
+		}
+		if (cmd->type[i] == COMMAND || cmd->type[i] == ARGS)
+		{
+			arg = ft_strdup(cmd->payload_array[i]);
+			if (arg)
+				cmd->argv[j++] = arg;
+		}
 		i++;
 	}
 	cmd->argv[j] = NULL;
