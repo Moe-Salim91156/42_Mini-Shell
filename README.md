@@ -1,100 +1,111 @@
-/******************************* EXECUTION ENTRY POINT *******************************
- * There are 3 flowpaths in execution:
- * CASE 1: single(no pipeline) command builtin (execute within parent)
- *	 rbsh$ echo "arg1" >> EOF1 <in1 >out2 "arg2" >>EOF2
- * CASE 2: single command (non-builtin) (execute within children)
- *	 rbsh$ ls "arg1" >>EOF1 <in1 >out2 "arg2" >>EOF2
- * CASE 3: multiple commands(payloads) separated by pipes (execute within children)
- *	 rbsh$ ls "arg1" >>EOF1 <in1 >out2 "arg2" >>EOF2 | echo "arg1" >>EOF2 <in1 >out2 "arg2" >>EOF1 | grep -i....
- */
+# 42 MiniShell
 
-/******* CASE 1: single command builtin (execute within parent) *******
- *
- * ---> Process all heredocs
- *		---> create buffer, overwrite it for each heredoc
- * ---> Apply all redirections in order
- *		---> If infile (<): open file, redirect stdin to it
- *		---> If outfile (>): create/truncate file, redirect stdout to it
- *		---> If append (>>): create/append file, redirect stdout to it
- *		---> If heredoc (<<): redirect stdin to heredoc buffer
- *		---> If any redirection fails (e.g., file not found), terminat exec and init exec_cleanup.
- * ---> build cmd argv
- * ---> run cmd
- * ---> Store exit status in last_status
- * ---> Restore original stdin, stdout, stderr
- * ---> Clean up (close files, free buffers)
- */
+A simple Unix shell implementation developed as part of the 42 curriculum.  
+This project replicates fundamental behaviors of a real shell such as command parsing, redirections, piping, and environment handling.
 
-/******* CASE 2: single command (non-builtin) (execute within children) *******
- *
- * ---> Fork a child process
- * ---> Handle fork errors
- *
- * ---> In child process:
- *			---> Process all heredocs
- *					---> create buffer, overwrite it for each heredoc
- *			---> Apply all redirections
- *					---> For each redirection:
- *							---> If infile (<): open file, redirect stdin to it
- *							---> If outfile (>): create|truncate file, redirect stdout to it
- *							---> If append (>>): create|append file, redirect stdout to it
- *							---> If heredoc (<<): redirect stdin to heredoc content
- *		---> If any redirection fails (e.g., file not found), terminate execution and exit.
- *			---> Build full command path
- *					---> Check if argv[0] contains '/' (direct path)
- *					---> Otherwise search in PATH environment variable
- *			---> build argv
- *			---> init execve
- *			---> If execve fails, print error and exit with appropriate status
- *					---> Command not found: exit 127
- *					---> Permission denied: exit 126
- *					--> idk what other codes to handle yet
- *
- * ---> In parent process:
- *			---> Wait for child to finish
- *			---> Get exit status from child
- *					---> If normal exit: use cmd exit status
- *					---> If terminated by sigint(ctrl+c) :130
- *			---> Store in last_status
- */
+## 📚 Project Overview
 
-/******* CASE 3 (pipeline case): *******
- * open in parent
- * dup in child.
- * ---> establish pipeline:
- *	---> Count total commands(payloads) in pipeline
- *	---> Create necessary pipes (n commands need n-1 pipes)
- *			 ---> Allocate memory for pipe_fd[] arrays(do we use array of int arrays?)
- *			 ---> Create each pipe with pipe()
- *			 ---> Handle pipe creation errors
- *
- * ---> Loop through each command in pipeline
- *	---> catch fork errors
- *	---> Fork a new process
- *	(can this entire code block be replaced with the one from case2? need to double check)
- *	---> In child process:
- *		---> Configure pipe connections:
- *			---> If not first command, connect stdin to previous pipe's read end
- *			---> If not last command, connect stdout to next pipe's write end
- *		---> Close all unused pipe fds in child
- *		---> fill heredoc buffers
- *		---> Handle redirections for this command
- *			--> as previously mentioned
- *		---> Check if command is builtin
- *			---> Build command path and argv (also as previously mentioned,,case2)
- *				---> If builtin, execute and exit with its status
- *				---> If external:
- *					---> Execute with execve
- *						---> If execve fails, display error and exit(gracefully ofc)
- *
- *	---> In parent process:
- *		---> Store the most recent child's PID (wait)
- *
- *	---> After creating all processes, parent should:
- *		---> Close all pipe fds
- *		---> Wait for all child processes
- *		---> Record the exit status of the last command in pipeline
- *		---> Free all allocated resources
- *		---> Continuously t_shell last_status
- *
+The goal of this project is to create a basic shell that mimics the behavior of Bash. The shell interprets and executes user input with features like:
 
+- Built-in commands (e.g., `cd`, `echo`, `pwd`, `exit`, etc.)
+- Handling of environment variables
+- Pipes (`|`)
+- Redirections (`>`, `>>`, `<`, `<<`)
+- Quoting with `'` and `"`
+- Signal handling (e.g., `Ctrl+C`, `Ctrl+D`)
+- Proper exit codes
+
+> This project follows the strict [42 Norm](https://github.com/42School/norminette) coding style and restrictions (e.g., no `fork()` in parsing, limited allowed functions).
+
+---
+
+## ⚙️ Features
+
+- ✅ Lexical analysis (tokenization with respect to quotes)
+- ✅ Parsing (AST-like structure for commands and redirections)
+- ✅ Execution engine with fork/execve and pipelines
+- ✅ Support for **heredoc (`<<`)** with signal handling
+- ✅ Environment variable expansion (`$VAR`)
+- ✅ Built-in commands:
+  - `cd`
+  - `echo`
+  - `env`
+  - `exit`
+  - `export`
+  - `pwd`
+  - `unset`
+- ✅ Signal handling (`SIGINT`, `SIGQUIT`)
+- ✅ Exit status management
+
+---
+
+## 🧪 Getting Started
+
+### ✅ Prerequisites
+
+- Unix-like system (Linux or macOS)
+- `cc` and `make` installed
+
+### 🔧 Build the Shell
+
+```bash
+git clone https://github.com/Moe-Salim91156/42_Mini-Shell.git
+cd 42_Mini-Shell
+make
+```
+
+### 🚀 Run the Shell
+
+```bash
+./minishell
+```
+
+Type commands like in a real shell:
+
+```bash
+minishell$ echo "Hello World"
+Hello World
+```
+
+
+---
+
+## 🔒 Allowed Functions
+
+- `malloc`, `free`, `write`, `read`, `access`, `open`, `close`, `dup`, `dup2`
+- `pipe`, `fork`, `execve`, `exit`, `wait`, `waitpid`, `wait3`, `wait4`
+- `getcwd`, `chdir`, `stat`, `lstat`, `fstat`
+- `opendir`, `readdir`, `closedir`
+- `strerror`, `perror`, `isatty`, `ttyname`, `ttyslot`
+- `ioctl`, `getenv`, `tcsetattr`, `tcgetattr`
+- `signal`, `kill`
+- `printf`, `atoi`, `itoa`
+-  `ft_strdup`, `ft_strjoin`, etc. from **libft**
+
+---
+
+## 🚦 Signals
+
+- `Ctrl+C` (`SIGINT`) — interrupts current command but not the shell
+- `Ctrl+\` (`SIGQUIT`) — ignored by shell, passed to child processes
+- `Ctrl+D` — triggers shell exit if input is empty
+
+---
+
+## ✅ Status
+
+- [x] Mandatory part
+- [ ] Bonus part (Job control, wildcards `*`, and more...)
+
+---
+
+## 👨‍💻 Contributors
+
+- **Mohammad Salim** - [@Moe-Salim91156](https://github.com/Moe-Salim91156)
+- **Yousef Kitaneh** - [@dotacow](https://github.com/dotacow)
+
+---
+
+Happy Shell-ing! 🐚
+
+## Feedback are welcomed!!
