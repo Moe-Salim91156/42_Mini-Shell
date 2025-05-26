@@ -44,7 +44,7 @@ The goal of this project is to create a basic shell that mimics the behavior of 
 ### ✅ Prerequisites
 
 - Unix-like system (Linux or macOS)
-- `gcc` and `make` installed
+- `cc` and `make` installed
 
 ### 🔧 Build the Shell
 
