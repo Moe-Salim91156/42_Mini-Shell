@@ -122,6 +122,7 @@ declare -a invalid_test_2=(
 "> file <"                  # incomplete sequence
 "cat << <<"                 # malformed heredoc
 "cat <<< file"              # <<< unsupported operator
+">>>>>>>>>>>>"
 "cat < | > out.txt"         # malformed input and output mix
 "cat | | grep"              # double pipe
 "cat << EOF << EOF <<EOF"   # chained heredoc without commands
